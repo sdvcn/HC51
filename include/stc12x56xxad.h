@@ -67,6 +67,38 @@
 #error Header file no sup.
 #endif
 
+code  unsigned char STCID_ROM[7] @ ID_ADDR_ROM;
 
+/* Watchdog Timer Register */
+static volatile unsigned char	WDT_CONTR	@	0xe1;
+
+/* ISP_IAP_EEPROM Register */
+static volatile unsigned char	ISP_DATA	@	0xe2;
+static volatile unsigned char	ISP_ADDRH	@	0xe3;
+static volatile unsigned char	ISP_ADDRL	@	0xe4;
+static volatile unsigned short	ISP_ADDR	@	0xe3;
+static volatile unsigned char	ISP_CMD		@	0xe5;
+static volatile unsigned char	ISP_TRIG	@	0xe6;
+static volatile unsigned char	ISP_CONTR	@	0xe7;
+
+
+/* System Clock Divider */
+static volatile unsigned char	CLK_DIV	@	0xc7;
+
+/* I_O Port Mode Set Register */
+static volatile unsigned char	P0M0	@	0x93;
+static volatile unsigned char	P0M1	@	0x94;
+static volatile unsigned char	P1M0	@	0x91;
+static volatile unsigned char	P1M1	@	0x92;
+static volatile unsigned char	P2M0	@	0x95;
+static volatile unsigned char	P2M1	@	0x96;
+static volatile unsigned char	P3M0	@	0xb1;
+static volatile unsigned char	P3M1	@	0xb2;
+/* SPI Register */
+static volatile unsigned char	SPSTAT	@	0x84;
+static volatile unsigned char	SPCTL	@	0x85;
+static volatile unsigned char	SPDAT	@	0x86;
+
+static volatile unsigned char	P0	@	0x86;
 
 #endif
