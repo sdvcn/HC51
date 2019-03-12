@@ -147,4 +147,8 @@ static volatile bit CCF3  @ 0xD8^3;
 static volatile bit CCF2  @ 0xD8^2;
 static volatile bit CCF1  @ 0xD8^1;
 static volatile bit CCF0  @ 0xD8^0;
+
+//interrupt 中断优先
+static volatile unsigned char IPH @ 0xB7;
+
 #endif
