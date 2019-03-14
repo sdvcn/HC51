@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stcmcu.h>
-#include <stc_adc.h>
+//#include <stc_adc.h>
 
 #define ADCCH	8
 
@@ -15,6 +15,7 @@
 
 #define DelayUs(_x)
 #define DelayMs(_x)
+
 #define NOP()   asm("nop")
 
 
