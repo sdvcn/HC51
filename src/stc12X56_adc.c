@@ -1,6 +1,7 @@
-#include <stdio.h>
+//#include <stdio.h>
+
+
 #include <stcmcu.h>
-//#include <stc_adc.h>
 
 #define ADCCH	8
 
@@ -13,10 +14,9 @@
 #define ADC_START       (0x08)
 #define ADC_FLAG        (0x10)
 
-#define DelayUs(_x)
-#define DelayMs(_x)
+#define DelayUs(_x) asm("nop")
+#define DelayMs(_x) asm("nop")
 
-#define NOP()   asm("nop")
 
 
 unsigned char ADCMask;
