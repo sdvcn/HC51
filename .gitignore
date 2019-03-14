@@ -4,3 +4,5 @@ bulid/stc_adc.lpp
 *.lst
 *.p1
 *.pre
+*.lpp
+*.out
