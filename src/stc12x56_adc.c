@@ -14,8 +14,7 @@
 #define ADC_START       (0x08)
 #define ADC_FLAG        (0x10)
 
-#define DelayUs(_x) asm("nop")
-#define DelayMs(_x) asm("nop")
+
 
 
 

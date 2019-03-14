@@ -10,12 +10,15 @@
 #include <8052.h>
 #undef _HTC_H_
 
-#include <stc_misc.h>
+//#include <stc_misc.h>
 
 typedef unsigned int	uint;
 typedef unsigned char	ubyte;
 typedef signed char		byte;
 typedef unsigned short	ushort;
+
+#define DelayUs(_x) asm("nop")
+#define DelayMs(_x) asm("nop")
 
 
 	#if defined(_STC12XX5604AD)	|| defined(_STC12XX5608AD)	|| defined(_STC12XX5616AD)	||\
