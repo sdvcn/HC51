@@ -5,6 +5,7 @@
 #error Header file no sup.
 #endif
 
+
 #define ID_ADDR_RAM 0xf1
 
 #ifdef _STC12XX5604AD
@@ -100,10 +101,9 @@ static volatile unsigned char	SPCTL	@	0x85;
 static volatile unsigned char	SPDAT	@	0x86;
 
 /* ADC Register */
-//static volatile unsigned char	P0	@	0x86;
-static volatile unsigned char ADC_CONTR  _at_ 0xc5;
-static volatile unsigned char ADC_DATA   = 0xc6;
-static volatile unsigned char ADC_LOW2   = 0xbe;
+static volatile unsigned char ADC_CONTR  @ 0xc5;
+static volatile unsigned char ADC_DATA   @ 0xc6;
+static volatile unsigned char ADC_LOW2   @ 0xbe;
 
 /* PCA static volatile unsigned char */
 static volatile unsigned char CCON   @ 0xD8;
@@ -151,4 +151,7 @@ static volatile bit CCF0  @ 0xD8^0;
 //interrupt 中断优先
 static volatile unsigned char IPH @ 0xB7;
 
+///
+far unsigned char STCID1[7] @ ID_ADDR_RAM;
+far unsigned long STCCLK	@ 0xFE;
 #endif
