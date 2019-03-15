@@ -1,4 +1,7 @@
 
+bulid
+
+
 .vscode/c_cpp_properties.json
 bulid/stc_adc.lpp
 *.lst
@@ -6,3 +9,6 @@ bulid/stc_adc.lpp
 *.pre
 *.lpp
 *.out
+*.hex
+*.hum
+*.mcu
