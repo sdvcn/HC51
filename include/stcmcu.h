@@ -17,6 +17,8 @@ typedef unsigned char	ubyte;
 typedef signed char		byte;
 typedef unsigned short	ushort;
 
+
+///todo : fix
 #define DelayUs(_x) asm("nop")
 #define DelayMs(_x) asm("nop")
 
