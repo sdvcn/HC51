@@ -5,8 +5,7 @@
 #warning Header file no sup.
 #endif
 
-
-
+#define LVDF_Bit	(1u << 5)
 
 
 /* Watchdog Timer Register */
@@ -92,6 +91,10 @@ static volatile unsigned char IPH @ 0xB7;
 
 ///
 far unsigned char STCID1[7] @ 0xF1;
-far unsigned long STCCLK	@ 0xFE;
+far unsigned long STCCLK	@ 0xF8;			//最近
+far unsigned long STCCLKR	@ 0xFC;			//内置
+
+///初始化等待电压
+#define InitLvdf()	do{PCON &= ~LVDF_Bit;NOP();NOP();}while(PCON & LVDF_Bit)
 
 #endif
