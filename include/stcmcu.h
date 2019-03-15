@@ -10,7 +10,7 @@
 #include <8052.h>
 #undef _HTC_H_
 
-//#include <stc_misc.h>
+#include <stc_misc.h>
 
 typedef unsigned int	uint;
 typedef unsigned char	ubyte;
@@ -25,7 +25,7 @@ typedef unsigned short	ushort;
 	    defined(_STC12XX5620AD)	|| defined(_STC12XX5624AD)	|| defined(_STC12XX5628AD)	||\
 		defined(_STC12XX5630AD) || defined(_STC12X56)
 		#define STCY	3
-		#include <stc12x56xxad.h>
+		#include <stc12x56.h>
 	#elif defined(_STC8A8K)
 		#define STCY	6
 	#else
