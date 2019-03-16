@@ -27,7 +27,10 @@ typedef unsigned short	ushort;
 	    defined(_STC12XX5620AD)	|| defined(_STC12XX5624AD)	|| defined(_STC12XX5628AD)	||\
 		defined(_STC12XX5630AD) || defined(_STC12X56)
 		#define STCY	3
+		#define SUPPORT_AD	1
+		#define SUPPORT_EEPROM	1
 		#include <stc12x56.h>
+		#include <stc_suppor.h>
 	#elif defined(_STC8A8K)
 		#define STCY	6
 	#else

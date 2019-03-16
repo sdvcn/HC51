@@ -14,12 +14,6 @@
 #define ADC_START       (0x08)
 #define ADC_FLAG        (0x10)
 
-
-
-
-
-unsigned char ADCMask;
-
 unsigned short GetResult(unsigned char ch)
 {
     ch &= ~0xf8;
@@ -35,6 +29,7 @@ unsigned short GetResult(unsigned char ch)
 
 void Adc_Init(unsigned char mask)
 {
+	static unsigned char ADCMask;
     unsigned char ch;
     //卸载之前状态
     ADC_CONTR = 0x00;
