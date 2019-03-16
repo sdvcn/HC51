@@ -47,7 +47,7 @@ void IspIdle()
     ISP_ADDR    = ~0x00;
 }
 
-unsigned char IspReadByte(unsigned short addr)
+unsigned char IspRead(unsigned short addr)
 {
     unsigned char dat;
     ISP_CONTR   = ISPEN | IspWT();
@@ -58,7 +58,17 @@ unsigned char IspReadByte(unsigned short addr)
     return dat;
 }
 
-void IspRead(char* buf,unsigned short len,unsigned short addr)
+void IspReads(char* buf,unsigned short len,unsigned short addr)
+{
+    
+}
+
+void IspWrite(unsigned char v)
+{
+
+}
+
+void IspWrites(char* buf,unsigned short len,unsigned short addr)
 {
     
 }
