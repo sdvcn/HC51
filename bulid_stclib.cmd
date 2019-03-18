@@ -9,8 +9,8 @@ set INC=.\include
 set HTC_WARN_FORMAT=WARNING: file %f; line %l; column %c; %s
 set HTC_ERR_FORMAT=ERROR: file %f; line %l; column %c; %s
 
-set ARGS= --runtime=none -I%INC% --time --summary=all --chip=%CHIP% --outdir=%OUTDIR%  --output=lpp -Ostc12X56
+set ARGS= --runtime=none -I%INC% --chip=%CHIP% --outdir=%OUTDIR%  --output=lpp -Ostc12X56
 
-c51 --echo %ARGS% ./src/stc12X56_*.c 
-
+c51 -S --echo %ARGS% ./src/stc12X56_*.c 
+c51 --time --summary=all %ARGS% ./src/stc12X56_*.c 
 endlocal

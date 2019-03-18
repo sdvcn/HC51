@@ -3,6 +3,7 @@
 
 void main()
 {
+	/*
 	union{
 		unsigned short s;
 		unsigned char c[2];
@@ -13,7 +14,8 @@ void main()
 	}else{
 		P0 = 0xf0;
 	}
-	
+	*/
+	_delay(2048);
 
 	while(1);
 }

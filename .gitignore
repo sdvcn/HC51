@@ -3,7 +3,7 @@ bulid
 
 
 .vscode/c_cpp_properties.json
-bulid/stc_adc.lpp
+
 *.lst
 *.p1
 *.pre
