@@ -76,9 +76,14 @@ unsigned char IspRead(unsigned short addr)
 void IspReads(char* buf,unsigned short len,unsigned short addr)
 {
     while(len--){
-        buf
+        buf++=_Read(addr++);
     }
-    
+    _Idle();
+}
+
+void _Write(unsigned char v,unsigned short addr)
+{
+
 }
 
 void IspWrite(unsigned char v)
@@ -88,7 +93,10 @@ void IspWrite(unsigned char v)
 
 void IspWrites(char* buf,unsigned short len,unsigned short addr)
 {
-    
+    while(len--){
+        _Write(buf++,addr++);
+    }
+    _Idle();
 }
 
 
