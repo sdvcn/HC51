@@ -1,3 +1,6 @@
+/*
+STC12
+*/
 #include <stcmcu.h>
 
 #define CMD_Idle    0b0000
@@ -39,7 +42,7 @@ static unsigned char IspWT()
     return 0b000; 
 }
 
-void IspIdle()
+void _Idle()
 {
     ISP_CONTR   = 0x00;
     ISP_CMD     = CMD_Idle;
@@ -47,19 +50,34 @@ void IspIdle()
     ISP_ADDR    = ~0x00;
 }
 
+unsigned char _Read(unsigned short addr)
+{
+    ISP_CMD     = CMD_Read;
+    ISP_ADDR    = addr;
+    Trig();
+    return ISP_DATA;
+}
+
 unsigned char IspRead(unsigned short addr)
 {
     unsigned char dat;
     ISP_CONTR   = ISPEN | IspWT();
+    /*
     ISP_CMD     = CMD_Read;
     ISP_ADDR    = addr;
     Trig();
     dat = ISP_DATA;
+    */
+    dat = _Read(addr);
+    _Idle();
     return dat;
 }
 
 void IspReads(char* buf,unsigned short len,unsigned short addr)
 {
+    while(len--){
+        buf
+    }
     
 }
 

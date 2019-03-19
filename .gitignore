@@ -2,7 +2,7 @@
 bulid
 
 
-.vscode/c_cpp_properties.json
+.vscode/
 
 *.lst
 *.p1
@@ -12,3 +12,4 @@ bulid
 *.hex
 *.hum
 *.mcu
+
