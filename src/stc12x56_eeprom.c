@@ -102,5 +102,10 @@ void IspWrites(char* buf,unsigned short len,unsigned short addr)
 
 void IspErase(unsigned short addr)
 {
-
+    ISP_CONTR   = ISPEN | IspWT();
+    ISP_CMD     = CMD_Erase;
+    ISP_ADDRL   = addr;
+    ISP_ADDRL   = addr >> 8;
+    Trig();
+    _Idle();
 }

@@ -3,19 +3,15 @@
 
 void main()
 {
-	/*
-	union{
-		unsigned short s;
-		unsigned char c[2];
-	} un;
-	un.s = 0x0102;
-	if(un.c[0] == 1 && un.c[1] == 2){
-		P0 = 0x0f;
-	}else{
-		P0 = 0xf0;
-	}
-	*/
-	_delay(2048);
+	unsigned short v1;
+	unsigned short v2;
+	unsigned char c1;
+	unsigned char c2;
+
+	v1 = 0x1020;
+	c1 = v1;
+	c2 = v1 >> 8;
+	v2 = 0x1020;
 
 	while(1);
 }

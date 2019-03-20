@@ -12,6 +12,13 @@ extern unsigned short GetResult(unsigned char ch);
 #warning No Support EEprom
 #endif
 
+extern unsigned char IspRead(unsigned short addr);
+extern void IspReads(char* buf,unsigned short len,unsigned short addr);
+
+extern void IspWrite(unsigned char v);
+extern void IspWrites(char* buf,unsigned short len,unsigned short addr);
+
+extern void IspErase(unsigned short addr);
 
 
 #endif
