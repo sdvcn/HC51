@@ -1,5 +1,9 @@
-//#include <stdio.h>
-
+/*
+    实现ADC功能部分
+    支持型号
+    Stc12x56xxAD系列
+    
+*/
 
 #include <stcmcu.h>
 

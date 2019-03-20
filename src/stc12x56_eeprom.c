@@ -1,5 +1,8 @@
 /*
-STC12
+    实现Eeprom功能部分
+    支持型号
+    Stc12x56xxAD系列
+    
 */
 #include <stcmcu.h>
 
