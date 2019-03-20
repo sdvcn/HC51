@@ -12,10 +12,6 @@
 
 #include <stc_misc.h>
 
-typedef unsigned int	uint;
-typedef unsigned char	ubyte;
-typedef signed char		byte;
-typedef unsigned short	ushort;
 
 
 ///todo : fix
