@@ -1,15 +1,18 @@
 #ifndef _STC_MISC_H_
 #define _STC_MISC_H_
 
-extern reentrant void _delay(unsigned long);
-#pragma inline(_delay)
-#define NOP()   _delay(1)
 
-typedef unsigned short size_t;
-typedef unsigned int	uint;
-typedef unsigned char	ubyte;
-typedef signed char		byte;
-typedef unsigned short	ushort;
+#if STCY == 1
+#define DelayUs(_v) DelayUs_Y1(_v)
+#elif STCY == 3
+#define DelayUs(_v) DelayUs_Y3(_v)
+#elif STCY == 5
+#define DelayUs(_v) DelayUs_Y5(_v)
+#elif STCY == 6
+#define DelayUs(_v) DelayUs_Y6(_v)
+#else
+#warning No Support STCY
+#endif
 
 
 

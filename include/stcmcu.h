@@ -4,20 +4,21 @@
 #ifndef	__HTC8051__
 #warning Header file no sup.
 #endif
+///
+extern reentrant void _delay(unsigned long);
+#pragma inline(_delay)
+#define NOP()   _delay(1)
+
+typedef unsigned short size_t;
+typedef unsigned int	uint;
+typedef unsigned char	ubyte;
+typedef signed char		byte;
+typedef unsigned short	ushort;
 
 //Include STD 8051
 #define _HTC_H_
 #include <8052.h>
 #undef _HTC_H_
-
-#include <stc_misc.h>
-
-
-
-///todo : fix
-#define DelayUs(_x) asm("nop")
-#define DelayMs(_x) asm("nop")
-
 
 	#if defined(_STC12XX5604AD)	|| defined(_STC12XX5608AD)	|| defined(_STC12XX5616AD)	||\
 	    defined(_STC12XX5620AD)	|| defined(_STC12XX5624AD)	|| defined(_STC12XX5628AD)	||\
@@ -33,17 +34,8 @@
 		#warning No StcMCU
 	#endif
 
+#include <stc_misc.h>
 
-#ifndef STCY
-#warning No StcMCU
-#endif
-
-#if STCY == 1
-#elif STCY == 3
-#elif STCY == 5
-#elif STCY == 6
-#else
 	
-#endif
 
 #endif
