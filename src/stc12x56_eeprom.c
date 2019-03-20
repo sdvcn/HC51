@@ -53,7 +53,8 @@ void _Idle()
 unsigned char _Read(unsigned short addr)
 {
     ISP_CMD     = CMD_Read;
-    ISP_ADDR    = addr;
+    ISP_ADDRL   = addr;
+    ISP_ADDRL   = addr >> 8;
     Trig();
     return ISP_DATA;
 }
@@ -73,28 +74,38 @@ unsigned char IspRead(unsigned short addr)
     return dat;
 }
 
-void IspReads(char* buf,unsigned short len,unsigned short addr)
+void IspReads(char buf[],unsigned short len,unsigned short addr)
 {
-    while(len--){
-        buf++=_Read(addr++);
+    for(size_t i = 0; i < len; i++)
+    {
+        buf[i] = _Read(addr++);
     }
     _Idle();
 }
 
 void _Write(unsigned char v,unsigned short addr)
 {
-
+    ISP_CMD     = CMD_Write;
+    ISP_ADDRL   = addr;
+    ISP_ADDRL   = addr >> 8;
+    ISP_DATA    = v;
+    Trig();
 }
 
-void IspWrite(unsigned char v)
+void IspWrite(unsigned char v,unsigned short addr)
 {
-
+    ISP_CONTR   = ISPEN | IspWT();
+    _Write(v,addr);
+    _Idle();
 }
 
-void IspWrites(char* buf,unsigned short len,unsigned short addr)
+void IspWrites(char buf[],unsigned short len,unsigned short addr)
 {
-    while(len--){
-        _Write(buf++,addr++);
+    ISP_CONTR   = ISPEN | IspWT();
+
+    for(size_t i = 0; i < len; i++)
+    {
+        _Write(buf[i],addr++);
     }
     _Idle();
 }
