@@ -90,10 +90,12 @@ static volatile bit CCF0  @ 0xD8^0;
 static volatile unsigned char IPH @ 0xB7;
 
 ///
-far unsigned char STCID1[7] @ 0xF1;
-far unsigned long STCCLK	@ 0xF8;			//最近
-far unsigned long STCCLKR	@ 0xFC;			//内置
-
+//far unsigned char STCID1[7] @ 0xF1;
+//far unsigned long STCCLK	@ 0xF8;			//最近
+//far unsigned long STCCLKR	@ 0xFC;			//内置
+static volatile char STCID1[7]	        @ 0xF1;
+static volatile unsigned long STCCLK	@ 0xF8;
+static volatile unsigned long STCCLKR	@ 0xFC;
 
 
 
