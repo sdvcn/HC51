@@ -77,12 +77,17 @@ unsigned char IspRead(unsigned short addr)
     return dat;
 }
 
-void IspReads(char buf[],unsigned short len,unsigned short addr)
+void IspReads(char* buf,unsigned short len,unsigned short addr)
 {
+    while(len--){
+        *buf++ = _Read(addr++);
+    }
+    /*
     for(size_t i = 0; i < len; i++)
     {
         buf[i] = _Read(addr++);
     }
+    */
     _Idle();
 }
 
@@ -102,14 +107,19 @@ void IspWrite(unsigned char v,unsigned short addr)
     _Idle();
 }
 
-void IspWrites(char buf[],unsigned short len,unsigned short addr)
+void IspWrites(char *buf,unsigned short len,unsigned short addr)
 {
     ISP_CONTR   = ISPEN | IspWT();
+    while(len--){
+        _Write(*buf++,addr++);
+    }
 
+    /*
     for(size_t i = 0; i < len; i++)
     {
         _Write(buf[i],addr++);
     }
+    */
     _Idle();
 }
 
