@@ -3,7 +3,7 @@
 
 static void InitSPI(void)
 {
-    P0= 0xf1;
+    
 }
 
 //写字节

@@ -3,6 +3,8 @@ bulid
 
 
 .vscode/
+.vs/
+
 
 *.lst
 *.p1
