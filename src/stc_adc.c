@@ -28,7 +28,8 @@ unsigned short GetResult(unsigned char ch)
     NOP();
     while (!(ADC_CONTR & ADC_FLAG));
     ADC_CONTR &= ~ADC_FLAG;
-    return (ADC_DATA << 2) | ADC_LOW2;
+    //return (ADC_DATA << 2) | ADC_LOW2;
+    return Adc_Result;
 }
 
 void Adc_Init(unsigned char mask)
