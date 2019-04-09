@@ -1,18 +1,12 @@
 #ifndef _STC_MISC_H_
 #define _STC_MISC_H_
 
+///位操作
+#define BIT(_Sv)	(1ul << _Sv)
 
-#if STCY == 1
-#define DelayUs(_v) DelayUs_Y1(_v)
-#elif STCY == 3
-#define DelayUs(_v) DelayUs_Y3(_v)
-#elif STCY == 5
-#define DelayUs(_v) DelayUs_Y5(_v)
-#elif STCY == 6
-#define DelayUs(_v) DelayUs_Y6(_v)
-#else
-#warning No Support STCY
-#endif
+#define CheckBIT(_addr,_bit) ((_addr & BIT(_bit))?1:0)
+#define ClearBIT(_addr,_bit) (_addr &=~ BIT(_bit))
+#define SetBIT(_addr,_bit) (_addr |= BIT(_bit))
 
 
 
