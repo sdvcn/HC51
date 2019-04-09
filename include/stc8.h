@@ -6,11 +6,42 @@
 
 volatile unsigned AUXR @ 0x8e;
 
+static volatile unsigned char	P1M1	@	0x91;
+static volatile unsigned char	P1M0	@	0x92;
+
 
 static volatile unsigned char	P_SW2	@	0xBA;
 #define EAXFR 8
 #define en_EAXFR() do{SetBIT(P_SW2,EAXFR);}while(0)
 #define di_EAXFR() do{ClearBIT(P_SW2,EAXFR);}while(0)
+
+static volatile unsigned char	ADC_CONTR	@	0xBC;
+
+///FIX 16Bit
+static volatile unsigned short	ADC_RES	@	0xBD;
+static volatile unsigned char	ADC_RESL	@	0xBE;
+static volatile unsigned char	ADC_RESH	@	0xBF;
+//
+#define Adc_Result ((ADC_RESH << 8) | ADC_RESL)
+
+//
+static volatile unsigned char	IAP_DATA	@	0xC2;
+static volatile unsigned int	IAP_ADDR	@	0xC3;		//fix
+static volatile unsigned char	IAP_ADDRH	@	0xC3;
+static volatile unsigned char	IAP_ADDRL	@	0xC4;
+static volatile unsigned char	IAP_CMD	@	0xC5;
+static volatile unsigned char	IAP_TRIG	@	0xC6;
+static volatile unsigned char	IAP_CONTR	@	0xC7;
+//ISP 命名兼容
+static volatile unsigned char	ISP_DATA	@	0xC2;
+static volatile unsigned int	ISP_ADDR	@	0xC3;		//fix
+static volatile unsigned char	ISP_ADDRH	@	0xC3;
+static volatile unsigned char	ISP_ADDRL	@	0xC4;
+static volatile unsigned char	ISP_CMD	@	0xC5;
+static volatile unsigned char	ISP_TRIG	@	0xC6;
+static volatile unsigned char	ISP_CONTR	@	0xC7;
+
+
 
 
 idata volatile unsigned short Bandgap   @ 0xEF;
@@ -61,84 +92,84 @@ far volatile unsigned short PWM0T1	@ 0xFF00;
 far volatile unsigned char PWM0T1H	@ 0xFF00; 
 far volatile unsigned char PWM0T1L	@ 0xFF01; 
 
-far volatile unsigned int PWM0T2	@ 0xFF02; 
+far volatile unsigned short PWM0T2	@ 0xFF02; 
 far volatile unsigned char PWM0T2H	@ 0xFF02; 
 far volatile unsigned char PWM0T2L	@ 0xFF03; 
 far volatile unsigned char PWM0CR	@ 0xFF04; 
 far volatile unsigned char PWM0HLD	@ 0xFF05; 
 
 //--
-far volatile unsigned int PWM1T1	@ 0xFF10; 
+far volatile unsigned short PWM1T1	@ 0xFF10; 
 far volatile unsigned char PWM1T1H	@ 0xFF10; 
 far volatile unsigned char PWM1T1L	@ 0xFF11; 
 
-far volatile unsigned int PWM1T2	@ 0xFF12; 
+far volatile unsigned short PWM1T2	@ 0xFF12; 
 far volatile unsigned char PWM1T2H	@ 0xFF12; 
 far volatile unsigned char PWM1T2L	@ 0xFF13; 
 far volatile unsigned char PWM1CR	@ 0xFF14; 
 far volatile unsigned char PWM1HLD	@ 0xFF15; 
 
 //--
-far volatile unsigned int PWM2T1	@ 0xFF20; 
+far volatile unsigned short PWM2T1	@ 0xFF20; 
 far volatile unsigned char PWM2T1H	@ 0xFF20; 
 far volatile unsigned char PWM2T1L	@ 0xFF21; 
 
-far volatile unsigned int PWM2T2	@ 0xFF22; 
+far volatile unsigned short PWM2T2	@ 0xFF22; 
 far volatile unsigned char PWM2T2H	@ 0xFF22; 
 far volatile unsigned char PWM2T2L	@ 0xFF23; 
 far volatile unsigned char PWM2CR	@ 0xFF24; 
 far volatile unsigned char PWM2HLD	@ 0xFF25; 
 
 //--
-far volatile unsigned int PWM3T1	@ 0xFF30; 
+far volatile unsigned short PWM3T1	@ 0xFF30; 
 far volatile unsigned char PWM3T1H	@ 0xFF30; 
 far volatile unsigned char PWM3T1L	@ 0xFF31; 
 
-far volatile unsigned int PWM3T2	@ 0xFF32; 
+far volatile unsigned short PWM3T2	@ 0xFF32; 
 far volatile unsigned char PWM3T2H	@ 0xFF32; 
 far volatile unsigned char PWM3T2L	@ 0xFF33; 
 far volatile unsigned char PWM3CR	@ 0xFF34; 
 far volatile unsigned char PWM3HLD	@ 0xFF35; 
 
 //--
-far volatile unsigned int PWM4T1	@ 0xFF40; 
+far volatile unsigned short PWM4T1	@ 0xFF40; 
 far volatile unsigned char PWM4T1H	@ 0xFF40; 
 far volatile unsigned char PWM4T1L	@ 0xFF41; 
 
-far volatile unsigned int PWM4T2	@ 0xFF42; 
+far volatile unsigned short PWM4T2	@ 0xFF42; 
 far volatile unsigned char PWM4T2H	@ 0xFF42; 
 far volatile unsigned char PWM4T2L	@ 0xFF43; 
 far volatile unsigned char PWM4CR	@ 0xFF44; 
 far volatile unsigned char PWM4HLD	@ 0xFF45; 
 
 //--
-far volatile unsigned int PWM5T1	@ 0xFF50; 
+far volatile unsigned short PWM5T1	@ 0xFF50; 
 far volatile unsigned char PWM5T1H	@ 0xFF50; 
 far volatile unsigned char PWM5T1L	@ 0xFF51; 
 
-far volatile unsigned int PWM5T2	@ 0xFF52; 
+far volatile unsigned short PWM5T2	@ 0xFF52; 
 far volatile unsigned char PWM5T2H	@ 0xFF52; 
 far volatile unsigned char PWM5T2L	@ 0xFF53; 
 far volatile unsigned char PWM5CR	@ 0xFF54; 
 far volatile unsigned char PWM5HLD	@ 0xFF55; 
 
 //--
-far volatile unsigned int PWM6T1	@ 0xFF60; 
+far volatile unsigned short PWM6T1	@ 0xFF60; 
 far volatile unsigned char PWM6T1H	@ 0xFF60; 
 far volatile unsigned char PWM6T1L	@ 0xFF61; 
 
-far volatile unsigned int PWM6T2	@ 0xFF62; 
+far volatile unsigned short PWM6T2	@ 0xFF62; 
 far volatile unsigned char PWM6T2H	@ 0xFF62; 
 far volatile unsigned char PWM6T2L	@ 0xFF63; 
 far volatile unsigned char PWM6CR	@ 0xFF64; 
 far volatile unsigned char PWM6HLD	@ 0xFF65; 
 
 //--
-far volatile unsigned int PWM7T1	@ 0xFF70; 
+far volatile unsigned short PWM7T1	@ 0xFF70; 
 far volatile unsigned char PWM7T1H	@ 0xFF70; 
 far volatile unsigned char PWM7T1L	@ 0xFF71; 
 
-far volatile unsigned int PWM7T2	@ 0xFF72; 
+far volatile unsigned short PWM7T2	@ 0xFF72; 
 far volatile unsigned char PWM7T2H	@ 0xFF72; 
 far volatile unsigned char PWM7T2L	@ 0xFF73; 
 far volatile unsigned char PWM7CR	@ 0xFF74; 
@@ -160,25 +191,10 @@ code unsigned char STCID[7] @ 0xfdf9;
 #elif defined (_STC8A8K64S4A12)
 #else
 #endif
-//扩展
-unsigned char ExtSfrGet(unsigned short addr){
-    SetBIT(P_SW2,EAXFR);
-    unsigned char r = (*(unsigned char volatile xdata *)addr);
-    ClearBIT(P_SW2,EAXFR);
-    return r;
-}
-#pragma inline ExtSfrGet
 
-void ExtSfrSet(unsigned short addr,unsigned char nv){
-    SetBIT(P_SW2,EAXFR);
-    (*(unsigned char volatile xdata *)addr) = nv;
-    ClearBIT(P_SW2,EAXFR);
-    
-}
-#pragma inline ExtSfrSet
-
+///-------------------------------
 ///Ext
 #define DEFCLK 24000000u
-#define STCCLKR (DEFCLK / CLKDIV)
+#define STCCLKR (DEFCLK )
 
 #endif

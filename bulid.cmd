@@ -5,7 +5,7 @@ set OUTDIR=.\bulid
 set CHIP=STC8A8K60S4A12
 set OBJ=.\bulid
 set INC=.\include
-rem set LIB=.\src\stc*.c
+set LIB=.\src\stc*.c
 
 set HTC_WARN_FORMAT=WARNING: file %f; line %l; column %c; %s
 set HTC_ERR_FORMAT=ERROR: file %f; line %l; column %c; %s

@@ -1,39 +1,41 @@
 #include <8051.h>
 #include <stcmcu.h>
 
-typedef void (* LFun)(char* s);
+#define	FOSC	24000000UL
+#define	BRT	(65536 - FOSC / 115200 / 4)
 
-struct{
-	unsigned v1:4;
-	unsigned v2:4;
-}tss;
-
-struct OP
+void uSEND(unsigned char s)
 {
-	unsigned char mode;
-	unsigned char len;
-	unsigned char* ptr;
-};
-void rr(char *s)
-{
-	if(P0){
-		NOP();
-	}
-	NOP();
+	SBUF = s;
+	while(!TI);
+	TI = 0;
 }
 
+void uSENDs(const char* str,unsigned len)
+{
+	while(len--){
+		uSEND(*str++);
+	}
+}
+
+void UartInit()
+{
+	SCON = 0x50;
+	TMOD = 0x00;
+	TL1 = BRT;
+	TH1 = BRT >> 8;
+	TR1 = 1;
+	AUXR = 0x40;
+	//busy = 0;
+}
 
 void main()
 {
-	LFun ff1 = rr;
-
-	ushort v1 = &rr;
-	if(v1){
-		P0 = v1;
-		P1 = v1 >> 8;
-	}
-
-	ff1("sss");
+	UartInit();
+	//uSENDs("ID:",3);
+	//en_EAXFR();
+	//uSEND(PWM0T1H);
+	//uSEND(ExtSfrGet(&PWM0T1L));
 
 	while(1);
 }

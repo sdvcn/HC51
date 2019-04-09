@@ -30,6 +30,9 @@
 
 
 #define Trig()      do{ISP_TRIG = 0x46;NOP();ISP_TRIG=0xb9;NOP();}while(0)
+/*
+    ISP or IAP 等待时间
+*/
 
 static unsigned char IspWT()
 {
