@@ -8,12 +8,18 @@
 extern reentrant void _delay(unsigned long);
 #pragma inline(_delay)
 #define NOP()   _delay(1)
+#define DelayUs(_v) _delay(_v)
 
 typedef unsigned short size_t;
 typedef unsigned int	uint;
 typedef unsigned char	ubyte;
 typedef signed char		byte;
 typedef unsigned short	ushort;
+
+
+
+///杂项
+#include <stc_misc.h>
 
 //Include STD 8051
 #define _HTC_H_
@@ -28,13 +34,19 @@ typedef unsigned short	ushort;
 		#define SUPPORT_EEPROM	1
 		#include <stc12x56.h>
 		#include <stc_suppor.h>
-	#elif defined(_STC8A8K)
+	#elif defined(_STC8A8K16S4A12) || defined(_STC8A8K32S4A12) || defined(_STC8A8K60S4A12) || defined(_STC8A8K64S4A12)
 		#define STCY	6
+		#include <stc8.h>
+
 	#else
 		#warning No StcMCU
 	#endif
 
-#include <stc_misc.h>
+	 
+
+	
+
+
 
 	
 
