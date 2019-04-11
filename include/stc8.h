@@ -106,6 +106,7 @@ far volatile unsigned char I2CTxD	@ 0xFE86;
 far volatile unsigned char I2CRxD	@ 0xFE87; 
 far volatile unsigned char I2CMSAUX	@ 0xFE88;
 
+/// PWM0 翻转点设置计数值寄存器
 far volatile unsigned short PWM0T1	@ 0xFF00; 
 far volatile unsigned char PWM0T1H	@ 0xFF00; 
 far volatile unsigned char PWM0T1L	@ 0xFF01; 
@@ -113,10 +114,11 @@ far volatile unsigned char PWM0T1L	@ 0xFF01;
 far volatile unsigned short PWM0T2	@ 0xFF02; 
 far volatile unsigned char PWM0T2H	@ 0xFF02; 
 far volatile unsigned char PWM0T2L	@ 0xFF03; 
+/// PWM0 通道控制寄存器
 far volatile unsigned char PWM0CR	@ 0xFF04; 
+/// PWM0 通道电平保持控制器寄存器
 far volatile unsigned char PWM0HLD	@ 0xFF05; 
-
-//--
+/// PWM1 翻转点设置计数值寄存器
 far volatile unsigned short PWM1T1	@ 0xFF10; 
 far volatile unsigned char PWM1T1H	@ 0xFF10; 
 far volatile unsigned char PWM1T1L	@ 0xFF11; 
@@ -124,10 +126,12 @@ far volatile unsigned char PWM1T1L	@ 0xFF11;
 far volatile unsigned short PWM1T2	@ 0xFF12; 
 far volatile unsigned char PWM1T2H	@ 0xFF12; 
 far volatile unsigned char PWM1T2L	@ 0xFF13; 
+/// PWM1 通道控制寄存器
 far volatile unsigned char PWM1CR	@ 0xFF14; 
+/// PWM1 通道电平保持控制器寄存器
 far volatile unsigned char PWM1HLD	@ 0xFF15; 
 
-//--
+/// PWM2 翻转点设置计数值寄存器
 far volatile unsigned short PWM2T1	@ 0xFF20; 
 far volatile unsigned char PWM2T1H	@ 0xFF20; 
 far volatile unsigned char PWM2T1L	@ 0xFF21; 
@@ -135,10 +139,12 @@ far volatile unsigned char PWM2T1L	@ 0xFF21;
 far volatile unsigned short PWM2T2	@ 0xFF22; 
 far volatile unsigned char PWM2T2H	@ 0xFF22; 
 far volatile unsigned char PWM2T2L	@ 0xFF23; 
+/// PWM2 通道控制寄存器
 far volatile unsigned char PWM2CR	@ 0xFF24; 
+/// PWM2 通道电平保持控制器寄存器
 far volatile unsigned char PWM2HLD	@ 0xFF25; 
 
-//--
+/// PWM3 翻转点设置计数值寄存器
 far volatile unsigned short PWM3T1	@ 0xFF30; 
 far volatile unsigned char PWM3T1H	@ 0xFF30; 
 far volatile unsigned char PWM3T1L	@ 0xFF31; 
@@ -146,10 +152,12 @@ far volatile unsigned char PWM3T1L	@ 0xFF31;
 far volatile unsigned short PWM3T2	@ 0xFF32; 
 far volatile unsigned char PWM3T2H	@ 0xFF32; 
 far volatile unsigned char PWM3T2L	@ 0xFF33; 
+/// PWM3 通道控制寄存器
 far volatile unsigned char PWM3CR	@ 0xFF34; 
+/// PWM3 通道电平保持控制器寄存器
 far volatile unsigned char PWM3HLD	@ 0xFF35; 
 
-//--
+/// PWM4 翻转点设置计数值寄存器
 far volatile unsigned short PWM4T1	@ 0xFF40; 
 far volatile unsigned char PWM4T1H	@ 0xFF40; 
 far volatile unsigned char PWM4T1L	@ 0xFF41; 
@@ -157,10 +165,12 @@ far volatile unsigned char PWM4T1L	@ 0xFF41;
 far volatile unsigned short PWM4T2	@ 0xFF42; 
 far volatile unsigned char PWM4T2H	@ 0xFF42; 
 far volatile unsigned char PWM4T2L	@ 0xFF43; 
+/// PWM4 通道控制寄存器
 far volatile unsigned char PWM4CR	@ 0xFF44; 
+/// PWM4 通道电平保持控制器寄存器
 far volatile unsigned char PWM4HLD	@ 0xFF45; 
 
-//--
+/// PWM5 翻转点设置计数值寄存器
 far volatile unsigned short PWM5T1	@ 0xFF50; 
 far volatile unsigned char PWM5T1H	@ 0xFF50; 
 far volatile unsigned char PWM5T1L	@ 0xFF51; 
@@ -168,10 +178,12 @@ far volatile unsigned char PWM5T1L	@ 0xFF51;
 far volatile unsigned short PWM5T2	@ 0xFF52; 
 far volatile unsigned char PWM5T2H	@ 0xFF52; 
 far volatile unsigned char PWM5T2L	@ 0xFF53; 
+/// PWM5 通道控制寄存器
 far volatile unsigned char PWM5CR	@ 0xFF54; 
+/// PWM5 通道电平保持控制器寄存器
 far volatile unsigned char PWM5HLD	@ 0xFF55; 
 
-//--
+/// PWM6 翻转点设置计数值寄存器
 far volatile unsigned short PWM6T1	@ 0xFF60; 
 far volatile unsigned char PWM6T1H	@ 0xFF60; 
 far volatile unsigned char PWM6T1L	@ 0xFF61; 
@@ -179,10 +191,12 @@ far volatile unsigned char PWM6T1L	@ 0xFF61;
 far volatile unsigned short PWM6T2	@ 0xFF62; 
 far volatile unsigned char PWM6T2H	@ 0xFF62; 
 far volatile unsigned char PWM6T2L	@ 0xFF63; 
+/// PWM6 通道控制寄存器
 far volatile unsigned char PWM6CR	@ 0xFF64; 
+/// PWM6 通道电平保持控制器寄存器
 far volatile unsigned char PWM6HLD	@ 0xFF65; 
 
-//--
+/// PWM7 翻转点设置计数值寄存器
 far volatile unsigned short PWM7T1	@ 0xFF70; 
 far volatile unsigned char PWM7T1H	@ 0xFF70; 
 far volatile unsigned char PWM7T1L	@ 0xFF71; 
@@ -190,18 +204,27 @@ far volatile unsigned char PWM7T1L	@ 0xFF71;
 far volatile unsigned short PWM7T2	@ 0xFF72; 
 far volatile unsigned char PWM7T2H	@ 0xFF72; 
 far volatile unsigned char PWM7T2L	@ 0xFF73; 
+/// PWM7 通道控制寄存器
 far volatile unsigned char PWM7CR	@ 0xFF74; 
+/// PWM7 通道电平保持控制器寄存器
 far volatile unsigned char PWM7HLD	@ 0xFF75; 
 
-
+/// PWM计数器寄存器
+far volatile unsigned short PWMCH	@ 0xFFF0; 
 far volatile unsigned char PWMCH	@ 0xFFF0; 
-far volatile unsigned char PWMCKS	@ 0xFFF0; 
-far volatile unsigned char TADCPH	@ 0xFFF0; 
-far volatile unsigned char TADCPL	@ 0xFFF0; 
+far volatile unsigned char PWMCL	@ 0xFFF1; 
+
+/// PWM 时钟选择寄存器
+far volatile unsigned char PWMCKS	@ 0xFFF2; 
+
+/// PWM 触发 ADC 计数器 寄存器
+far volatile unsigned char TADCP	@ 0xFFF3; 
+far volatile unsigned char TADCPH	@ 0xFFF3; 
+far volatile unsigned char TADCPL	@ 0xFFF4; 
 
 
 //far  volatile unsigned short EBandgap   @ 0x3ff7;
-code unsigned char STCID[7] @ 0xfdf9;
+code unsigned char STCID_ROM[7] @ 0xfdf9;
 #if defined (_STC8A8K16S4A12)
 #define OFFADDR 0xff
 #elif defined (_STC8A8K32S4A12)
@@ -211,8 +234,9 @@ code unsigned char STCID[7] @ 0xfdf9;
 #endif
 
 ///-------------------------------
-#define En_EAXFR() SetBIT(P_SW2,EAXFR)
-#define Di_EAXFR() ClearBIT(P_SW2,EAXFR)
+///组合使用
+#define En_EAXFR() do{bit _oldEaxfr = CheckBIT(P_SW2,EAXFR); SetBIT(P_SW2,EAXFR)
+#define Di_EAXFR() if(!_oldEaxfr) ClearBIT(P_SW2,EAXFR);}while(0)
 ///Ext
 extern unsigned char ExtSfrGet(unsigned short addr);
 extern void ExtSfrSet(unsigned short addr,unsigned char nv);
