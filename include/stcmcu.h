@@ -35,6 +35,7 @@ typedef unsigned short	ushort;
 		#include <stc12x56.h>
 		#include <stc_suppor.h>
 	#elif defined(_STC8A8K16S4A12) || defined(_STC8A8K32S4A12) || defined(_STC8A8K60S4A12) || defined(_STC8A8K64S4A12)
+		#define STC8	1
 		#define STCY	6
 		#include <stc8.h>
 
