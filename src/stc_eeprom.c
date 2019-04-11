@@ -116,13 +116,6 @@ void IspWrites(char *buf,unsigned short len,unsigned short addr)
     while(len--){
         _Write(*buf++,addr++);
     }
-
-    /*
-    for(size_t i = 0; i < len; i++)
-    {
-        _Write(buf[i],addr++);
-    }
-    */
     _Idle();
 }
 
