@@ -8,6 +8,16 @@ volatile unsigned AUXR @ 0x8e;
 
 static volatile unsigned char	P1M1	@	0x91;
 static volatile unsigned char	P1M0	@	0x92;
+static volatile unsigned char	P0M1	@	0x93;
+static volatile unsigned char	P0M0	@	0x94;
+static volatile unsigned char	P2M1	@	0x95;
+static volatile unsigned char	P2M0	@	0x96;
+
+
+static volatile unsigned char	P3M1	@	0xB1;
+static volatile unsigned char	P3M0	@	0xB2;
+static volatile unsigned char	P4M1	@	0xB3;
+static volatile unsigned char	P4M0	@	0xB4;
 
 
 static volatile unsigned char	P_SW2	@	0xBA;
@@ -32,6 +42,12 @@ static volatile unsigned char	IAP_ADDRL	@	0xC4;
 static volatile unsigned char	IAP_CMD	@	0xC5;
 static volatile unsigned char	IAP_TRIG	@	0xC6;
 static volatile unsigned char	IAP_CONTR	@	0xC7;
+
+static volatile unsigned char	P5M1	@	0xC9;
+static volatile unsigned char	P5M0	@	0xCA;
+static volatile unsigned char	P6M1	@	0xCB;
+static volatile unsigned char	P6M0	@	0xCC;
+
 //ISP 命名兼容
 static volatile unsigned char	ISP_DATA	@	0xC2;
 static volatile unsigned int	ISP_ADDR	@	0xC3;		//fix
@@ -42,10 +58,12 @@ static volatile unsigned char	ISP_TRIG	@	0xC6;
 static volatile unsigned char	ISP_CONTR	@	0xC7;
 
 
+static volatile unsigned char	P7M1	@	0xE1;
+static volatile unsigned char	P7M0	@	0xE2;
 
 
 idata volatile unsigned short Bandgap   @ 0xEF;
-idata volatile unsigned char STCID1[7]	        @ 0xF1;
+idata volatile unsigned char STCID[7]	@ 0xF1;
 idata volatile unsigned short STC32K	@ 0xF8;
 idata volatile unsigned char STC22K     @ 0xFA;
 idata volatile unsigned char STC24K     @ 0xFB;
@@ -193,7 +211,15 @@ code unsigned char STCID[7] @ 0xfdf9;
 #endif
 
 ///-------------------------------
+#define En_EAXFR() SetBIT(P_SW2,EAXFR)
+#define Di_EAXFR() ClearBIT(P_SW2,EAXFR)
 ///Ext
+extern unsigned char ExtSfrGet(unsigned short addr);
+extern void ExtSfrSet(unsigned short addr,unsigned char nv);
+
+#pragma inline(ExtSfrGet)
+#pragma inline(ExtSfrSet)
+
 #define DEFCLK 24000000u
 #define STCCLKR (DEFCLK )
 
