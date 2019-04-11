@@ -24,3 +24,21 @@ void DelayUs_Y6(ushort v)
 {
 	_delay(v);
 }
+
+//STC8 扩展
+#ifdef STC8
+
+unsigned char ExtSfrGet(unsigned short addr){
+    En_EAXFR();
+    unsigned char r = (*(unsigned char volatile xdata *)addr);
+    Di_EAXFR();
+    return r;
+}
+
+void ExtSfrSet(unsigned short addr,unsigned char nv){
+    En_EAXFR();
+    (*(unsigned char volatile xdata *)addr) = nv;
+    Di_EAXFR();
+    
+}
+#endif
