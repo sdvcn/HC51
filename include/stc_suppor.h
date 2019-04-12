@@ -23,5 +23,11 @@ extern void IspErase(unsigned short addr);
 extern void SetGPIO(unsigned char mio,ModeOP* mode);
 
 
+#ifdef STC8
+///PWM
+extern void PWM_CR(unsigned char ch,unsigned char OP);
+extern void PWM_SetHld(unsigned char mh,unsigned char ml);
+extern void PWN_ClrN(unsigned char mio);
+#endif
 
 #endif
