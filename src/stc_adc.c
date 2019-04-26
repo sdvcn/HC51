@@ -2,6 +2,7 @@
     实现ADC功能部分
     支持型号
     Stc12x56xxAD系列
+    STC8A8KxxSA12系列
     
 */
 
