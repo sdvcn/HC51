@@ -1,8 +1,11 @@
 #include <8051.h>
 #include <stcmcu.h>
 
+
+
 #define	FOSC	24000000UL
 #define	BRT	(65536 - FOSC / 115200 / 4)
+
 
 void uSEND(unsigned char s)
 {
@@ -31,11 +34,14 @@ void UartInit()
 
 void main()
 {
-	UartInit();
+	//set_vector(BRKINTV, brkintr);
+
+	//UartInit();
 	//uSENDs("ID:",3);
 	//en_EAXFR();
 	//uSEND(PWM0T1H);
 	//uSEND(ExtSfrGet(&PWM0T1L));
+	
 
 	while(1);
 }
