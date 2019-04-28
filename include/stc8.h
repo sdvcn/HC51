@@ -99,7 +99,16 @@ far volatile unsigned char P7NCS @ 0xFE1F;
 far volatile unsigned char I2CCFG	@ 0xFE80; 
 far volatile unsigned char I2CMSCR	@ 0xFE81; 
 far volatile unsigned char I2CMSST	@ 0xFE82; 
+#define MSBUSY  (1ul << 7)
+#define MSIF    (1ul << 6)
+#define MSACKI  (1ul << 1)
+#define MSACKO  (1ul << 0)
+
 far volatile unsigned char I2CSLCR	@ 0xFE83; 
+#define EMSI    (1ul << 7)
+
+
+
 far volatile unsigned char I2CSLST	@ 0xFE84; 
 far volatile unsigned char I2CSLADR	@ 0xFE85; 
 far volatile unsigned char I2CTxD	@ 0xFE86; 
@@ -210,7 +219,7 @@ far volatile unsigned char PWM7CR	@ 0xFF74;
 far volatile unsigned char PWM7HLD	@ 0xFF75; 
 
 /// PWM计数器寄存器
-far volatile unsigned short PWMCH	@ 0xFFF0; 
+far volatile unsigned short PWMC	@ 0xFFF0; 
 far volatile unsigned char PWMCH	@ 0xFFF0; 
 far volatile unsigned char PWMCL	@ 0xFFF1; 
 

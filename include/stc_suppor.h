@@ -28,6 +28,16 @@ extern void SetGPIO(unsigned char mio,ModeOP* mode);
 extern void PWM_CR(unsigned char ch,unsigned char OP);
 extern void PWM_SetHld(unsigned char mh,unsigned char ml);
 extern void PWN_ClrN(unsigned char mio);
+//I2c
+extern bool I2c_Busy();
+extern void I2c_Start();
+extern void I2c_Write(unsigned char c);
+extern void I2c_RxAck();
+extern unsigned char I2c_Read();
+extern void I2c_TxAck();
+extern void I2c_TxNAck();
+extern void I2c_Stop();
+
 #endif
 
 #endif
