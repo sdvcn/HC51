@@ -38,6 +38,7 @@ typedef bit				bool;
 	#elif defined(_STC8A8K16S4A12) || defined(_STC8A8K32S4A12) || defined(_STC8A8K60S4A12) || defined(_STC8A8K64S4A12)
 		#define SUPPORT_AD	1
 		#define SUPPORT_EEPROM	1
+		#define STC8 1
 		#include <stc8.h>
 		//#include <stc_suppor.h>
 	#else
