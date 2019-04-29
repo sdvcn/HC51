@@ -1,6 +1,3 @@
-/*
-apds 9660
-*/
 
 #include <stcmcu.h>
 
@@ -125,17 +122,6 @@ bool APDS9960_Check()
     return 0ul;
 }
 /// 获取开启模式
-unsigned char APDS9960_GetMode()
-{
-    unsigned char enop = 0x00;
-    APDS9960_ReadReg(APDS9960_ENABLE,1,&enop);
-    return enop;    
-}
-
-void APDS9960_SetMode(unsigned char op)
-{
-
-}
 
 void APDS9960_Init()
 {
