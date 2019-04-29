@@ -94,7 +94,7 @@
 #define APDS9960_WEN            (1ul << 3)
 /// 环境光线
 #define APSD9960_AIEN           (1ul << 4)
-/// 接近
+/// 接近中断
 #define APDS9960_PIEN           (1ul << 5)
 /// 手势
 #define APDS9960_GEN            (1ul << 6)
