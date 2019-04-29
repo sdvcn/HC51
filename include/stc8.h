@@ -1,23 +1,25 @@
 #ifndef _STC8_H_
 #define _STC8_H_
 
-#define STC8	1
+//#define STC8
 #define STCY	6
 
 
 
 volatile unsigned AUXR @ 0x8e;
-
+/// P1端口配置寄存器
 static volatile unsigned char	P1M1	@	0x91;
 static volatile unsigned char	P1M0	@	0x92;
+/// P0端口配置寄存器
 static volatile unsigned char	P0M1	@	0x93;
 static volatile unsigned char	P0M0	@	0x94;
+/// P2端口配置寄存器
 static volatile unsigned char	P2M1	@	0x95;
 static volatile unsigned char	P2M0	@	0x96;
-
-
+/// P3端口配置寄存器
 static volatile unsigned char	P3M1	@	0xB1;
 static volatile unsigned char	P3M0	@	0xB2;
+/// P4端口配置寄存器
 static volatile unsigned char	P4M1	@	0xB3;
 static volatile unsigned char	P4M0	@	0xB4;
 
@@ -44,9 +46,10 @@ static volatile unsigned char	IAP_ADDRL	@	0xC4;
 static volatile unsigned char	IAP_CMD	@	0xC5;
 static volatile unsigned char	IAP_TRIG	@	0xC6;
 static volatile unsigned char	IAP_CONTR	@	0xC7;
-
+/// P5端口配置寄存器
 static volatile unsigned char	P5M1	@	0xC9;
 static volatile unsigned char	P5M0	@	0xCA;
+/// P6端口配置寄存器
 static volatile unsigned char	P6M1	@	0xCB;
 static volatile unsigned char	P6M0	@	0xCC;
 
@@ -59,7 +62,7 @@ static volatile unsigned char	ISP_CMD	@	0xC5;
 static volatile unsigned char	ISP_TRIG	@	0xC6;
 static volatile unsigned char	ISP_CONTR	@	0xC7;
 
-
+/// P7端口配置寄存器
 static volatile unsigned char	P7M1	@	0xE1;
 static volatile unsigned char	P7M0	@	0xE2;
 
@@ -80,6 +83,7 @@ far volatile unsigned char IRC24MCR @ 0xFE02;
 far volatile unsigned char XOSCCR @ 0xFE03; 
 far volatile unsigned char IRC32KCR @ 0xFE04; 
 
+/// 内置上拉电阻控制位
 far volatile unsigned char P0PU @ 0xFE10; 
 far volatile unsigned char P1PU @ 0xFE11; 
 far volatile unsigned char P2PU @ 0xFE12; 
@@ -89,6 +93,7 @@ far volatile unsigned char P5PU @ 0xFE15;
 far volatile unsigned char P6PU @ 0xFE16; 
 far volatile unsigned char P7PU @ 0xFE17; 
 
+/// 施密特触发器控制位
 far volatile unsigned char P0NCS @ 0xFE18; 
 far volatile unsigned char P1NCS @ 0xFE19; 
 far volatile unsigned char P2NCS @ 0xFE1A; 
@@ -254,8 +259,9 @@ code unsigned char STCID_ROM[7] @ 0xfdf9;
 extern unsigned char ExtSfrGet(unsigned short addr);
 extern void ExtSfrSet(unsigned short addr,unsigned char nv);
 
-#pragma inline(ExtSfrGet)
-#pragma inline(ExtSfrSet)
+
+//#pragma inline(ExtSfrGet)
+//#pragma inline(ExtSfrSet)
 
 #define DEFCLK 24000000u
 #define STCCLKR (DEFCLK )
