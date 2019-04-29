@@ -4,6 +4,11 @@
 
 
 #ifdef STC8
+/*
+    mio:端口组mask
+    mode:IO状态
+
+*/
 void SetGPIO(unsigned char mio,ModeOP* mode)
 {
     if (mio) {
