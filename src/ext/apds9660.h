@@ -62,6 +62,7 @@
 #define APDS9960_GCONF3         0xAA
 /// 手势设定 
 #define APDS9960_GCONF4         0xAB
+/// 手势寄存器缓冲数量
 #define APDS9960_GFLVL          0xAE
 /// 手势状态
 #define APDS9960_GSTATUS        0xAF

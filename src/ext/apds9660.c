@@ -155,5 +155,24 @@ void APDS9960_GestureSensor()
     APDS9960_WriteReg8(APDS9960_GCONF4,0x03);
     // 开启供电
     APDS9960_WriteReg8(APDS9960_ENABLE,0x7f);
+}
 
+
+typedef struct{
+    unsigned char mU;
+    unsigned char mD;
+    unsigned char mL;
+    unsigned char mR;
+} GFifos;
+
+void APDS9960_ReadGesture()
+{
+    GFifos buffer[32];
+    GFifos* pbuff;
+    pbuff = &buffer;
+
+    while(APDS9960_ReadReg8(APDS9960_GFLVL))
+    {
+
+    }
 }
