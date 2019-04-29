@@ -11,16 +11,23 @@ enum{
 };
 //MSCMDEXT
 
+bool I2c_Busy()
+{
+    return (I2CMSST & MSBUSY) ? 1ul:0ul;
+}
+
+bool I2c_CFG(unsigned char op)
+{
+    if(I2CMSST & MSBUSY) return 0ul;
+    I2CCFG = op;
+    return 1ul;
+}
+
 void I2c_Wait()
 {
     while(!(I2CMSST & MSIF));
     I2CMSST &= ~MSIF;
     _delay(10);
-}
-
-unsigned char I2c_Busy()
-{
-    return (I2CMSST & MSBUSY)?0:1;
 }
 
 void I2c_Start()
@@ -69,8 +76,7 @@ void I2c_Stop()
     I2c_Wait();
 }
 
-#define RAddr(_addr) ((_addr << 1) | 1ul)
-#define WAddr(_addr) ((_addr << 1) | 0ul)
+
 
 
 /*
