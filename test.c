@@ -34,14 +34,8 @@ void UartInit()
 
 void main()
 {
-	//set_vector(BRKINTV, brkintr);
-
-	//UartInit();
-	//uSENDs("ID:",3);
-	//en_EAXFR();
-	//uSEND(PWM0T1H);
-	//uSEND(ExtSfrGet(&PWM0T1L));
-	
+	P_SW2 |= 0x80;
+		
 
 	while(1);
 }

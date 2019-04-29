@@ -15,6 +15,7 @@ typedef unsigned int	uint;
 typedef unsigned char	ubyte;
 typedef signed char		byte;
 typedef unsigned short	ushort;
+typedef bit				bool;
 
 
 
@@ -33,16 +34,17 @@ typedef unsigned short	ushort;
 		#define SUPPORT_AD	1
 		#define SUPPORT_EEPROM	1
 		#include <stc12x56.h>
-		#include <stc_suppor.h>
+		//#include <stc_suppor.h>
 	#elif defined(_STC8A8K16S4A12) || defined(_STC8A8K32S4A12) || defined(_STC8A8K60S4A12) || defined(_STC8A8K64S4A12)
-		#define STC8	1
-		#define STCY	6
+		#define SUPPORT_AD	1
+		#define SUPPORT_EEPROM	1
 		#include <stc8.h>
-
+		//#include <stc_suppor.h>
 	#else
 		#warning No StcMCU
 	#endif
 
+#include <stc_suppor.h>
 	 
 
 	

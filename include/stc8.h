@@ -1,6 +1,8 @@
 #ifndef _STC8_H_
 #define _STC8_H_
 
+#define STC8	1
+#define STCY	6
 
 
 
@@ -97,6 +99,8 @@ far volatile unsigned char P6NCS @ 0xFE1E;
 far volatile unsigned char P7NCS @ 0xFE1F; 
 
 far volatile unsigned char I2CCFG	@ 0xFE80; 
+#define ENI2C   (1ul << 7)
+#define MSSL    (1ul << 6)
 far volatile unsigned char I2CMSCR	@ 0xFE81; 
 far volatile unsigned char I2CMSST	@ 0xFE82; 
 #define MSBUSY  (1ul << 7)
