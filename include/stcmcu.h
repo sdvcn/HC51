@@ -15,7 +15,7 @@ typedef unsigned int	uint;
 typedef unsigned char	ubyte;
 typedef signed char		byte;
 typedef unsigned short	ushort;
-typedef bit				bool;
+
 
 
 
