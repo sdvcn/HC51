@@ -139,7 +139,8 @@ extern void APDS9960_WriteReg16(unsigned char reg,unsigned short val);
 #define ExecPiClear()   APDS9960_WriteReg8(APDS9960_PICLEAR,0x00)
 #define ExecCiClear()   APDS9960_WriteReg8(APDS9960_CICLEAR,0x00)
 #define ExecAiClear()   APDS9960_WriteReg8(APDS9960_AICLEAR,0x00)
-
+//-------------
+extern void APDS9960_GestureSensor();
 //--------------
 
 #define Get_APDS9960_ENABLE() APDS9960_ReadReg8(APDS9960_ENABLE)
