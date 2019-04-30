@@ -26,7 +26,12 @@ void APDS9960_Write(unsigned char reg,unsigned len,char* src)
     I2c_RxAck();
     while(len--){
         I2c_Write(*src++);
-        I2c_RxAck();
+        //I2c_RxAck();
+        if(len){
+            I2c_TxAck();
+        }else{
+            I2c_TxNAck();            
+        }
     }
     I2c_Stop();
 
@@ -43,7 +48,12 @@ void APDS9960_Read(unsigned len,char* dst)
     I2c_RxAck();
     while(len--){
         *dst++ = I2c_Read();
-        I2c_TxAck();
+        //I2c_TxAck();
+        if(len){
+            I2c_TxAck();
+        }else{
+            I2c_TxNAck();            
+        }
     }
     I2c_Stop();
 
@@ -66,7 +76,11 @@ void APDS9960_ReadReg(unsigned char reg,unsigned len,char* dst)
 
     while(len--){
         *dst++ = I2c_Read();
-        I2c_TxAck();
+        if(len){
+            I2c_TxAck();
+        }else{
+            I2c_TxNAck();            
+        }
     }
     I2c_Stop();
 
