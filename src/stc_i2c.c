@@ -20,14 +20,19 @@ bool I2c_CFG(unsigned char op)
 {
     if(I2CMSST & MSBUSY) return 0ul;
     I2CCFG = op;
+    //I2CCFG = 0x00;
+    //_delay(10);
+    //I2CCFG = 0xe0;
+    I2CMSST = 0x00;
     return 1ul;
 }
 
 void I2c_Wait()
 {
+    //_delay(10);
     while(!(I2CMSST & MSIF));
     I2CMSST &= ~MSIF;
-    _delay(10);
+    //_delay(10);
 }
 
 void I2c_Start()
@@ -73,7 +78,9 @@ void I2c_TxNAck()
 void I2c_Stop()
 {
     I2CMSCR = MSCMD_STOP;
+
     I2c_Wait();
+    
 }
 
 
