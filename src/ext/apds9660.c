@@ -59,7 +59,7 @@ void APDS9960_Read(unsigned len,char* dst)
 
     I2c_Di();
 }
-
+//todo 处理异常
 void APDS9960_ReadReg(unsigned char reg,unsigned len,char* dst)
 {
     if(I2c_InitM(I2C_SPEED)==0) return;
@@ -168,11 +168,12 @@ typedef struct{
 void APDS9960_ReadGesture()
 {
     GFifos buffer[32];
-    GFifos* pbuff;
-    pbuff = &buffer;
+    char* pbuff;
+    pbuff = (char*)&buffer;
 
-    while(APDS9960_ReadReg8(APDS9960_GFLVL))
-    {
+    unsigned char flevel;
+    flevel = APDS9960_ReadReg8(APDS9960_GFLVL);
+    APDS9960_ReadReg(APDS9960_GFIFO_U,flevel*4,pbuff);
 
-    }
+
 }
