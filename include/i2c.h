@@ -7,20 +7,53 @@
 
 #endif // <EMUI2C
 
+/// 寄存器基本指令
+enum{
+    MSCMD_NONE    = 0b0000,
+    MSCMD_START   = 0b0001,
+    MSCMD_WRITE   = 0b0010,
+    MSCMD_RACK    = 0b0011,
+    MSCMD_READ    = 0b0100,
+    MSCMD_TACK    = 0b0101,
+    MSCMD_STOP    = 0b0110,
+    Ext_MSCMD_START = 0b1001,
+    Ext_MSCMD_WRITE = 0b1010,
+
+};
+/// 导出内置
+extern unsigned char I2c_GetBuf();
+extern void I2c_SetBuf(unsigned char c);
+#pragma inline(I2c_GetBuf)
+#pragma inline(I2c_SetBuf)
 /// 初始化配置
-extern bool I2c_CFG(unsigned char op);
+extern bit I2c_CFG(unsigned char op);
+/// 总线上ACK状态
+extern bit I2c_NAckStatus();
 /// 读取忙
-extern bool I2c_Busy();
+extern bit I2c_Busy();
+/// I2C 控制命令
+extern void I2c_Cmd(unsigned char cmd);
 /// 启动
-extern void I2c_Start();
+#define I2c_Start() I2c_Cmd(MSCMD_START);
 /// 读应答
-extern void I2c_RxAck();
-/// 发送应答
-extern void I2c_TxAck();
-/// 发送无回应应答
-extern void I2c_TxNAck();
+#define I2c_RxAck() I2c_Cmd(MSCMD_RACK);
 /// 传输停止
-extern void I2c_Stop();
+#define I2c_Stop()  I2c_Cmd(MSCMD_STOP);
+
+
+//extern void I2c_Start();
+//extern void I2c_RxAck();
+
+/// 发送应答
+extern void I2c_Ack(unsigned char nAck);
+#define I2c_TxAck() I2c_Ack(0x00)
+#define I2c_TxNAck() I2c_Ack(0x01)
+
+/// 发送无回应应答
+//extern void I2c_TxNAck();
+
+/// 传输停止
+//extern void I2c_Stop();
 /// 写字节
 extern void I2c_Write(unsigned char c);
 /// 写字串
