@@ -6,7 +6,9 @@
 #else
 
 #endif // <EMUI2C
-
+/*
+扩展指令部分在D/E版本之后被支持
+*/
 /// 寄存器基本指令
 enum{
     MSCMD_NONE    = 0b0000,
@@ -16,15 +18,17 @@ enum{
     MSCMD_READ    = 0b0100,
     MSCMD_TACK    = 0b0101,
     MSCMD_STOP    = 0b0110,
-    Ext_MSCMD_START = 0b1001,
-    Ext_MSCMD_WRITE = 0b1010,
+    //todo:未确认硬件兼容
+    //Ext_MSCMD_START = 0b1001,
+    //Ext_MSCMD_WRITE = 0b1010,
+    //Ext_MSCMD_READACK = 0b1011,
+    //Ext_MSCMD_READNACK = 0b1100,
 
 };
 /// 导出内置
 extern unsigned char I2c_GetBuf();
 extern void I2c_SetBuf(unsigned char c);
-#pragma inline(I2c_GetBuf)
-#pragma inline(I2c_SetBuf)
+
 /// 初始化配置
 extern bit I2c_CFG(unsigned char op);
 /// 总线上ACK状态

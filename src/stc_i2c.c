@@ -33,7 +33,10 @@ bit I2c_CFG(unsigned char op)
 /// I2C 控制命令
 void I2c_Cmd(unsigned char cmd)
 {
-    I2CMSCR = ((I2CMSCR & ~0x0f)| (cmd & ~0xf0));
+    /// 清除高4位
+    cmd &= ~0xF0;
+    //todo 处理硬件版本兼容问题
+    I2CMSCR = ((I2CMSCR & ~0x0f)| cmd);
     while(!(I2CMSST & MSIF));
     I2CMSST &= ~MSIF;
 }
@@ -55,19 +58,17 @@ void I2c_Ack(unsigned char nAck)
     I2CMSST = (nAck?0x01:0x00);
     I2c_Cmd(MSCMD_TACK);
 }
-
+//-----------
 ///写字符串 ???
 unsigned I2c_Writes(unsigned len,char* src)
 {
     unsigned ret = 0x00;
-    while(len--){
+
+    while((!I2c_NAckStatus())&&(len--)){
         I2c_Write(*src++);
-        ///发送ACK
-        //I2c_Ack(!len);
-        
         ret++;
+        ///收ACK
         I2c_RxAck();
-        if(I2c_NAckStatus()) break;
     }
     return ret;
 }
@@ -75,11 +76,11 @@ unsigned I2c_Writes(unsigned len,char* src)
 unsigned I2c_Reads(unsigned len,char* dst)
 {
     unsigned ret = 0x00;
-    while(len--){
+    while((!I2c_NAckStatus())&&(len--)){
         *dst++=I2c_Read();
         ret++;
-        if(I2c_NAckStatus) break;
-        //if(CheckBIT(I2CMSST,1)) break;
+        I2CMSST = ((len)?0x00:0x01);
+        I2c_Cmd(MSCMD_TACK);
     }
     return ret;
 }
