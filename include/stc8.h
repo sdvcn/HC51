@@ -189,6 +189,7 @@ far volatile unsigned char I2CSLST	@ 0xFE84;
 far volatile unsigned char I2CSLADR	@ 0xFE85; 
 far volatile unsigned char I2CTxD	@ 0xFE86; 
 far volatile unsigned char I2CRxD	@ 0xFE87; 
+/// I2c 主机辅助控制寄存器
 far volatile unsigned char I2CMSAUX	@ 0xFE88;
 
 /// PWM0 翻转点设置计数值寄存器
