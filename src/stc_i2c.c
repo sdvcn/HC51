@@ -1,6 +1,21 @@
 #include <stcmcu.h>
 #include <i2c.h>
-//MSCMDEXT
+#include <ext_debug.h>
+
+#ifdef DEBUG
+    #define CheckI2C() _CheckI2C()
+#else
+    #define CheckI2C()
+#endif
+//检查确认I2c总线开启
+void _CheckI2C()
+{
+    if(!EaxFRST()){
+        DLOG("CheckI2c off");
+        return;
+    }
+    DLOG("CheckI2c on");
+}
 unsigned char I2c_GetBuf()
 {
     return I2CRxD;
@@ -33,6 +48,7 @@ bit I2c_CFG(unsigned char op)
 /// I2C 控制命令
 void I2c_Cmd(unsigned char cmd)
 {
+    DLOGINT(I2c_Cmd,cmd);
     /// 清除高4位
     cmd &= ~0xF0;
     //todo 处理硬件版本兼容问题
@@ -43,18 +59,21 @@ void I2c_Cmd(unsigned char cmd)
 /// 写入字符
 void I2c_Write(unsigned char c)
 {
+    DLOG("I2c_Write");
     I2CTxD = c;
     I2c_Cmd(MSCMD_WRITE);
 }
 /// 读字符
 unsigned char I2c_Read()
 {
+    DLOG("I2c_Read");
     I2c_Cmd(MSCMD_READ);
     return I2CRxD;
 }
 /// 发送应答
 void I2c_Ack(unsigned char nAck)
 {
+    DLOGINT(I2c_Ack,nAck);
     I2CMSST = (nAck?0x01:0x00);
     I2c_Cmd(MSCMD_TACK);
 }
@@ -62,6 +81,7 @@ void I2c_Ack(unsigned char nAck)
 ///写字符串 ???
 unsigned I2c_Writes(unsigned len,char* src)
 {
+    DLOG("I2c_Writes");
     unsigned ret = 0x00;
 
     while((!I2c_NAckStatus())&&(len--)){
@@ -75,6 +95,7 @@ unsigned I2c_Writes(unsigned len,char* src)
 ///读字符串
 unsigned I2c_Reads(unsigned len,char* dst)
 {
+    DLOG("I2c_Reads");
     unsigned ret = 0x00;
     while((!I2c_NAckStatus())&&(len--)){
         *dst++=I2c_Read();
