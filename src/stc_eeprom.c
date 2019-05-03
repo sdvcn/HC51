@@ -30,6 +30,9 @@
 
 
 #define Trig()      do{ISP_TRIG = 0x46;NOP();ISP_TRIG=0xb9;NOP();}while(0)
+/*
+    ISP or IAP 等待时间
+*/
 
 static unsigned char IspWT()
 {
@@ -113,13 +116,6 @@ void IspWrites(char *buf,unsigned short len,unsigned short addr)
     while(len--){
         _Write(*buf++,addr++);
     }
-
-    /*
-    for(size_t i = 0; i < len; i++)
-    {
-        _Write(buf[i],addr++);
-    }
-    */
     _Idle();
 }
 

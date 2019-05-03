@@ -2,6 +2,7 @@
     实现ADC功能部分
     支持型号
     Stc12x56xxAD系列
+    STC8A8KxxSA12系列
     
 */
 
@@ -28,7 +29,8 @@ unsigned short GetResult(unsigned char ch)
     NOP();
     while (!(ADC_CONTR & ADC_FLAG));
     ADC_CONTR &= ~ADC_FLAG;
-    return (ADC_DATA << 2) | ADC_LOW2;
+    //return (ADC_DATA << 2) | ADC_LOW2;
+    return Adc_Result;
 }
 
 void Adc_Init(unsigned char mask)
@@ -47,7 +49,9 @@ void Adc_Init(unsigned char mask)
     if(ADCMask == 0x00) return;
     //设置通道IO开漏
     P1 = P1M0 = P1M1 = ADCMask;
-    ADC_DATA = 0x00;
+    //复位值
+    ADC_RESH = 0x00;
+    ADC_RESL = 0x00;
     ADC_CONTR =ADC_POWER|ADC_SPEED9;
     //DelayMs(1);
     _delay(1000);

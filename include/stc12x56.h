@@ -43,6 +43,12 @@ static volatile unsigned char ADC_CONTR  @ 0xc5;
 static volatile unsigned char ADC_DATA   @ 0xc6;
 static volatile unsigned char ADC_LOW2   @ 0xbe;
 
+//static volatile unsigned char	ADC_RESH	@	0xBF;
+#define ADC_RESH ADC_DATA
+#define ADC_RESL ADC_LOW2
+
+#define Adc_Result ((ADC_DATA << 2) | ADC_LOW2)
+
 /* PCA static volatile unsigned char */
 static volatile unsigned char CCON   @ 0xD8;
 static volatile unsigned char CMOD   @ 0xD9;
