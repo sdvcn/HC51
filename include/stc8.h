@@ -18,6 +18,15 @@ static volatile unsigned char	P2M1	@	0x95;
 static volatile unsigned char	P2M0	@	0x96;
 /// 串口2寄存器
 static volatile unsigned char	S2CON	@	0x9A;
+#define S2SM0       (1ul << 7)
+#define S2ST4       (1ul << 6)
+#define S2SM2       (1ul << 5)
+#define S2REN       (1ul << 4)
+#define S2TB8       (1ul << 3)
+#define S2RB8       (1ul << 2)
+#define S2TI        (1ul << 1)
+#define S2RI        (1ul << 0)
+
 static volatile unsigned char	S2BUF	@	0x9B;
 
 static volatile unsigned char	SADDR	@	0xA9;
@@ -320,12 +329,20 @@ code unsigned char STCID_ROM[7] @ 0xfdf9;
 #endif
 
 ///-------------------------------
+/**
+ * 扩展寄存器操作
+*/
+///扩展寄存器状态
+#define EaxFRST() CheckBIT(P_SW2,EAXFR)
+
 ///组合使用
 #define En_EAXFR() do{bit _oldEaxfr = CheckBIT(P_SW2,EAXFR); SetBIT(P_SW2,EAXFR)
 #define Di_EAXFR() if(!_oldEaxfr) ClearBIT(P_SW2,EAXFR);}while(0)
 ///Ext
-extern unsigned char ExtSfrGet(unsigned short addr);
-extern void ExtSfrSet(unsigned short addr,unsigned char nv);
+extern unsigned char ExtSfrGet8(size_t addr);
+extern unsigned short ExtSfrGet16(size_t addr);
+extern void ExtSfrSet8(size_t addr,unsigned char nv);
+extern void ExtSfrSet16(size_t addr,unsigned short nv);
 
 
 //#pragma inline(ExtSfrGet)
@@ -333,5 +350,15 @@ extern void ExtSfrSet(unsigned short addr,unsigned char nv);
 
 #define DEFCLK 24000000u
 #define STCCLKR (DEFCLK )
+
+/**
+ * GPIO
+*/
+typedef struct {
+    unsigned char M0;
+    unsigned char M1;
+    unsigned char PU;
+    unsigned char CS;
+} ModeOP;
 
 #endif
