@@ -1,7 +1,12 @@
 //#include <8051.h>
 #include <stcmcu.h>
 
+#include "include/ext_debug.h"
+
 #include "src/ext/apds9660.h"
+
+////功能函数调用头
+//#include "i2c.h"
 
 
 #define	FOSC	24000000UL
@@ -35,9 +40,11 @@ void UartInit()
 	//busy = 0;
 }
 
-void UartInit2(void)		//115200bps@23.996MHz
+static void Uart2Init(void)		//115200bps@23.996MHz
 {
-	S2CON = 0x50;		//8位数据,可变波特率
+	//P0 = 0xf0;
+	//S2CON = 0x48;		//8位数据,可变波特率
+	S2CON = (S2REN);
 	AUXR |= 0x04;		//定时器2时钟为Fosc,即1T
 	T2L = 0xCC;		//设定定时初值
 	T2H = 0xFF;		//设定定时初值
@@ -45,11 +52,19 @@ void UartInit2(void)		//115200bps@23.996MHz
 	//IE2 = 0x01;
 }
 
+//extern near unsigned char _conio_(unsigned char, unsigned char);
+/*
+far void aa1() _at_ 0x06
+{
+	P3=0xf1;
+}
+*/
 void main()
 {
+	Uart2Init();
 	/// 初始化串口
 	//ExtSfrSet(&P3PU,BIT(0)|BIT(1));
-	UartInit2();
+	
 	//EA = 1;
 	
 	/// 设置端口寄存器 高阻态
@@ -62,15 +77,21 @@ void main()
 	//P1PU = 0xff;
 	
 	///设置IO端口
+	ADPS9960_I2c_En();
+	APDS9960_Init();
 
-	uSENDs("Init:",5);
-	unsigned char sv1;
-	APDS9960_GestureSensor();
+	
 		
 	do{
 		//uSENDs("Init:",5);
 		
+		//putch(P7);
+		//uSEND(S2CON);
+		
 		if(P77 == 0){
+			DLOG("Inita");
+			//uSEND(0x63);
+			//printf("%s:%d:info",__FILE__,__LINE__);
 			//I2c_InitM(0x3f);
 			
 			//uSENDs("Init:",5);
@@ -78,7 +99,8 @@ void main()
 			//uSEND(sv1);
 			//sv1 = APDS9960_ReadReg8(APDS9960_GFLVL);
 			//uSEND(sv1);
-			APDS9960_ReadGesture();
+			//APDS9960_ReadGesture();
 		};
 	}while(1);
+	
 }
