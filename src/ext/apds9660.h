@@ -158,5 +158,12 @@ extern void APDS9960_ReadGesture();
 #define Get_APDS9960_PERS() APDS9960_ReadReg8(APDS9960_PERS)
 
 //----------------------------------------
+/// 开启APDS-9960 I2c访问
+unsigned char ADPS9960_I2c_En();
+
+/// 停止APDS-9960 I2c访问
+unsigned char ADPS9960_I2c_Di();
+
+void APDS9960_Init();
 
 #endif
