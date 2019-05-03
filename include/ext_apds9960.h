@@ -1,5 +1,15 @@
+/**
+ * 废弃
+*/
+
 #ifndef _EXT_APDS9960_H_
 #define _EXT_APDS9960_H_
+
+
+
+
+
+
 
 ///Apds9960 写寄存器数据
 extern void APDS9960_Write(unsigned char reg,unsigned len,char* src);
