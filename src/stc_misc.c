@@ -4,23 +4,42 @@
 */
 #include <stcmcu.h>
 
-//实现延时功能
+///地址直读
+#define GetVal(_addr) (*(volatile unsigned char xdata *)_addr)
 
-//STC8 扩展
-#ifdef STC8
 
-unsigned char ExtSfrGet(unsigned short addr){
+
+unsigned char ExtSfrGet8(size_t addr){
 	unsigned char r;
+    if(EaxFRST()){
+        r = GetVal(addr);
+        return r;
+    };
+
     En_EAXFR();
-    r = (*(unsigned char volatile xdata *)addr);
+    //r = (*(volatile unsigned char  xdata *)addr);
+    r = GetVal(addr);
     Di_EAXFR();
     return r;
 }
 
-void ExtSfrSet(unsigned short addr,unsigned char nv){
+unsigned short ExtSfrGet16(size_t addr){
+	unsigned short r;
     En_EAXFR();
-    (*(unsigned char volatile xdata *)addr) = nv;
+    //r = (*(volatile unsigned char  xdata *)addr);
+    r = GetVal(addr);
     Di_EAXFR();
-    
+    return r;
 }
+
+void ExtSfrSet16(size_t addr,unsigned short nv){
+    En_EAXFR();
+    //(*(unsigned char volatile xdata *)addr) = nv;
+    GetVal(addr) = nv;
+    Di_EAXFR();
+}
+
+//STC8 扩展
+#ifdef STC8
+
 #endif
