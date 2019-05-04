@@ -46,7 +46,7 @@ void I2c_SetBuf(unsigned char c)
 
 bit I2c_Busy()
 {
-    return (I2CMSST & MSBUSY) ? 1ul:0ul;
+    return ((ExtSfrGet8((size_t)&I2CMSST) & MSBUSY) ? 1ul:0ul;
 }
 
 
@@ -95,7 +95,7 @@ unsigned char I2c_Read()
 /// 发送应答
 void I2c_Ack(unsigned char nAck)
 {
-    I2CMSST = (nAck?0x01:0x00);
+    ExtSfrSet8((size_t)&I2CMSST,(nAck?0x01:0x00));
     I2c_Cmd(MSCMD_TACK);
 }
 //-----------
