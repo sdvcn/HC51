@@ -63,7 +63,13 @@ unsigned char S2Pop()
 
 /**
  * Console I/O
+ * 开辟内存实现写缓冲
 */
+#ifndef CONSOLE_BUFFER
+#define CONSOLE_BUFFER	64
+#endif
+xdata unsigned char TxBuf[CONSOLE_BUFFER];
+xdata unsigned char RxBuf[CONSOLE_BUFFER];
 
 char _Consolehandler(unsigned char c, unsigned char func)
 {
@@ -83,7 +89,7 @@ char _Consolehandler(unsigned char c, unsigned char func)
 		}
 		case 2:{
 			c = (CONSOLE_RX() & 0x7F);
-			if(c == 'r') return '\n';
+			if(c == '\r') return '\n';
 			return c;
 		} 
 		case 3:{
