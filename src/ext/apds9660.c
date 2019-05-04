@@ -56,39 +56,25 @@ unsigned char ADPS9960_I2c_Di()
     return (-1);
 }
 ///私有 设置寄存器
-void pSelectReg(unsigned char addr,unsigned char reg)
+void pWriteReg(unsigned char reg)
 {
-    DLOG("pSelectReg");
-    Status.mBusy = 1;
-    /// 发送地址
     I2c_Start();
-    I2c_Write(addr);
+    I2c_Write(I2C_WRITE_ADDR(APDS9960_ADDRES));
     I2c_RxAck();
     I2c_Write(reg);
     I2c_RxAck();
-    
 }
 
 /// 写字符串到指定寄存器
 unsigned APDS9960_WriteReg(unsigned char reg,unsigned len,char* src)
 {
-    DLOG("APDS9960_WriteReg");
-    
     unsigned ret = 0x00;
     ///选择寄存器
-    pSelectReg(I2C_WRITE_ADDR(APDS9960_ADDRES),reg);
-    //I2c_Ext_Start(I2C_WRITE_ADDR(APDS9960_ADDRES));
-    //I2c_StartAddr(I2C_WRITE_ADDR(APDS9960_ADDRES));
-    //I2c_Ext_StartReg(I2C_WRITE_ADDR(APDS9960_ADDRES),0x66);
+    pWriteReg(reg);
+
     ///发数据 同时判定NAck
-    //ret = I2c_Ext_Writes(len,src);
     ret = I2c_Writes(len,src);
-    /*
-    while((!I2c_NAckStatus())&&(len--)){
-        I2c_SetBuf(*src++);
-        I2c_Cmd(Ext_MSCMD_WRITE);
-    }
-    */
+
     I2c_Stop();
     /// 返回发送量
     return ret;
@@ -96,15 +82,12 @@ unsigned APDS9960_WriteReg(unsigned char reg,unsigned len,char* src)
 
 unsigned char APDS9960_Reads(unsigned char len,char* dst)
 {
-    DLOG("APDS9960_Reads");
     unsigned ret = 0x00;
-    
     I2c_Start();
     I2c_Write(I2C_READ_ADDR(APDS9960_ADDRES));
     I2c_RxAck();
     ret = I2c_Reads(len,dst);
     I2c_Stop();
-    
     return ret;
 }
 
@@ -115,15 +98,8 @@ unsigned APDS9960_ReadReg(unsigned char reg,unsigned len,char* dst)
     unsigned ret = 0x00;
     
     ///选择寄存器
-    pSelectReg(reg);
-    ///重发Start
-    I2c_Start();
-    I2c_Write(I2C_WRITE_ADDR(APDS9960_ADDRES));
-    I2c_RxAck();
-    ret = I2c_Reads(len,dst);
-    ///停止
-    I2c_Stop();
-    
+    pWriteReg(reg);
+    ret = APDS9960_Reads(len,dst);    
     return ret;
 }
 
@@ -196,7 +172,7 @@ void APDS9960_WriteReg16(unsigned char reg,unsigned short val)
 
 //-------------------------------------------------------------
 /// 检测器件
-char APDS9960_Check()
+unsigned char APDS9960_Check()
 {
     unsigned char mID = APDS9960_ReadReg8(APDS9960_ID);
 
@@ -216,8 +192,12 @@ void APDS9960_Init()
     //
     mid = APDS9960_ReadReg8(APDS9960_ID);
     //DLOGINT(APDS9960_Init,mid);
+    DLOG("4");
+    mid = APDS9960_ReadReg8(APDS9960_ENABLE);
+    DLOG("5");
     //关闭所有
-    //APDS9960_WriteReg8(APDS9960_ENABLE,0x00);
+    APDS9960_WriteReg8(APDS9960_ENABLE,0x00);
+    DLOG("6");
 #ifdef DEBUG
     //printf("%s\t%d:APDS9960_ENABLE(%d):%d",__FILE__,__LINE__,APDS9960_ENABLE,APDS9960_ReadReg8(APDS9960_ENABLE));
 #endif
