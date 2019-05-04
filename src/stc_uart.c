@@ -68,8 +68,24 @@ unsigned char S2Pop()
 #ifndef CONSOLE_BUFFER
 #define CONSOLE_BUFFER	64
 #endif
+/**
+ * STC8
+ * UART1 0x23
+ * UART2 0x43
+ * UART3 0x8b
+ * UART4 0x93
+*/
+#ifndef CONSOLE_UARTIR
+#define CONSOLE_UARTIR 0x43
+#endif
 xdata unsigned char TxBuf[CONSOLE_BUFFER];
 xdata unsigned char RxBuf[CONSOLE_BUFFER];
+
+//void UART2_Isr() interrupt 8
+//void serial_intr(void) interrupt CONSOLE_UARTIR
+interrupt void Console_intr(void) _at_ CONSOLE_UARTIR
+{
+}
 
 char _Consolehandler(unsigned char c, unsigned char func)
 {
