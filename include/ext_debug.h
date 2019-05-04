@@ -8,9 +8,14 @@
 //__LINE__
 
 #ifdef DEBUG
-#define DLOG(_v) printf("Info\t%s:%d\t%s\r",__FILE__,__LINE__,_v);
-#define ELOG(_v) printf("Error\t%s:%d\t%s\r",__FILE__,__LINE__,_v);
-#define DLOGINT(_f,_v) printf("Error\t%s:%d\t%s[%s:0x%#X]\r",__FILE__,__LINE__,#_f,#_v,_v);
+const char* Txt_Info="[%s:%d]\tInfo:%s\n";
+const char* Txt_Error="[%s:%d]\tError:%s\n";
+const char* Txt_I2Hex="[%s:%d]\tTracert:%s[%s:0x%2.2X]\n";
+
+#define DLOG(_v) printf(Txt_Info,__FILE__,__LINE__,_v);
+#define ELOG(_v) printf(Txt_Error,__FILE__,__LINE__,_v);
+//#define ELOGV(_f) printf(Txt_Error,__FILE__,__LINE__,_v);
+#define DLOGINT(_f,_v) printf(Txt_I2Hex,__FILE__,__LINE__,#_f,#_v,_v);
 #else
 #define DLOG(_v)
 #define ELOG(_v)
