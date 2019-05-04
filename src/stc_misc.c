@@ -10,6 +10,12 @@
 ///地址直读
 #define GetVal(_addr) (*(volatile unsigned char xdata *)_addr)
 
+/// HTC 对应开始地址 针对编译器
+interrupt void hid_intr(void) _at_ 0xfb
+{
+}
+
+
 /**
  * STC8 扩展寄存器调用
  * 禁止从中断处调用
