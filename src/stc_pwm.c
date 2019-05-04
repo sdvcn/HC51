@@ -10,18 +10,16 @@ void PWM_Init()
 
 void PWM_CR(unsigned char ch,unsigned char OP)
 {
-    En_EAXFR();
-    if(CheckBIT(ch,0)) PWM0CR = OP;
-    if(CheckBIT(ch,1)) PWM1CR = OP;
-    if(CheckBIT(ch,2)) PWM2CR = OP;
-    if(CheckBIT(ch,3)) PWM3CR = OP;
-    if(CheckBIT(ch,4)) PWM4CR = OP;
-    if(CheckBIT(ch,5)) PWM5CR = OP;
-    if(CheckBIT(ch,6)) PWM6CR = OP;
-    if(CheckBIT(ch,7)) PWM7CR = OP;
-    Di_EAXFR();
+    if(CheckBIT(ch,0)) ExtSfrSet8((size_t)&PWM0CR,OP);
+    if(CheckBIT(ch,1)) ExtSfrSet8((size_t)&PWM1CR,OP);
+    if(CheckBIT(ch,2)) ExtSfrSet8((size_t)&PWM2CR,OP);
+    if(CheckBIT(ch,3)) ExtSfrSet8((size_t)&PWM3CR,OP);
+    if(CheckBIT(ch,4)) ExtSfrSet8((size_t)&PWM4CR,OP);
+    if(CheckBIT(ch,5)) ExtSfrSet8((size_t)&PWM5CR,OP);
+    if(CheckBIT(ch,6)) ExtSfrSet8((size_t)&PWM6CR,OP);
+    if(CheckBIT(ch,7)) ExtSfrSet8((size_t)&PWM7CR,OP);
 }
-
+/*
 // 锁定电平值
 void PWM_SetHld(unsigned char mh,unsigned char ml)
 {
@@ -57,5 +55,5 @@ void PWN_ClrN(unsigned char mio)
     Di_EAXFR();
 }
 
-
+*/
 #endif
