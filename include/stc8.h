@@ -198,7 +198,7 @@ far volatile unsigned char I2CSLST	@ 0xFE84;
 far volatile unsigned char I2CSLADR	@ 0xFE85; 
 far volatile unsigned char I2CTxD	@ 0xFE86; 
 far volatile unsigned char I2CRxD	@ 0xFE87; 
-/// I2c 主机辅助控制寄存器
+/// I2c 主机辅助控制寄存器 to I2c.h
 far volatile unsigned char I2CMSAUX	@ 0xFE88;
 
 /// PWM0 翻转点设置计数值寄存器
@@ -336,13 +336,15 @@ code unsigned char STCID_ROM[7] @ 0xfdf9;
 #define EaxFRST() CheckBIT(P_SW2,EAXFR)
 
 ///组合使用
-#define En_EAXFR() do{bit _oldEaxfr = CheckBIT(P_SW2,EAXFR); SetBIT(P_SW2,EAXFR)
-#define Di_EAXFR() if(!_oldEaxfr) ClearBIT(P_SW2,EAXFR);}while(0)
+//#define En_EAXFR() do{bit _oldEaxfr = CheckBIT(P_SW2,EAXFR); SetBIT(P_SW2,EAXFR)
+//#define Di_EAXFR() if(!_oldEaxfr) ClearBIT(P_SW2,EAXFR);}while(0)
+
 ///Ext
 extern unsigned char ExtSfrGet8(size_t addr);
 extern unsigned short ExtSfrGet16(size_t addr);
 extern void ExtSfrSet8(size_t addr,unsigned char nv);
 extern void ExtSfrSet16(size_t addr,unsigned short nv);
+#define ExtSfrClear(_a,_b) ExtSfrSet8(_a,(ExtSfrGet8(_a) & ~(_b)))
 
 
 //#pragma inline(ExtSfrGet)

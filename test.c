@@ -5,6 +5,8 @@
 
 #include "src/ext/apds9660.h"
 
+
+
 ////功能函数调用头
 //#include "i2c.h"
 
@@ -62,6 +64,7 @@ far void aa1() _at_ 0x06
 void main()
 {
 	Uart2Init();
+	DLOG("\n::::::::::::::::System Reset::::::::::::::::\n");
 	/// 初始化串口
 	//ExtSfrSet(&P3PU,BIT(0)|BIT(1));
 	
@@ -73,17 +76,19 @@ void main()
 	/// 开启 P14 P15 内置上拉电阻
 	//ExtSfrSet(&P1PU,0xff);
 
-	P_SW2 = 0x80;
+	P_SW2 = 0x80 | 0x30;
 	//P1PU = 0xff;
 	
 	///设置IO端口
 	ADPS9960_I2c_En();
 	APDS9960_Init();
+	
 
 	
-		
+	printf("\ns\n");
 	do{
 		//uSENDs("Init:",5);
+		
 		
 		//putch(P7);
 		//uSEND(S2CON);

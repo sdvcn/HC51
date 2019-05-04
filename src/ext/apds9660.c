@@ -10,11 +10,8 @@
 #define APDS9960_ADDRES 0x39
 #endif
 #ifndef I2C_SPEED
-#define I2C_SPEED 0x3f
+#define I2C_SPEED 0x30
 #endif
-
-#define RAddr(_addr) ((_addr << 1) | 1ul)
-#define WAddr(_addr) ((_addr << 1) | 0ul)
 
 typedef struct{
     unsigned char mU;
@@ -59,24 +56,17 @@ unsigned char ADPS9960_I2c_Di()
     return (-1);
 }
 ///私有 设置寄存器
-void pSelectReg(unsigned char reg)
+void pSelectReg(unsigned char addr,unsigned char reg)
 {
+    DLOG("pSelectReg");
     Status.mBusy = 1;
     /// 发送地址
     I2c_Start();
-    I2c_Write(WAddr(APDS9960_ADDRES));
+    I2c_Write(addr);
     I2c_RxAck();
     I2c_Write(reg);
     I2c_RxAck();
-
-    /* 
-    // 硬件兼容,暂时关闭
-    I2c_SetBuf(WAddr(APDS9960_ADDRES));
-    I2c_Cmd(Ext_MSCMD_START);
-    /// 发寄存器
-    I2c_SetBuf(reg);
-    I2c_Cmd(Ext_MSCMD_WRITE);
-    */
+    
 }
 
 /// 写字符串到指定寄存器
@@ -86,8 +76,12 @@ unsigned APDS9960_WriteReg(unsigned char reg,unsigned len,char* src)
     
     unsigned ret = 0x00;
     ///选择寄存器
-    pSelectReg(reg);
+    pSelectReg(I2C_WRITE_ADDR(APDS9960_ADDRES),reg);
+    //I2c_Ext_Start(I2C_WRITE_ADDR(APDS9960_ADDRES));
+    //I2c_StartAddr(I2C_WRITE_ADDR(APDS9960_ADDRES));
+    //I2c_Ext_StartReg(I2C_WRITE_ADDR(APDS9960_ADDRES),0x66);
     ///发数据 同时判定NAck
+    //ret = I2c_Ext_Writes(len,src);
     ret = I2c_Writes(len,src);
     /*
     while((!I2c_NAckStatus())&&(len--)){
@@ -100,15 +94,17 @@ unsigned APDS9960_WriteReg(unsigned char reg,unsigned len,char* src)
     return ret;
 }
 
-unsigned APDS9960_Reads(unsigned len,char* dst)
+unsigned char APDS9960_Reads(unsigned char len,char* dst)
 {
     DLOG("APDS9960_Reads");
     unsigned ret = 0x00;
+    
     I2c_Start();
-    I2c_Write(WAddr(APDS9960_ADDRES));
+    I2c_Write(I2C_READ_ADDR(APDS9960_ADDRES));
     I2c_RxAck();
     ret = I2c_Reads(len,dst);
     I2c_Stop();
+    
     return ret;
 }
 
@@ -117,26 +113,28 @@ unsigned APDS9960_ReadReg(unsigned char reg,unsigned len,char* dst)
 {
     DLOG("APDS9960_ReadReg");
     unsigned ret = 0x00;
+    
     ///选择寄存器
     pSelectReg(reg);
     ///重发Start
     I2c_Start();
-    I2c_Write(WAddr(APDS9960_ADDRES));
+    I2c_Write(I2C_WRITE_ADDR(APDS9960_ADDRES));
     I2c_RxAck();
     ret = I2c_Reads(len,dst);
     ///停止
     I2c_Stop();
+    
     return ret;
 }
 
 //---------------------------------------------
-/// 寄存器读取 unsigned char
+// 寄存器读取 unsigned char
 unsigned char APDS9960_ReadReg8(unsigned char reg)
 {
     DLOG("APDS9960_ReadReg8");
     unsigned char val = 0x00;
     
-    if(APDS9960_ReadReg(reg,1,&val) != sizeof(reg)) return 0xFF;
+    APDS9960_ReadReg(reg,1,&val);
 
     return val;
 }
@@ -213,12 +211,15 @@ char APDS9960_Check()
 
 void APDS9960_Init()
 {
+    unsigned char mid=0x00;
     DLOG("APDS9960_Init:");
+    //
+    mid = APDS9960_ReadReg8(APDS9960_ID);
+    //DLOGINT(APDS9960_Init,mid);
     //关闭所有
-    APDS9960_WriteReg8(APDS9960_ENABLE,0x00);
-    DLOG("APDS9960_Init:");
+    //APDS9960_WriteReg8(APDS9960_ENABLE,0x00);
 #ifdef DEBUG
-    printf("%s\t%d:APDS9960_ENABLE(%d):%d",__FILE__,__LINE__,APDS9960_ENABLE,APDS9960_ReadReg8(APDS9960_ENABLE));
+    //printf("%s\t%d:APDS9960_ENABLE(%d):%d",__FILE__,__LINE__,APDS9960_ENABLE,APDS9960_ReadReg8(APDS9960_ENABLE));
 #endif
 }
 

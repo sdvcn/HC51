@@ -1,29 +1,47 @@
+/**
+ * STC8 测试后部分扩展指令支持存在问题
+*/
 #include <stcmcu.h>
 #include <i2c.h>
 #include <ext_debug.h>
+
+/**
+ * 时许严谨,禁止占用
+*/
 
 #ifdef DEBUG
     #define CheckI2C() _CheckI2C()
 #else
     #define CheckI2C()
 #endif
+
+#undef DEBUG
+
+
+
 //检查确认I2c总线开启
 void _CheckI2C()
 {
-    if(!EaxFRST()){
-        DLOG("CheckI2c off");
-        return;
+    if(ExtSfrGet8((size_t)&I2CCFG)&ENI2C){
+        DLOG("_CheckI2C");  
     }
-    DLOG("CheckI2c on");
 }
+// 内置延时等待
+void I2c_Wait()
+{
+    while(!(ExtSfrGet8((size_t)&I2CMSST) & MSIF));
+    ExtSfrClear((size_t)&I2CMSST,MSIF);
+}
+
 unsigned char I2c_GetBuf()
 {
-    return I2CRxD;
+    return (ExtSfrGet8((size_t)&I2CRxD));
 }
 
 void I2c_SetBuf(unsigned char c)
 {
-    I2CTxD = c;
+    //I2CTxD = c;
+    ExtSfrSet8((size_t)&I2CTxD,c);
 }
 
 bit I2c_Busy()
@@ -31,49 +49,52 @@ bit I2c_Busy()
     return (I2CMSST & MSBUSY) ? 1ul:0ul;
 }
 
+
 /// 检测收到NAck
-bit I2c_NAckStatus()
+unsigned char I2c_NAckStatus()
 {
-    return CheckBIT(I2CMSST,1);
+    unsigned char ret = 0x00;
+    ret = ExtSfrGet8((size_t)&I2CMSST);
+    return (ret & MSACKI);
 }
 
 bit I2c_CFG(unsigned char op)
 {
-    if(I2CMSST & MSBUSY) return 0ul;
-    I2CCFG      = op;
-    I2CMSST     = 0x00;
-    I2CMSAUX    = 0x00;
+    DLOGINT(I2c_CFG,op);
+    if(ExtSfrGet8((size_t)&I2CMSST) & MSBUSY) return 0ul;
+    ExtSfrSet8((size_t)&I2CCFG,op);
+    ExtSfrSet8((size_t)&I2CMSST,0x00);
+    ExtSfrSet8((size_t)&I2CMSAUX,0x00);
     return 1ul;
 }
 /// I2C 控制命令
 void I2c_Cmd(unsigned char cmd)
 {
-    DLOGINT(I2c_Cmd,cmd);
     /// 清除高4位
     cmd &= ~0xF0;
     //todo 处理硬件版本兼容问题
-    I2CMSCR = ((I2CMSCR & ~0x0f)| cmd);
-    while(!(I2CMSST & MSIF));
-    I2CMSST &= ~MSIF;
+    //I2CMSCR = ((I2CMSCR & ~0x0f)| cmd);
+    ExtSfrSet8((size_t)&I2CMSCR,(ExtSfrGet8((size_t)&I2CMSCR) & ~0x0f)|cmd);
+    I2c_Wait();
 }
+/**
+ * 基础方式实现
+*/
 /// 写入字符
 void I2c_Write(unsigned char c)
 {
-    DLOG("I2c_Write");
-    I2CTxD = c;
+    ExtSfrSet8((size_t)&I2CTxD,c);
     I2c_Cmd(MSCMD_WRITE);
 }
 /// 读字符
 unsigned char I2c_Read()
 {
-    DLOG("I2c_Read");
     I2c_Cmd(MSCMD_READ);
-    return I2CRxD;
+    return ExtSfrGet8((size_t)&I2CRxD);
 }
 /// 发送应答
 void I2c_Ack(unsigned char nAck)
 {
-    DLOGINT(I2c_Ack,nAck);
     I2CMSST = (nAck?0x01:0x00);
     I2c_Cmd(MSCMD_TACK);
 }
@@ -81,7 +102,6 @@ void I2c_Ack(unsigned char nAck)
 ///写字符串 ???
 unsigned I2c_Writes(unsigned len,char* src)
 {
-    DLOG("I2c_Writes");
     unsigned ret = 0x00;
 
     while((!I2c_NAckStatus())&&(len--)){
@@ -95,7 +115,6 @@ unsigned I2c_Writes(unsigned len,char* src)
 ///读字符串
 unsigned I2c_Reads(unsigned len,char* dst)
 {
-    DLOG("I2c_Reads");
     unsigned ret = 0x00;
     while((!I2c_NAckStatus())&&(len--)){
         *dst++=I2c_Read();
