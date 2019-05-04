@@ -4,10 +4,16 @@
 */
 #include <stcmcu.h>
 
+///
+#define EN_EXTSFR() SetBIT(P_SW2,EAXFR)
+#define Di_EXTSFR() ClearBIT(P_SW2,EAXFR)
 ///地址直读
 #define GetVal(_addr) (*(volatile unsigned char xdata *)_addr)
 
-
+/**
+ * STC8 扩展寄存器调用
+ * 禁止从中断处调用
+*/
 
 unsigned char ExtSfrGet8(size_t addr){
 	unsigned char r;
@@ -16,27 +22,45 @@ unsigned char ExtSfrGet8(size_t addr){
         return r;
     };
 
-    En_EAXFR();
-    //r = (*(volatile unsigned char  xdata *)addr);
+    EN_EXTSFR();
     r = GetVal(addr);
-    Di_EAXFR();
+    Di_EXTSFR();
     return r;
+}
+
+extern void ExtSfrSet8(size_t addr,unsigned char v)
+{
+    if(EaxFRST()){
+        GetVal(addr) = v;
+        return;
+    };
+    EN_EXTSFR();
+    GetVal(addr) = v;
+    Di_EXTSFR();
+
 }
 
 unsigned short ExtSfrGet16(size_t addr){
 	unsigned short r;
-    En_EAXFR();
-    //r = (*(volatile unsigned char  xdata *)addr);
+    if(EaxFRST()){
+        r = GetVal(addr);
+        return r;
+    };
+
+    EN_EXTSFR();
     r = GetVal(addr);
-    Di_EAXFR();
+    Di_EXTSFR();
     return r;
 }
 
-void ExtSfrSet16(size_t addr,unsigned short nv){
-    En_EAXFR();
-    //(*(unsigned char volatile xdata *)addr) = nv;
-    GetVal(addr) = nv;
-    Di_EAXFR();
+void ExtSfrSet16(size_t addr,unsigned short v){
+    if(EaxFRST()){
+        GetVal(addr) = v;
+        return;
+    };
+    EN_EXTSFR();
+    GetVal(addr) = v;
+    Di_EXTSFR();
 }
 
 //STC8 扩展
