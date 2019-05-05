@@ -30,6 +30,14 @@
 #define CONSOLE_RI()    (S2CON & S2RI)
 #endif
 
+#ifndef CONSOLE_CON
+#define CONSOLE_CON    S2CON
+#endif
+
+#ifndef CONSOLE_BUF
+#define CONSOLE_BUF    S2BUF
+#endif
+
 ///波特率计算 
 /// todo:未完成
 unsigned char SetRate(unsigned short v)
@@ -78,14 +86,64 @@ unsigned char S2Pop()
 #ifndef CONSOLE_UARTIR
 #define CONSOLE_UARTIR 0x43
 #endif
+//63
+//#define IMask(_v)  (_v & 0x3f)
 xdata unsigned char TxBuf[CONSOLE_BUFFER];
 xdata unsigned char RxBuf[CONSOLE_BUFFER];
-
+/// 写指针
+xdata volatile unsigned char WSeek = 0x00;
+/// 写缓冲指针
+xdata volatile unsigned char WbSeek = 0x00;
+/// 读指针
+xdata volatile unsigned char RSeek = 0x00;
+/// 读缓冲指针
+xdata volatile unsigned char RbSeek = 0x00;
+/**
+ * 需要开启全局中断使能
+*/
 //void UART2_Isr() interrupt 8
 //void serial_intr(void) interrupt CONSOLE_UARTIR
+unsigned char IMask(unsigned char v)
+{
+	v&=0x3f;
+	return v;
+}
 interrupt void Console_intr(void) _at_ CONSOLE_UARTIR
 {
+	//RI
+	if(CONSOLE_CON & 0x01){
+		CONSOLE_CON &= 0x01;
+		if(IMask(RbSeek) != IMask(RSeek)){
+			RxBuf[IMask(RbSeek++)] = CONSOLE_BUF;
+		}else{
+			///原路退回
+			//TxBuf = RxBuf;
+		}
+				
+	}
+	//TI
+	if(CONSOLE_CON & 0x02){
+		CONSOLE_CON &= 0x02;
+		if(IMask(WbSeek) != IMask(WSeek))
+		{
+			CONSOLE_BUF = TxBuf[IMask(WbSeek++)];
+		}
+		
+	}
 }
+void Console_Tx(unsigned char c)
+{
+	TxBuf[IMask(WSeek++)]=c;
+}
+
+unsigned Console_Rx()
+{
+	//while(IMask(RSeek)!=IMask(RbSeek));
+	return RxBuf[IMask(RSeek++)];
+
+}
+
+
 
 char _Consolehandler(unsigned char c, unsigned char func)
 {
@@ -99,8 +157,10 @@ char _Consolehandler(unsigned char c, unsigned char func)
 			return 0x00;
 		}
 		case 1:{
-			if(c== '\n') CONSOLE_TX('\r');
-			CONSOLE_TX(c);
+			//if(c== '\n') CONSOLE_TX('\r');
+			//CONSOLE_TX(c);
+			if(c== '\n') Console_Tx('\r');
+			Console_Tx(c);
 			return 0;
 		}
 		case 2:{
