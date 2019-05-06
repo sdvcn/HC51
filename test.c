@@ -80,8 +80,8 @@ void main()
 	//P1PU = 0xff;
 	
 	///设置IO端口
-	ADPS9960_I2c_En();
-	APDS9960_Init();
+	//ADPS9960_I2c_En();
+	//APDS9960_Init();
 	
 
 	
