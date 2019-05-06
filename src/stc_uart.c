@@ -13,7 +13,7 @@
 /**
  * 基本设置
 */
-
+/*
 #ifndef CONSOLE_RX()
 #define CONSOLE_RX()    S2Pop()
 #endif
@@ -21,7 +21,7 @@
 #ifndef CONSOLE_TX(_v)
 #define CONSOLE_TX(_v)    S2Put(_v)
 #endif
-
+*/
 #ifndef CONSOLE_EN 
 #define CONSOLE_EN()    (S2CON & S2REN)
 #endif
@@ -86,61 +86,96 @@ unsigned char S2Pop()
 #ifndef CONSOLE_UARTIR
 #define CONSOLE_UARTIR 0x43
 #endif
-//63
+
+// 设置mask
 //#define IMask(_v)  (_v & 0x3f)
+
+//发送缓冲
 xdata unsigned char TxBuf[CONSOLE_BUFFER];
+
+//接收缓冲
 xdata unsigned char RxBuf[CONSOLE_BUFFER];
-/// 写指针
-xdata volatile unsigned char WSeek = 0x00;
-/// 写缓冲指针
-xdata volatile unsigned char WbSeek = 0x00;
-/// 读指针
-xdata volatile unsigned char RSeek = 0x00;
-/// 读缓冲指针
-xdata volatile unsigned char RbSeek = 0x00;
+
+enum{
+	isNULL,
+	IsActive,
+};
+
+// 读位置
+xdata volatile unsigned char RxSeek = 0x00;
+
+// 读标记
+xdata volatile unsigned char RxCursor = 0x00;
+
+// 写位置
+xdata volatile unsigned char TxSeek = 0x00;
+
+// 写标记
+xdata volatile unsigned char TxCursor = 0x00;
+
+xdata volatile unsigned char TxStatus = 0x00;
+
+unsigned char IMask(unsigned char v)
+{
+	v &= 0x3f;
+	return v ;
+}
+//xdata volatile sType pRx = {0x00};
+//xdata volatile sType pTx = {0x00};
+
+/// 比较缓冲
+#define CmpSeek()
+
 /**
  * 需要开启全局中断使能
 */
 //void UART2_Isr() interrupt 8
 //void serial_intr(void) interrupt CONSOLE_UARTIR
-unsigned char IMask(unsigned char v)
-{
-	v&=0x3f;
-	return v;
-}
+
+/// 自动中断
 interrupt void Console_intr(void) _at_ CONSOLE_UARTIR
 {
 	//RI
 	if(CONSOLE_CON & 0x01){
 		CONSOLE_CON &= 0x01;
-		if(IMask(RbSeek) != IMask(RSeek)){
-			RxBuf[IMask(RbSeek++)] = CONSOLE_BUF;
-		}else{
-			///原路退回
-			//TxBuf = RxBuf;
-		}
-				
+		//if(pRx.mCursor != pRx.mSeek){
+			RxBuf[IMask(RxSeek++)] = CONSOLE_BUF;
+		//}
 	}
 	//TI
 	if(CONSOLE_CON & 0x02){
 		CONSOLE_CON &= 0x02;
-		if(IMask(WbSeek) != IMask(WSeek))
-		{
-			CONSOLE_BUF = TxBuf[IMask(WbSeek++)];
+		if(TxCursor != TxSeek){
+			CONSOLE_BUF = TxBuf[IMask(TxCursor++)];
 		}
-		
+
+		if(TxCursor == TxSeek){
+			TxStatus = isNULL;
+		}
 	}
 }
+
+/**
+ * 发送
+ * todo:未作溢出检查
+*/
 void Console_Tx(unsigned char c)
 {
-	TxBuf[IMask(WSeek++)]=c;
+	TxBuf[IMask(TxSeek++)] = c;
+	if (TxStatus == isNULL){
+		IMask(TxCursor++);
+		CONSOLE_BUF = c;
+		TxStatus = IsActive;
+	}
 }
-
+/**
+ * 接收
+ * todo:未作溢出检查
+*/
 unsigned Console_Rx()
 {
-	//while(IMask(RSeek)!=IMask(RbSeek));
-	return RxBuf[IMask(RSeek++)];
-
+	while(RxCursor == RxSeek);
+	return RxBuf[IMask(RxCursor++)];
 }
 
 
@@ -164,7 +199,7 @@ char _Consolehandler(unsigned char c, unsigned char func)
 			return 0;
 		}
 		case 2:{
-			c = (CONSOLE_RX() & 0x7F);
+			c = (Console_Rx() & 0x7F);
 			if(c == '\r') return '\n';
 			return c;
 		} 
