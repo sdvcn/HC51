@@ -1,5 +1,6 @@
-/*
-    Debug支持头
+/**
+ * Debug支持头
+ * 不能在时序要求严谨部分执行,会扰乱时序
 */
 #ifndef __EXT_DEBUG_H__
 #define __EXT_DEBUG_H__

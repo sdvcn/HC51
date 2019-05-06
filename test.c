@@ -20,8 +20,6 @@ void uSEND(unsigned char s)
 	S2BUF = s;
 	while(!(S2CON & BIT(1)));
 	ClearBIT(S2CON,1);
-	//while(!S2TI);
-	//S2TI = 0;
 }
 
 void uSENDs(const char* str,unsigned len)
@@ -81,7 +79,7 @@ void main()
 	
 	///设置IO端口
 	//ADPS9960_I2c_En();
-	//APDS9960_Init();
+	APDS9960_Init();
 	
 
 	
