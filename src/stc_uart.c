@@ -13,7 +13,7 @@
 /**
  * 基本设置
 */
-/*
+
 #ifndef CONSOLE_RX()
 #define CONSOLE_RX()    S2Pop()
 #endif
@@ -21,7 +21,7 @@
 #ifndef CONSOLE_TX(_v)
 #define CONSOLE_TX(_v)    S2Put(_v)
 #endif
-*/
+
 #ifndef CONSOLE_EN 
 #define CONSOLE_EN()    (S2CON & S2REN)
 #endif
@@ -76,115 +76,12 @@ unsigned char S2Pop()
 #ifndef CONSOLE_BUFFER
 #define CONSOLE_BUFFER	64
 #endif
-/**
- * STC8
- * UART1 0x23
- * UART2 0x43
- * UART3 0x8b
- * UART4 0x93
-*/
-#ifndef CONSOLE_UARTIR
-#define CONSOLE_UARTIR 0x43
-#endif
 
 // 设置mask
-//#define IMask(_v)  (_v & 0x3f)
-
-//发送缓冲
-xdata unsigned char TxBuf[CONSOLE_BUFFER];
-
-//接收缓冲
-xdata unsigned char RxBuf[CONSOLE_BUFFER];
-
-enum{
-	isNULL,
-	IsActive,
-};
-
-// 读位置
-xdata volatile unsigned char RxSeek = 0x00;
-
-// 读标记
-xdata volatile unsigned char RxCursor = 0x00;
-
-// 写位置
-xdata volatile unsigned char TxSeek = 0x00;
-
-// 写标记
-xdata volatile unsigned char TxCursor = 0x00;
-
-xdata volatile unsigned char TxStatus = 0x00;
-
-unsigned char IMask(unsigned char v)
-{
-	v &= 0x3f;
-	return v ;
-}
-//xdata volatile sType pRx = {0x00};
-//xdata volatile sType pTx = {0x00};
-
-/// 比较缓冲
-#define CmpSeek()
-
-/**
- * 需要开启全局中断使能
-*/
-//void UART2_Isr() interrupt 8
-//void serial_intr(void) interrupt CONSOLE_UARTIR
-
-/// 自动中断
-interrupt void Console_intr(void) _at_ CONSOLE_UARTIR
-{
-	//RI
-	if(CONSOLE_CON & 0x01){
-		CONSOLE_CON &= 0x01;
-		//if(pRx.mCursor != pRx.mSeek){
-			RxBuf[IMask(RxSeek++)] = CONSOLE_BUF;
-		//}
-	}
-	//TI
-	if(CONSOLE_CON & 0x02){
-		CONSOLE_CON &= 0x02;
-		if(TxCursor != TxSeek){
-			CONSOLE_BUF = TxBuf[IMask(TxCursor++)];
-		}
-
-		if(TxCursor == TxSeek){
-			TxStatus = isNULL;
-		}
-	}
-}
-
-/**
- * 发送
- * todo:未作溢出检查
-*/
-void Console_Tx(unsigned char c)
-{
-	TxBuf[IMask(TxSeek++)] = c;
-	if (TxStatus == isNULL){
-		IMask(TxCursor++);
-		CONSOLE_BUF = c;
-		TxStatus = IsActive;
-	}
-}
-/**
- * 接收
- * todo:未作溢出检查
-*/
-unsigned Console_Rx()
-{
-	while(RxCursor == RxSeek);
-	return RxBuf[IMask(RxCursor++)];
-}
-
-
+#define IMask(_v)  (_v & 0x3f)
 
 char _Consolehandler(unsigned char c, unsigned char func)
 {
-	//P1 = 0x0f;
-	//if(!CONSOLE_EN) Uart2Init();
-	
 	switch (func){
 		
 		case 0:{
@@ -192,14 +89,12 @@ char _Consolehandler(unsigned char c, unsigned char func)
 			return 0x00;
 		}
 		case 1:{
-			//if(c== '\n') CONSOLE_TX('\r');
-			//CONSOLE_TX(c);
-			if(c== '\n') Console_Tx('\r');
-			Console_Tx(c);
+			if(c== '\n') CONSOLE_TX('\r');
+			CONSOLE_TX(c);
 			return 0;
 		}
 		case 2:{
-			c = (Console_Rx() & 0x7F);
+			c = (CONSOLE_RX() & 0x7F);
 			if(c == '\r') return '\n';
 			return c;
 		} 
