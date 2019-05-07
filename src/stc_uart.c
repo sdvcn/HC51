@@ -38,6 +38,9 @@
 #define CONSOLE_BUF    S2BUF
 #endif
 
+#define CONSOLE_ES_EN() (IE2 |= 0x01)
+#define CONSOLE_ES_DI() (IE2 &= ~0x01)
+
 ///波特率计算 
 /// todo:未完成
 unsigned char SetRate(unsigned short v)
@@ -89,6 +92,8 @@ unsigned char S2Pop()
 
 // 设置mask
 //#define IMask(_v)  (_v & 0x3f)
+#define SizeMask 0x3f
+#define IMask(_v) ((##_v) = (_v++) & SizeMask)
 
 //发送缓冲
 xdata unsigned char TxBuf[CONSOLE_BUFFER];
@@ -102,29 +107,32 @@ enum{
 };
 
 // 读位置
-xdata volatile unsigned char RxSeek = 0x00;
+xdata static volatile unsigned char RxSeek = 0x00;
 
 // 读标记
-xdata volatile unsigned char RxCursor = 0x00;
+xdata static volatile unsigned char RxCursor = 0x00;
 
 // 写位置
-xdata volatile unsigned char TxSeek = 0x00;
+xdata static volatile unsigned char TxSeek = 0x00;
 
 // 写标记
-xdata volatile unsigned char TxCursor = 0x00;
+xdata static volatile unsigned char TxCursor = 0x00;
 
-xdata volatile unsigned char TxStatus = 0x00;
+//xdata static volatile bit _RxIsEmpty = 1ul;
+//xdata static volatile bit _TxIsEmpty = 0b0001;
 
-unsigned char IMask(unsigned char v)
-{
-	v &= 0x3f;
-	return v ;
-}
-//xdata volatile sType pRx = {0x00};
-//xdata volatile sType pTx = {0x00};
+xdata static volatile unsigned char _Status = 0xff;
+#define RxStatBit	(0)
+#define TxStatBit	(1)
+#define RxIsEmpty()	(CheckBIT(_Status,RxStatBit))
+#define TxIsEmpty()	(CheckBIT(_Status,TxStatBit))
 
-/// 比较缓冲
-#define CmpSeek()
+//#define RxEmpty()	
+//#define RxStat
+
+
+//xdata volatile unsigned char TxStatus = 0x00;
+
 
 /**
  * 需要开启全局中断使能
@@ -135,24 +143,26 @@ unsigned char IMask(unsigned char v)
 /// 自动中断
 interrupt void Console_intr(void) _at_ CONSOLE_UARTIR
 {
+	CONSOLE_ES_DI();
 	//RI
 	if(CONSOLE_CON & 0x01){
 		CONSOLE_CON &= 0x01;
-		//if(pRx.mCursor != pRx.mSeek){
-			RxBuf[IMask(RxSeek++)] = CONSOLE_BUF;
-		//}
+		RxBuf[IMask(RxSeek)] = CONSOLE_BUF;
+		//_RxIsEmpty = 0;
+		ClearBIT(_Status,RxStatBit);
+
 	}
 	//TI
 	if(CONSOLE_CON & 0x02){
 		CONSOLE_CON &= 0x02;
-		if(TxCursor != TxSeek){
-			CONSOLE_BUF = TxBuf[IMask(TxCursor++)];
-		}
-
 		if(TxCursor == TxSeek){
-			TxStatus = isNULL;
+			//_TxIsEmpty = 1;	
+			SetBIT(_Status,TxStatBit);
+		}else{
+			CONSOLE_BUF = TxBuf[IMask(TxCursor)];
 		}
 	}
+	CONSOLE_ES_EN();
 }
 
 /**
@@ -161,21 +171,27 @@ interrupt void Console_intr(void) _at_ CONSOLE_UARTIR
 */
 void Console_Tx(unsigned char c)
 {
-	TxBuf[IMask(TxSeek++)] = c;
-	if (TxStatus == isNULL){
-		IMask(TxCursor++);
-		CONSOLE_BUF = c;
-		TxStatus = IsActive;
+	TxBuf[IMask(TxSeek)] = c;
+	CONSOLE_ES_DI();
+	if(TxIsEmpty()){
+		//_TxIsEmpty = 0;
+		ClearBIT(_Status,TxStatBit);
+		CONSOLE_CON |= 0x02;
 	}
+
+	CONSOLE_ES_EN();
 }
 /**
- * 接收
+ * 接收,无数据阻塞操作
  * todo:未作溢出检查
+ * todo:未完成
 */
-unsigned Console_Rx()
+unsigned char Console_Rx()
 {
+	unsigned char ret = 0x00;
+	//ret = RxBuf[IMask(RxCursor)];
 	while(RxCursor == RxSeek);
-	return RxBuf[IMask(RxCursor++)];
+	return ret;
 }
 
 
