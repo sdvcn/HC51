@@ -77,7 +77,7 @@ unsigned char S2Pop()
  * 开辟内存实现写缓冲
 */
 #ifndef CONSOLE_BUFFER
-#define CONSOLE_BUFFER	64
+#define CONSOLE_BUFFER	0xFF
 #endif
 /**
  * STC8
@@ -92,47 +92,47 @@ unsigned char S2Pop()
 
 // 设置mask
 //#define IMask(_v)  (_v & 0x3f)
-#define SizeMask 0x3f
-#define IMask(_v) ((##_v) = (_v++) & SizeMask)
+//#define SizeMask 0x3f
+//#define IMask(_v) ((##_v) = (_v++) & SizeMask)
 
 //发送缓冲
-xdata unsigned char TxBuf[CONSOLE_BUFFER];
+static unsigned char TxBuf[CONSOLE_BUFFER+1];
 
 //接收缓冲
-xdata unsigned char RxBuf[CONSOLE_BUFFER];
-
-enum{
-	isNULL,
-	IsActive,
-};
+static unsigned char RxBuf[CONSOLE_BUFFER+1];
 
 // 读位置
-xdata static volatile unsigned char RxSeek = 0x00;
+unsigned char RxSeek = 0x00;
 
 // 读标记
-xdata static volatile unsigned char RxCursor = 0x00;
+unsigned char RxCursor = 0x00;
 
 // 写位置
-xdata static volatile unsigned char TxSeek = 0x00;
+unsigned char TxSeek = 0x00;
 
 // 写标记
-xdata static volatile unsigned char TxCursor = 0x00;
+unsigned char TxCursor = 0x00;
 
 //xdata static volatile bit _RxIsEmpty = 1ul;
 //xdata static volatile bit _TxIsEmpty = 0b0001;
 
-xdata static volatile unsigned char _Status = 0xff;
+volatile unsigned char _Status = 0xff;
 #define RxStatBit	(0)
 #define TxStatBit	(1)
 #define RxIsEmpty()	(CheckBIT(_Status,RxStatBit))
 #define TxIsEmpty()	(CheckBIT(_Status,TxStatBit))
 
-//#define RxEmpty()	
-//#define RxStat
-
-
-//xdata volatile unsigned char TxStatus = 0x00;
-
+/**
+ * 默认值初始化
+*/
+static void _Init()
+{
+	RxSeek = 0x00;
+	TxSeek = 0x00;
+	RxCursor = 0x00;
+	TxCursor = 0x00;
+	_Status = 0xff;
+}
 
 /**
  * 需要开启全局中断使能
@@ -141,25 +141,25 @@ xdata static volatile unsigned char _Status = 0xff;
 //void serial_intr(void) interrupt CONSOLE_UARTIR
 
 /// 自动中断
-interrupt void Console_intr(void) _at_ CONSOLE_UARTIR
+interrupt void Console_intr(void) using 1 _at_ CONSOLE_UARTIR 
 {
 	CONSOLE_ES_DI();
+	NOP();
 	//RI
 	if(CONSOLE_CON & 0x01){
-		CONSOLE_CON &= 0x01;
-		RxBuf[IMask(RxSeek)] = CONSOLE_BUF;
+		CONSOLE_CON &= ~0x01;
+		RxBuf[RxSeek++] = CONSOLE_BUF;
 		//_RxIsEmpty = 0;
 		ClearBIT(_Status,RxStatBit);
-
 	}
 	//TI
 	if(CONSOLE_CON & 0x02){
-		CONSOLE_CON &= 0x02;
+		CONSOLE_CON &= ~0x02;
 		if(TxCursor == TxSeek){
 			//_TxIsEmpty = 1;	
 			SetBIT(_Status,TxStatBit);
 		}else{
-			CONSOLE_BUF = TxBuf[IMask(TxCursor)];
+			CONSOLE_BUF = TxBuf[TxCursor++];
 		}
 	}
 	CONSOLE_ES_EN();
@@ -167,12 +167,15 @@ interrupt void Console_intr(void) _at_ CONSOLE_UARTIR
 
 /**
  * 发送
- * todo:未作溢出检查
+ * 超出缓冲部分阻塞等待
 */
 void Console_Tx(unsigned char c)
 {
-	TxBuf[IMask(TxSeek)] = c;
+	while(((TxSeek + 1)>TxCursor)&&!(TxSeek == TxCursor)){NOP();};
+	//while(TxSeek != TxCursor){};
+	TxBuf[TxSeek++] = c;
 	CONSOLE_ES_DI();
+
 	if(TxIsEmpty()){
 		//_TxIsEmpty = 0;
 		ClearBIT(_Status,TxStatBit);
@@ -189,9 +192,11 @@ void Console_Tx(unsigned char c)
 unsigned char Console_Rx()
 {
 	unsigned char ret = 0x00;
-	//ret = RxBuf[IMask(RxCursor)];
-	while(RxCursor == RxSeek);
+	
+	while(!(RxCursor == RxSeek)){};
+	ret = RxBuf[RxCursor++];
 	return ret;
+	
 }
 
 
@@ -205,12 +210,13 @@ char _Consolehandler(unsigned char c, unsigned char func)
 		
 		case 0:{
 			//Uart2Init();
+			_Init();
 			return 0x00;
 		}
 		case 1:{
 			//if(c== '\n') CONSOLE_TX('\r');
 			//CONSOLE_TX(c);
-			if(c== '\n') Console_Tx('\r');
+			//if(c== '\n') Console_Tx('\r');
 			Console_Tx(c);
 			return 0;
 		}
