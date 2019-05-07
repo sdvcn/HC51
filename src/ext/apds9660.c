@@ -156,11 +156,9 @@ typedef struct{
     unsigned char mR;
 } GFifos;
 
-typedef struct{
-    unsigned char   mAddr;
-    unsigned char   mReg;
-    GFifos          mFifo[32];
-} TBuf,*pBuf;
+xdata static GFifos fifoBuf[32];
+
+const char* Tag="Apds-9960";
 
 /// 开启APDS-9960 I2c访问 
 #define ADPS9960_I2c_En() (I2c_InitM(I2C_SPEED))
@@ -191,6 +189,7 @@ unsigned APDS9960_WriteReg(unsigned char reg,unsigned len,char* src)
     ret = I2c_Writes(len,src);
 
     I2c_Stop();
+    ADPS9960_I2c_Di();
     /// 返回发送量
     return ret;
 }
@@ -216,9 +215,6 @@ unsigned APDS9960_ReadReg(unsigned char reg,unsigned len,char* dst)
     ///选择寄存器
     pWriteReg(reg);
     ret = APDS9960_Reads(len,dst); 
-
-    I2c_Stop();
-
     ADPS9960_I2c_Di();   
     return ret;
 }
@@ -292,12 +288,24 @@ void APDS9960_WriteReg16(unsigned char reg,unsigned short val)
 */
 #define APDS9960_ClearInt()         APDS9960_WriteReg8(APDS9960_AICLEAR,0xff)
 
+#define APDS9960_GetGCONF4()        APDS9960_ReadReg8(APDS9960_GCONF4)
+#define APDS9960_ClearGFIFO()       APDS9960_WriteReg8(APDS9960_GCONF4,APDS9960_GetGCONF4()|0x04)
+
+// 关闭主电源
+#define APDS9960_Power(_v)          APDS9960_WriteReg8(APDS9960_ENABLE,_v)
+#define APDS9960_PowerOFF()         APDS9960_Power(0x00)
+
+#define APDS9960_GetCONFIG2()       APDS9960_ReadReg8(APDS9960_CONFIG2)
+
+/// Led Boost 设置 
+#define APDS9960_LedBoost(_v)       APDS9960_WriteReg8(APDS9960_CONFIG2,((APDS9960_GetCONFIG2() & 0xCF) | ((_v & 0x03) << 4)))
+
 //-------------------------------------------------------------
-/// 检测器件
+/// 器件ID 检查
 unsigned char APDS9960_Check()
 {
     unsigned char mID = APDS9960_ReadReg8(APDS9960_ID);
-
+    DLOGINT(APDS9960_Check(),mID);
     switch (mID)
     {
         case APDS9960_ID_1: return 1ul;
@@ -307,45 +315,58 @@ unsigned char APDS9960_Check()
 }
 /// 获取开启模式
 
-//初始化
+/// 设置初始化
 void APDS9960_Init()
 {
-    unsigned char mid=0x00;
+    unsigned char r=0x00;
     DLOG("APDS9960_Init");
+    if(!APDS9960_Check()){
+        DLOG("No found Apds-9960 for I2c");
+    }
     //
-    mid = APDS9960_ReadReg8(APDS9960_ID);
-    //DLOGINT(APDS9960_Init,mid);
-    mid = APDS9960_ReadReg8(APDS9960_ENABLE);
+    //mid = APDS9960_ReadReg8(APDS9960_ENABLE);
     //关闭所有
-    APDS9960_WriteReg8(APDS9960_ENABLE,0x00);
+    APDS9960_PowerOFF();
+
+    // 确认关闭
+    if((r = APDS9960_ReadReg8(APDS9960_ENABLE)) != 0x00){
+        DLOGINT(Tag,r);
+    }
 }
 
 void APDS9960_GestureSensor()
 {
+    DLOG("APDS9960_GestureSensor()");
+
+    APDS9960_PowerOFF();
     //延时值
     APDS9960_WriteReg8(APDS9960_WTIME,0xff);
     //设置
     APDS9960_WriteReg8(APDS9960_PPULSE,DEFAULT_GESTURE_PPULSE);
     // 设置LED
-    APDS9960_WriteReg8(APDS9960_CONFIG2,0xf0);
+    //APDS9960_WriteReg8(APDS9960_CONFIG2,0xf0);
+    APDS9960_LedBoost(3u);
     // 开启手势中断 设定手势模式
     APDS9960_WriteReg8(APDS9960_GCONF4,0x03);
     // 开启供电
-    APDS9960_WriteReg8(APDS9960_ENABLE,0x7f);
+    //APDS9960_WriteReg8(APDS9960_ENABLE,0x7f);
+    APDS9960_Power(0x7f);
 }
 
 
 
-
-void APDS9960_ReadGesture()
+unsigned char APDS9960_ReadGesture()
 {
-    GFifos buffer[32];
-    char* pbuff;
-    pbuff = (char*)&buffer;
+    unsigned char ret = 0x00;
+    //unsigned char bup[32*4];
+    unsigned char flevel = APDS9960_ReadReg8(APDS9960_GFLVL);
+    DLOGINT(APDS9960_ReadGesture,flevel);
 
-    unsigned char flevel;
-    flevel = APDS9960_ReadReg8(APDS9960_GFLVL);
-    APDS9960_ReadReg(APDS9960_GFIFO_U,flevel*4,pbuff);
-
-
+    //while(I2c_NAckStatus())
+    if(flevel) ret = APDS9960_ReadReg(APDS9960_GFIFO_U,32*4,(char*)&fifoBuf);
+    DLOGINT(APDS9960_ReadGesture,ret);
+    return ret;
 }
+
+//#define LEDA(_v) ((_v & 0x03) << 4)
+

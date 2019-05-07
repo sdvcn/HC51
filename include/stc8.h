@@ -45,6 +45,10 @@ static volatile unsigned char	P3M0	@	0xB2;
 static volatile unsigned char	P4M1	@	0xB3;
 static volatile unsigned char	P4M0	@	0xB4;
 
+/// 优先级控制
+static volatile unsigned char	IP2		@	0xB5;
+static volatile unsigned char	IP2H	@	0xB6;
+static volatile unsigned char	IPH		@	0xB7;
 
 static volatile unsigned char	P_SW2	@	0xBA;
 #define EAXFR 8

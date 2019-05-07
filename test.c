@@ -3,7 +3,9 @@
 
 #include "include/ext_debug.h"
 
-#include "src/ext/apds9660.h"
+//#include "src/ext/apds9660.h"
+
+#include "include/ext_apds9960.h"
 
 
 
@@ -42,6 +44,10 @@ void UartInit()
 
 static void Uart2Init(void)		//115200bps@23.996MHz
 {
+	// 优先级处理
+	//IP2H |= 0x01;
+	//IP2  |= 0x01;
+
 	//P0 = 0xf0;
 	//S2CON = 0x48;		//8位数据,可变波特率
 	S2CON = (S2REN);
@@ -62,11 +68,14 @@ far void aa1() _at_ 0x06
 void main()
 {
 	Uart2Init();
+	EA = 1;
+	//----------------------
+
 	DLOG("\n::::::::::::::::System Reset::::::::::::::::\n");
 	/// 初始化串口
 	//ExtSfrSet(&P3PU,BIT(0)|BIT(1));
 	
-	//EA = 1;
+	
 	
 	/// 设置端口寄存器 高阻态
 	//P1M0 = 0x00;
@@ -80,10 +89,12 @@ void main()
 	///设置IO端口
 	//ADPS9960_I2c_En();
 	APDS9960_Init();
-	
+	APDS9960_GestureSensor();
+	APDS9960_ReadGesture();
 
 	
-	printf("\ns\n");
+	//printf("0123456789\n");
+	//putch('a');
 	do{
 		//uSENDs("Init:",5);
 		
@@ -92,7 +103,9 @@ void main()
 		//uSEND(S2CON);
 		
 		if(P77 == 0){
-			DLOG("Inita");
+			APDS9960_ReadGesture();
+			
+			//printf("0123456789\n");
 			//uSEND(0x63);
 			//printf("%s:%d:info",__FILE__,__LINE__);
 			//I2c_InitM(0x3f);

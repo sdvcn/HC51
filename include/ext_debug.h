@@ -21,6 +21,7 @@ const char* Txt_I2Hex="[%s:%d]\tTracert:%s[%s:0x%2.2X]\n";
 #define DLOG(_v)
 #define ELOG(_v)
 #define DLOGINT(_f,_v)
+
 #endif
 
 #endif

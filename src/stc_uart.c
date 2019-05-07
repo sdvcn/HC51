@@ -200,7 +200,9 @@ unsigned char Console_Rx()
 }
 
 
-
+/**
+ * 接管句柄
+*/
 char _Consolehandler(unsigned char c, unsigned char func)
 {
 	//P1 = 0x0f;
