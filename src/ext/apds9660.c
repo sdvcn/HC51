@@ -4,103 +4,12 @@
  * 采用I2c方案
 */
 
-#include "apds9660.h"
 #include <i2c.h>
 #include <ext_debug.h>
+#include "apds9660.h"
 /**
- * Apds-9960总线地址
+ * 内置宏
 */
-#ifndef APDS9960_ADDRES
-#define APDS9960_ADDRES 0x39
-#endif
-/**
- * Apds-9960 总线速度
-*/
-#ifndef I2C_SPEED
-#define I2C_SPEED 0x30
-#endif
-/**
- * 9960基础定义
-*/
-/* APDS-9960 register addresses */
-#define APDS9960_ENABLE         0x80
-/// 环境光 adc 中断时间
-#define APDS9960_ATIME          0x81
-/// 延时
-#define APDS9960_WTIME          0x83
-/// 环境光阀值
-#define APDS9960_AILTL          0x84
-#define APDS9960_AILTH          0x85
-
-#define APDS9960_AIHTL          0x86
-#define APDS9960_AIHTH          0x87
-/// 接近中断阀值
-#define APDS9960_PILT           0x89
-#define APDS9960_PIHT           0x8B
-
-#define APDS9960_PERS           0x8C
-#define APDS9960_CONFIG1        0x8D
-/// 接近脉冲寄存器
-#define APDS9960_PPULSE         0x8E
-
-#define APDS9960_CONTROL        0x8F
-#define APDS9960_CONFIG2        0x90
-/// 驱动器编号
-#define APDS9960_ID             0x92
-/// 驱动器状态
-#define APDS9960_STATUS         0x93
-///
-#define APDS9960_CDATAL         0x94
-#define APDS9960_CDATAH         0x95
-/// 红通道数据
-#define APDS9960_RDATAL         0x96
-#define APDS9960_RDATAH         0x97
-/// 绿通道数据
-#define APDS9960_GDATAL         0x98
-#define APDS9960_GDATAH         0x99
-/// 蓝通道数据
-#define APDS9960_BDATAL         0x9A
-#define APDS9960_BDATAH         0x9B
-/// 接近通道数据
-#define APDS9960_PDATA          0x9C
-
-
-#define APDS9960_POFFSET_UR     0x9D
-#define APDS9960_POFFSET_DL     0x9E
-#define APDS9960_CONFIG3        0x9F
-#define APDS9960_GPENTH         0xA0
-#define APDS9960_GEXTH          0xA1
-#define APDS9960_GCONF1         0xA2
-#define APDS9960_GCONF2         0xA3
-#define APDS9960_GOFFSET_U      0xA4
-#define APDS9960_GOFFSET_D      0xA5
-#define APDS9960_GOFFSET_L      0xA7
-#define APDS9960_GOFFSET_R      0xA9
-#define APDS9960_GPULSE         0xA6
-#define APDS9960_GCONF3         0xAA
-/// 手势设定 
-#define APDS9960_GCONF4         0xAB
-/// 手势寄存器缓冲数量
-#define APDS9960_GFLVL          0xAE
-/// 手势状态
-#define APDS9960_GSTATUS        0xAF
-/// 强制中断
-#define APDS9960_IFORCE         0xE4
-/// 接近中断清除
-#define APDS9960_PICLEAR        0xE5
-/// ALS 通道中断清除
-#define APDS9960_CICLEAR        0xE6
-/// 全部非手势中断清除
-#define APDS9960_AICLEAR        0xE7
-/// 手势 上
-#define APDS9960_GFIFO_U        0xFC
-/// 手势 下
-#define APDS9960_GFIFO_D        0xFD
-/// 手势 左
-#define APDS9960_GFIFO_L        0xFE
-/// 手势 右
-#define APDS9960_GFIFO_R        0xFF
-
 /* 启动使能 */
 /// 主电源
 #define APDS9960_PON            (1ul << 0)
@@ -146,8 +55,44 @@
 #define DEFAULT_GPULSE          0xC9    // 32us, 10 pulses
 #define DEFAULT_GCONF3          0       // All photodiodes active during gesture
 #define DEFAULT_GIEN            0       // Disable gesture interrupts
+/* Acceptable device IDs */
+#define APDS9960_ID_1           0xAB        //ADPS-9960
+#define APDS9960_ID_2           0x9C 
+#define APDS9960_GetCONFIG2()       APDS9960_ReadReg8(APDS9960_CONFIG2)
 
+/// Led Boost 设置 
+#define APDS9960_LedBoost(_v)       APDS9960_WriteReg8(APDS9960_CONFIG2,((APDS9960_GetCONFIG2() & 0xCF) | ((_v & 0x03) << 4)))
+/**
+ * 获取器件ID
+ * 0xAB APDS-9960
+*/
+#define APDS9960_GetID()            APDS9960_ReadReg8(APDS9960_ID)
 
+/**
+ * 检查器件ID
+ * _v=APDS9960_ID_1 (APDS-9960 ID)
+ * _v=APDS9960_ID_2
+*/
+#define APDS9960_Check(_v)            (APDS9960_GetID()==(_v))
+
+// 关闭主电源
+#define D_Power(_v)          APDS9960_WriteReg8(APDS9960_ENABLE,_v)
+#define D_PowerOFF()         D_Power(0x00)
+/**
+ * 清理ALS中断
+ * APDS9960_CICLEAR 寄存器写入任意值
+*/
+#define D_ClearCI()          APDS9960_WriteReg8(APDS9960_CICLEAR,0xff)
+/**
+ * 清理ALS中断
+ * APDS9960_PICLEAR 寄存器写入任意值
+*/
+#define D_ClearPI()          APDS9960_WriteReg8(APDS9960_PICLEAR,0xff)
+/**
+ * 清理所有非手势中断
+*/
+#define D_ClearInt()         APDS9960_WriteReg8(APDS9960_AICLEAR,0xff)
+//-----------------------------------------------------------------------------
 
 typedef struct{
     unsigned char mU;
@@ -158,7 +103,6 @@ typedef struct{
 
 xdata static GFifos fifoBuf[32];
 
-const char* Tag="Apds-9960";
 
 /// 开启APDS-9960 I2c访问 
 #define ADPS9960_I2c_En() (I2c_InitM(I2C_SPEED))
@@ -206,7 +150,7 @@ unsigned char APDS9960_Reads(unsigned char len,char* dst)
 }
 
 ///从指定寄存器中读字符串
-unsigned APDS9960_ReadReg(unsigned char reg,unsigned len,char* dst)
+unsigned char APDS9960_ReadReg(unsigned char reg,unsigned len,char* dst)
 {
     unsigned ret = 0x00;
     DLOGINT(APDS9960_ReadReg,reg);
@@ -256,77 +200,25 @@ void APDS9960_WriteReg16(unsigned char reg,unsigned short val)
 
 }
 //-------------------------------------------------------------
-//环境光 及其 中断
 
-/// 环境光线
-/**
- * 获取环境光线值
-*/
-#define APDS9960_Light_Ambient()    APDS9960_ReadReg16(APDS9960_CDATAL)
-/**
- * 获取红色环境光线值
-*/
-#define APDS9960_Light_Red()        APDS9960_ReadReg16(APDS9960_RDATAL)
-/**
- * 获取绿色环境光线值
-*/
-#define APDS9960_Light_Green()      APDS9960_ReadReg16(APDS9960_GDATAL)
-/**
- * 获取蓝色环境光线值
-*/
-#define APDS9960_Light_blue()       APDS9960_ReadReg16(APDS9960_BDATAL)
-/**
- * 清理ALS中断
-*/
-#define APDS9960_ClearCI()          APDS9960_WriteReg8(APDS9960_CICLEAR,0xff)
-/**
- * 清理ALS中断
-*/
-#define APDS9960_ClearPI()          APDS9960_WriteReg8(APDS9960_PICLEAR,0xff)
-/**
- * 清理所有非手势中断
-*/
-#define APDS9960_ClearInt()         APDS9960_WriteReg8(APDS9960_AICLEAR,0xff)
-
-#define APDS9960_GetGCONF4()        APDS9960_ReadReg8(APDS9960_GCONF4)
-#define APDS9960_ClearGFIFO()       APDS9960_WriteReg8(APDS9960_GCONF4,APDS9960_GetGCONF4()|0x04)
-
-// 关闭主电源
-#define APDS9960_Power(_v)          APDS9960_WriteReg8(APDS9960_ENABLE,_v)
-#define APDS9960_PowerOFF()         APDS9960_Power(0x00)
-
-#define APDS9960_GetCONFIG2()       APDS9960_ReadReg8(APDS9960_CONFIG2)
-
-/// Led Boost 设置 
-#define APDS9960_LedBoost(_v)       APDS9960_WriteReg8(APDS9960_CONFIG2,((APDS9960_GetCONFIG2() & 0xCF) | ((_v & 0x03) << 4)))
-
-//-------------------------------------------------------------
-/// 器件ID 检查
-unsigned char APDS9960_Check()
-{
-    unsigned char mID = APDS9960_ReadReg8(APDS9960_ID);
-    DLOGINT(APDS9960_Check(),mID);
-    switch (mID)
-    {
-        case APDS9960_ID_1: return 1ul;
-        case APDS9960_ID_2: return 1ul;
-    }
-    return 0ul;
-}
 /// 获取开启模式
 
-/// 设置初始化
+/**
+ * 初始化 9960
+ * >关闭所有
+ * >设定环境光源默认值
+*/
 void APDS9960_Init()
 {
     unsigned char r=0x00;
     DLOG("APDS9960_Init");
-    if(!APDS9960_Check()){
+    if(!APDS9960_Check(APDS9960_ID_1)){
         DLOG("No found Apds-9960 for I2c");
     }
-    //
+
     //mid = APDS9960_ReadReg8(APDS9960_ENABLE);
     //关闭所有
-    APDS9960_PowerOFF();
+    D_PowerOFF();
 
     // 确认关闭
     if((r = APDS9960_ReadReg8(APDS9960_ENABLE)) != 0x00){
@@ -338,7 +230,7 @@ void APDS9960_GestureSensor()
 {
     DLOG("APDS9960_GestureSensor()");
 
-    APDS9960_PowerOFF();
+    D_PowerOFF();
     //延时值
     APDS9960_WriteReg8(APDS9960_WTIME,0xff);
     //设置
@@ -350,7 +242,7 @@ void APDS9960_GestureSensor()
     APDS9960_WriteReg8(APDS9960_GCONF4,0x03);
     // 开启供电
     //APDS9960_WriteReg8(APDS9960_ENABLE,0x7f);
-    APDS9960_Power(0x7f);
+    D_Power(0x7f);
 }
 
 

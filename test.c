@@ -3,9 +3,9 @@
 
 #include "include/ext_debug.h"
 
-//#include "src/ext/apds9660.h"
+#include "src/ext/apds9660.h"
 
-#include "include/ext_apds9960.h"
+//#include "include/ext_apds9960.h"
 
 
 
