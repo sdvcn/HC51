@@ -87,15 +87,20 @@ void main()
 	//P1PU = 0xff;
 	
 	///设置IO端口
-	//ADPS9960_I2c_En();
+
 	APDS9960_Init();
-	APDS9960_GestureSensor();
-	APDS9960_ReadGesture();
+	//APDS9960_GestureSensor();
+	//APDS9960_ReadGesture();
 
 	
 	//printf("0123456789\n");
 	//putch('a');
 	do{
+		P75 = P76;
+		if(P76 == 0)
+		{
+			DLOG("Apds-9960 Int");
+		}
 		//uSENDs("Init:",5);
 		
 		
@@ -103,7 +108,7 @@ void main()
 		//uSEND(S2CON);
 		
 		if(P77 == 0){
-			APDS9960_ReadGesture();
+			//APDS9960_ReadGesture();
 			
 			//printf("0123456789\n");
 			//uSEND(0x63);
