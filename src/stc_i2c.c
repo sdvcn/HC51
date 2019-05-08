@@ -60,7 +60,7 @@ unsigned char I2c_NAckStatus()
 
 bit I2c_CFG(unsigned char op)
 {
-    DLOGINT(I2c_CFG,op);
+    //DLOGINT(I2c_CFG,op);
     if(ExtSfrGet8((size_t)&I2CMSST) & MSBUSY) return 0ul;
     ExtSfrSet8((size_t)&I2CCFG,op);
     ExtSfrSet8((size_t)&I2CMSST,0x00);
