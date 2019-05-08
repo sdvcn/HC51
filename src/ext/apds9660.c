@@ -10,21 +10,7 @@
 /**
  * 内置宏
 */
-/* 启动使能 */
-/// 主电源
-#define APDS9960_PON            (1ul << 0)
-/// 环境光线
-#define APDS9960_AEN            (1ul << 1)
-/// 接近判定
-#define APDS9960_PEN            (1ul << 2)
-/// 等待延时
-#define APDS9960_WEN            (1ul << 3)
-/// 环境光线
-#define APSD9960_AIEN           (1ul << 4)
-/// 接近中断
-#define APDS9960_PIEN           (1ul << 5)
-/// 手势
-#define APDS9960_GEN            (1ul << 6)
+
 ///
 //#define APDS9960_GVALID         0b00000001
 /* Default values */
@@ -58,26 +44,29 @@
 /* Acceptable device IDs */
 #define APDS9960_ID_1           0xAB        //ADPS-9960
 #define APDS9960_ID_2           0x9C 
-#define APDS9960_GetCONFIG2()       APDS9960_ReadReg8(APDS9960_CONFIG2)
 
-/// Led Boost 设置 
-#define APDS9960_LedBoost(_v)       APDS9960_WriteReg8(APDS9960_CONFIG2,((APDS9960_GetCONFIG2() & 0xCF) | ((_v & 0x03) << 4)))
+
+
+
+
 /**
  * 获取器件ID
  * 0xAB APDS-9960
 */
-#define APDS9960_GetID()            APDS9960_ReadReg8(APDS9960_ID)
+//#define APDS9960_GetID()            APDS9960_ReadReg8(APDS9960_ID)
 
 /**
  * 检查器件ID
  * _v=APDS9960_ID_1 (APDS-9960 ID)
  * _v=APDS9960_ID_2
 */
-#define APDS9960_Check(_v)            (APDS9960_GetID()==(_v))
+//#define APDS9960_Check(_v)            (APDS9960_GetID()==(_v))
 
 // 关闭主电源
-#define D_Power(_v)          APDS9960_WriteReg8(APDS9960_ENABLE,_v)
-#define D_PowerOFF()         D_Power(0x00)
+//#define D_Power(_v)          APDS9960_WriteReg8(APDS9960_ENABLE,_v)
+//#define D_PowerOFF()         D_Power(0x00)
+//#define D_GetPower()
+
 /**
  * 清理ALS中断
  * APDS9960_CICLEAR 寄存器写入任意值
@@ -93,6 +82,7 @@
 */
 #define D_ClearInt()         APDS9960_WriteReg8(APDS9960_AICLEAR,0xff)
 //-----------------------------------------------------------------------------
+#define DBitModify(_o,_f,_v) 
 
 typedef struct{
     unsigned char mU;
@@ -124,7 +114,8 @@ void pWriteReg(unsigned char reg)
 unsigned APDS9960_WriteReg(unsigned char reg,unsigned len,char* src)
 {
     unsigned ret = 0x00;
-    DLOGINT(APDS9960_ReadReg,reg);
+    DLOGINT(_WriteReg,reg);
+    DLOGINT(_WriteReg,len);
 
     ADPS9960_I2c_En();
     ///选择寄存器
@@ -153,7 +144,8 @@ unsigned char APDS9960_Reads(unsigned char len,char* dst)
 unsigned char APDS9960_ReadReg(unsigned char reg,unsigned len,char* dst)
 {
     unsigned ret = 0x00;
-    DLOGINT(APDS9960_ReadReg,reg);
+    DLOGINT(_ReadReg,reg);
+    DLOGINT(_ReadReg,len);
 
     ADPS9960_I2c_En();
     ///选择寄存器
@@ -171,35 +163,50 @@ unsigned char APDS9960_ReadReg8(unsigned char reg)
     unsigned char val = 0x00;
     APDS9960_ReadReg(reg,1,&val);
 
-    DLOGINT(APDS9960_ReadReg8,val);
+    DLOGINT(_ReadReg8,val);
     return val;
 }
 /// 寄存器读取 unsigned short
+
 unsigned short APDS9960_ReadReg16(unsigned char reg)
 {
     unsigned short ret = 0x00;
     unsigned char val[2] = {0x00};
     APDS9960_ReadReg(reg,2,&val);
-    ret = ((val[1] << 7)|val[0]);
+    ret = ((val[1] << 8)|val[0]);
 
-    DLOGINT(APDS9960_ReadReg16,ret);
+    DLOGINT(_ReadReg16,ret);
+    DLOGINT(_ReadReg16,val[0]);
+    DLOGINT(_ReadReg16,val[1]);
     return ret;
 }
+
 /// 寄存器写 unsigned char
 void APDS9960_WriteReg8(unsigned char reg,unsigned char val)
 {
+    DLOGINT(_WriteReg8,val);
     APDS9960_WriteReg(reg,1,&val);
 }
 /// 寄存器写 unsigned short
+
 void APDS9960_WriteReg16(unsigned char reg,unsigned short val)
 {
+    DLOGINT(_WriteReg16,val);
     unsigned char v[2];
-    v[0] = (val >> 7);
-    v[1] = val;
+    //v[0] = (val >> 8);
+    //v[1] = val;
+    v[0] = (val & 0x00ff);
+    v[1] = (val & 0xff00) >> 8;
+    DLOGINT(_WriteReg16,v[0]);
+    DLOGINT(_WriteReg16,v[1]);
     APDS9960_WriteReg(reg,2,&v);
 
 }
-//-------------------------------------------------------------
+
+//-----------------------------------------------------------------------------
+
+
+//-----------------------------------------------------------------------------
 
 /// 获取开启模式
 
@@ -210,27 +217,85 @@ void APDS9960_WriteReg16(unsigned char reg,unsigned short val)
 */
 void APDS9960_Init()
 {
-    unsigned char r=0x00;
+    unsigned r=0x00;
     DLOG("APDS9960_Init");
-    if(!APDS9960_Check(APDS9960_ID_1)){
+
+    // 检查器件ID
+    r = APDS9960_ReadReg8(APDS9960_ID);
+    if(!(r == APDS9960_ID_1)||(r == APDS9960_ID_2)){
         DLOG("No found Apds-9960 for I2c");
     }
 
-    //mid = APDS9960_ReadReg8(APDS9960_ENABLE);
-    //关闭所有
-    D_PowerOFF();
-
-    // 确认关闭
-    if((r = APDS9960_ReadReg8(APDS9960_ENABLE)) != 0x00){
-        DLOGINT(Tag,r);
+    // Reset APDS9960
+    APDS9960_WriteReg8(APDS9960_ENABLE,0x00);
+    r = APDS9960_ReadReg8(APDS9960_ENABLE);
+    if(!(r == 0x00)){
+        DLOG("No Reset Apds9960");
     }
+    
+    // 环境延时
+    APDS9960_WriteReg8(APDS9960_ATIME,DEFAULT_ATIME);
+
+    APDS9960_WriteReg8(APDS9960_WTIME,DEFAULT_WTIME);
+    
+    APDS9960_WriteReg8(APDS9960_PPULSE,DEFAULT_PROX_PPULSE);
+
+    APDS9960_WriteReg8(APDS9960_POFFSET_UR,DEFAULT_POFFSET_UR);
+
+    APDS9960_WriteReg8(APDS9960_POFFSET_DL,DEFAULT_POFFSET_DL);
+
+    APDS9960_WriteReg8(APDS9960_CONFIG1,DEFAULT_CONFIG1);
+
+    // LED 工作电流
+    APDS9960_LedDrive(DEFAULT_LDRIVE);
+
+    //接近传感器增益
+    APDS9960_SetProximityGain(DEFAULT_PGAIN);
+
+    APDS9960_SetAmbientLightGain(DEFAULT_AGAIN);
+
+    /// 距离传感器
+    DLOG("Thresh");
+    APDS9960_SetProxIntLowThresh(DEFAULT_PILT);
+
+    APDS9960_SetProxIntHighThresh(DEFAULT_PIHT);
+
+    /// 光线传感器
+    DLOG("Threshold");
+    APDS9960_SetLightIntLowThreshold(DEFAULT_AILT);
+
+    APDS9960_SetLightIntHighThreshold(DEFAULT_AIHT);
+
+    /// 循环测试数量
+    //APDS9960_WriteReg8(APDS9960_PERS,DEFAULT_PERS);
+    DLOG("PERS");
+    APDS9960_SetPPERS(0x01);
+    APDS9960_SetAPRES(0x01);
+
+
+
+    
+    APDS9960_WriteReg8(APDS9960_CONFIG2,DEFAULT_CONFIG2);
+
+    //----
+
+    r = APDS9960_GetLightIntLowThreshold();
+    
+    DLOGINT(_GetLightIntLowThreshold,r);
+
+    r = APDS9960_ReadReg8(APDS9960_AILTL);
+    DLOGINT(AAPDS9960_PILT,r);
+    r = APDS9960_ReadReg8(APDS9960_AILTH);
+    DLOGINT(AAPDS9960_PIHT,r);
+
 }
 
 void APDS9960_GestureSensor()
 {
     DLOG("APDS9960_GestureSensor()");
 
-    D_PowerOFF();
+    //D_PowerOFF();
+    APDS9960_WriteReg8(APDS9960_ENABLE,0x00);
     //延时值
     APDS9960_WriteReg8(APDS9960_WTIME,0xff);
     //设置
@@ -241,8 +306,8 @@ void APDS9960_GestureSensor()
     // 开启手势中断 设定手势模式
     APDS9960_WriteReg8(APDS9960_GCONF4,0x03);
     // 开启供电
-    //APDS9960_WriteReg8(APDS9960_ENABLE,0x7f);
-    D_Power(0x7f);
+    APDS9960_WriteReg8(APDS9960_ENABLE,0x7f);
+    
 }
 
 
@@ -252,11 +317,11 @@ unsigned char APDS9960_ReadGesture()
     unsigned char ret = 0x00;
     //unsigned char bup[32*4];
     unsigned char flevel = APDS9960_ReadReg8(APDS9960_GFLVL);
-    DLOGINT(APDS9960_ReadGesture,flevel);
+    DLOGINT(_ReadGesture,flevel);
 
     //while(I2c_NAckStatus())
     if(flevel) ret = APDS9960_ReadReg(APDS9960_GFIFO_U,32*4,(char*)&fifoBuf);
-    DLOGINT(APDS9960_ReadGesture,ret);
+    DLOGINT(_ReadGesture,ret);
     return ret;
 }
 
