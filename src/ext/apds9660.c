@@ -272,11 +272,13 @@ void APDS9960_Init()
     APDS9960_SetPPERS(0x01);
     APDS9960_SetAPRES(0x01);
 
-
-
-    
     APDS9960_WriteReg8(APDS9960_CONFIG2,DEFAULT_CONFIG2);
 
+    APDS9960_WriteReg8(APDS9960_CONFIG3,DEFAULT_CONFIG3);
+
+    APDS9960_SetGestureEnterThresh(DEFAULT_GPENTH);
+
+    APDS9960_SetGestureExitThresh(DEFAULT_GEXTH);
     //----
 
     r = APDS9960_GetLightIntLowThreshold();

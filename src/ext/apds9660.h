@@ -212,14 +212,20 @@ void APDS9960_WriteReg16(unsigned char reg,unsigned short val);
 #define APDS9960_GetPPERS()     (APDS9960_GetPERS() >> 4)
 #define APDS9960_GetAPRES()     (APDS9960_GetPERS() & 0x0f)
 /// 接近传感器循环设置
+/// 取值范围不大于 0x0f
 #define APDS9960_SetPPERS(_v)   APDS9960_WriteReg8(APDS9960_PERS,(APDS9960_GetPERS() & 0x0f) | (_v << 4))
 /// ALS 传感器循环设置
+/// 取值范围不大于 0x0f
 #define APDS9960_SetAPRES(_v)   APDS9960_WriteReg8(APDS9960_PERS,(APDS9960_GetPERS() & 0xf0) | (_v & 0x0f))
 
 /// 接近中断
-#define APDS9960_SetPSIEN()
+#define APDS9960_SetPSIEN()     APDS9960_WriteReg8(APDS9960_CONFIG2,(APDS9960_GetCONFIG2() & 0x7f) | (_v & 0xfe ) << 7 ) ;
 /// ALS 中断
-#define APDS9960_SetCPSIEN()
+#define APDS9960_SetCPSIEN()    APDS9960_WriteReg8(APDS9960_CONFIG2,(APDS9960_GetCONFIG2() & 0xbf) | (_v & 0xfe ) << 6 ) ;
+
+#define APDS9960_SetGestureEnterThresh(_v)  APDS9960_WriteReg8(APDS9960_GPENTH,_v)
+
+#define APDS9960_SetGestureExitThresh(_v) APDS9960_WriteReg8(APDS9960_GEXTH,_v)
 //-----------------------------------------------------------------------------
 /// 初始化APDS-9960
 void APDS9960_Init();
