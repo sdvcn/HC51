@@ -10,6 +10,11 @@
 /**
  * 内置宏
 */
+#ifdef DEBUG
+#define DumpReg(_f,_r,_v) (printf("[%s:%d]\tTracert:%s[0x%2.2X:0x%2.2X]\n",__FILE__,__LINE__,_f,_r,_v))
+#else
+#define DumpReg(_f,_r,_v)
+#endif
 
 ///
 //#define APDS9960_GVALID         0b00000001
@@ -45,7 +50,41 @@
 #define APDS9960_ID_1           0xAB        //ADPS-9960
 #define APDS9960_ID_2           0x9C 
 
+/* LED Drive values */
+#define LED_DRIVE_100MA         0
+#define LED_DRIVE_50MA          1
+#define LED_DRIVE_25MA          2
+#define LED_DRIVE_12_5MA        3
+/* Proximity Gain (PGAIN) values */
+#define PGAIN_1X                0
+#define PGAIN_2X                1
+#define PGAIN_4X                2
+#define PGAIN_8X 3
+/* ALS Gain (AGAIN) values */
+#define AGAIN_1X                0
+#define AGAIN_4X                1
+#define AGAIN_16X               2
+#define AGAIN_64X               3
+/* Gesture Gain (GGAIN) values */
+#define GGAIN_1X                0
+#define GGAIN_2X                1
+#define GGAIN_4X                2
+#define GGAIN_8X                3
+/* LED Boost values */
+#define LED_BOOST_100           0
+#define LED_BOOST_150           1
+#define LED_BOOST_200           2
+#define LED_BOOST_300           3    
 
+/* Gesture wait time values */
+#define GWTIME_0MS              0
+#define GWTIME_2_8MS            1
+#define GWTIME_5_6MS            2
+#define GWTIME_8_4MS            3
+#define GWTIME_14_0MS           4
+#define GWTIME_22_4MS           5
+#define GWTIME_30_8MS           6
+#define GWTIME_39_2MS           7
 
 
 
@@ -114,8 +153,11 @@ void pWriteReg(unsigned char reg)
 unsigned APDS9960_WriteReg(unsigned char reg,unsigned len,char* src)
 {
     unsigned ret = 0x00;
-    DLOGINT(_WriteReg,reg);
-    DLOGINT(_WriteReg,len);
+    //DLOGINT(_WriteReg,reg);
+    //DLOGINT(_WriteReg,len);
+    DLOGINT(S_WriteReg,reg);
+    Console_DumpHex(len,src);
+    
 
     ADPS9960_I2c_En();
     ///选择寄存器
@@ -144,14 +186,17 @@ unsigned char APDS9960_Reads(unsigned char len,char* dst)
 unsigned char APDS9960_ReadReg(unsigned char reg,unsigned len,char* dst)
 {
     unsigned ret = 0x00;
-    DLOGINT(_ReadReg,reg);
-    DLOGINT(_ReadReg,len);
+    //DLOGINT(_ReadReg,reg);
+    //DLOGINT(_ReadReg,len);
 
     ADPS9960_I2c_En();
     ///选择寄存器
     pWriteReg(reg);
     ret = APDS9960_Reads(len,dst); 
-    ADPS9960_I2c_Di();   
+    ADPS9960_I2c_Di();
+    
+    DLOGINT(E_ReadReg,reg);
+    Console_DumpHex(ret,dst);
     return ret;
 }
 
@@ -162,8 +207,8 @@ unsigned char APDS9960_ReadReg8(unsigned char reg)
  
     unsigned char val = 0x00;
     APDS9960_ReadReg(reg,1,&val);
-
-    DLOGINT(_ReadReg8,val);
+    //DLOGINT(_ReadReg8,val);
+    DumpReg("E_ReadReg8",reg,val);
     return val;
 }
 /// 寄存器读取 unsigned short
@@ -175,30 +220,33 @@ unsigned short APDS9960_ReadReg16(unsigned char reg)
     APDS9960_ReadReg(reg,2,&val);
     ret = ((val[1] << 8)|val[0]);
 
-    DLOGINT(_ReadReg16,ret);
-    DLOGINT(_ReadReg16,val[0]);
-    DLOGINT(_ReadReg16,val[1]);
+    //DLOGINT(_ReadReg16,ret);
+    //DLOGINT(_ReadReg16,val[0]);
+    //DLOGINT(_ReadReg16,val[1]);
+    DumpReg("E_ReadReg16",reg,val);
     return ret;
 }
 
 /// 寄存器写 unsigned char
 void APDS9960_WriteReg8(unsigned char reg,unsigned char val)
 {
-    DLOGINT(_WriteReg8,val);
+    //DLOGINT(_WriteReg8,val);
+    DumpReg("S_ReadReg8",reg,val);
     APDS9960_WriteReg(reg,1,&val);
 }
 /// 寄存器写 unsigned short
 
 void APDS9960_WriteReg16(unsigned char reg,unsigned short val)
 {
-    DLOGINT(_WriteReg16,val);
+    //DLOGINT(_WriteReg16,val);
+    DumpReg("S_ReadReg16",reg,val);
     unsigned char v[2];
     //v[0] = (val >> 8);
     //v[1] = val;
     v[0] = (val & 0x00ff);
     v[1] = (val & 0xff00) >> 8;
-    DLOGINT(_WriteReg16,v[0]);
-    DLOGINT(_WriteReg16,v[1]);
+    //DLOGINT(_WriteReg16,v[0]);
+    //DLOGINT(_WriteReg16,v[1]);
     APDS9960_WriteReg(reg,2,&v);
 
 }
@@ -215,10 +263,13 @@ void APDS9960_EnableGestureSensor(unsigned char itr)
 
     APDS9960_WriteReg8(APDS9960_PPULSE,DEFAULT_GESTURE_PPULSE);
 
-    APDS9960_LedBoost(LED_BOOST_300);
+    /// 增强
+    APDS9960_LedBoost(LED_BOOST_100);
+    /// 红外线电流
+    APDS9960_SetGLDRIVE(1);
 
     if(itr){
-        APDS9960_SetGIEN(0);
+        APDS9960_SetGIEN(1);
     }else{
         APDS9960_SetGIEN(0);
     }
@@ -344,7 +395,7 @@ void APDS9960_Init()
 
 unsigned char APDS9960_ReadGesture()
 {
-    DLOG("APDS9960_DisableGestureSensor()");
+    DLOG("ReadGesture()");
 
     if(!APDS9960_GetGVALID()){
         return 0x00;
@@ -353,11 +404,12 @@ unsigned char APDS9960_ReadGesture()
     unsigned char ret = 0x00;
     //unsigned char bup[32*4];
     unsigned char flevel = APDS9960_ReadReg8(APDS9960_GFLVL);
-    DLOGINT(_ReadGesture,flevel);
+    //DLOGINT(_ReadGesture,flevel);
+    DumpReg("ReadGesture:GFLVL",APDS9960_GFLVL,flevel);
 
     //while(I2c_NAckStatus())
-    if(flevel) ret = APDS9960_ReadReg(APDS9960_GFIFO_U,32*4,(char*)&fifoBuf);
-    DLOGINT(_ReadGesture,ret);
+    if(flevel) ret = APDS9960_ReadReg(APDS9960_GFIFO_U,32*4,(char*)fifoBuf);
+    Console_DumpHex(ret,(char*)fifoBuf);
     return ret;
 }
 
