@@ -45,24 +45,17 @@
 
 #define APDS9960_CONTROL        0x8F
 #define APDS9960_CONFIG2        0x90
-/// 驱动器编号
-#define APDS9960_ID             0x92
-/// 驱动器状态
-#define APDS9960_STATUS         0x93
-///
-#define APDS9960_CDATAL         0x94
-#define APDS9960_CDATAH         0x95
-/// 红通道数据
-#define APDS9960_RDATAL         0x96
-#define APDS9960_RDATAH         0x97
-/// 绿通道数据
-#define APDS9960_GDATAL         0x98
-#define APDS9960_GDATAH         0x99
-/// 蓝通道数据
-#define APDS9960_BDATAL         0x9A
-#define APDS9960_BDATAH         0x9B
-/// 接近通道数据
-#define APDS9960_PDATA          0x9C
+#define APDS9960_ID             0x92                //[*R] 器件编号
+#define APDS9960_STATUS         0x93                //[*R] 器件状态
+#define APDS9960_CDATAL         0x94                //[*R] 环境光L
+#define APDS9960_CDATAH         0x95                //[*R] 环境光H
+#define APDS9960_RDATAL         0x96                //[*R] 红色数据L
+#define APDS9960_RDATAH         0x97                //[*R] 红色数据H
+#define APDS9960_GDATAL         0x98                //[*R] 绿色数据L
+#define APDS9960_GDATAH         0x99                //[*R] 绿色数据H
+#define APDS9960_BDATAL         0x9A                //[*R] 蓝色数据L
+#define APDS9960_BDATAH         0x9B                //[*R] 蓝色数据H
+#define APDS9960_PDATA          0x9C                //[*R] 距离数据
 
 
 #define APDS9960_POFFSET_UR     0x9D
@@ -118,41 +111,7 @@
 /// 手势
 #define APDS9960_GEN            (1ul << 6)
 //-----------------------------------------------------------------------------
-/* LED Drive values */
-#define LED_DRIVE_100MA         0
-#define LED_DRIVE_50MA          1
-#define LED_DRIVE_25MA          2
-#define LED_DRIVE_12_5MA        3
-/* Proximity Gain (PGAIN) values */
-#define PGAIN_1X                0
-#define PGAIN_2X                1
-#define PGAIN_4X                2
-#define PGAIN_8X 3
-/* ALS Gain (AGAIN) values */
-#define AGAIN_1X                0
-#define AGAIN_4X                1
-#define AGAIN_16X               2
-#define AGAIN_64X               3
-/* Gesture Gain (GGAIN) values */
-#define GGAIN_1X                0
-#define GGAIN_2X                1
-#define GGAIN_4X                2
-#define GGAIN_8X                3
-/* LED Boost values */
-#define LED_BOOST_100           0
-#define LED_BOOST_150           1
-#define LED_BOOST_200           2
-#define LED_BOOST_300           3    
 
-/* Gesture wait time values */
-#define GWTIME_0MS              0
-#define GWTIME_2_8MS            1
-#define GWTIME_5_6MS            2
-#define GWTIME_8_4MS            3
-#define GWTIME_14_0MS           4
-#define GWTIME_22_4MS           5
-#define GWTIME_30_8MS           6
-#define GWTIME_39_2MS           7
 //-----------------------------------------------------------------------------
 /// Apds9960 写寄存器数据
 void APDS9960_Write(unsigned char reg,unsigned len,char* src);
@@ -217,12 +176,6 @@ void APDS9960_WriteReg16(unsigned char reg,unsigned short val);
 #define APDS9960_SetGMODE(_v)         APDS9960_WriteReg8(APDS9960_GCONF4,(APDS9960_GetGCONF4() & 0x06) | (_v & 0x01) << 0);
 //#define APDS9960_ClearGFIFO()       APDS9960_WriteReg8(APDS9960_GCONF4,APDS9960_GetGCONF4()|0x04)
 
-/*
-#define ExecIForce()    APDS9960_WriteReg8(APDS9960_IFORCE,0x00)
-#define ExecPiClear()   APDS9960_WriteReg8(APDS9960_PICLEAR,0x00)
-#define ExecCiClear()   APDS9960_WriteReg8(APDS9960_CICLEAR,0x00)
-#define ExecAiClear()   APDS9960_WriteReg8(APDS9960_AICLEAR,0x00)
-*/
 
 
 //-----------------------------------------------------------------------------
@@ -347,8 +300,20 @@ void APDS9960_WriteReg16(unsigned char reg,unsigned short val);
 /// 手势FIFO寄存器存在数据
 #define APDS9960_GetGVALID()    (APDS9960_ReadReg8(APDS9960_GSTATUS) & 0x01)
 
-
-
+#define APDS9960_GetATIME() APDS9960_ReadReg8(APDS9960_ATIME)
+#define APDS9960_SetATIME(_v) APDS9960_WriteReg8(APDS9960_ATIME,_v)
+/**
+ * 获取器件状态
+ * (1ul << 7) CPSAT 光线传感器 清除寄存器 0xe6
+ * (1ul << 6) PGSAT 接近传感器 清除寄存器 0xe5
+ * (1ul << 5) PINT  接近传感器中断
+ * (1ul << 4) AINT  ALS 传感器中断
+ * (1ul << 3) 保留
+ * (1ul << 2) GINT  手势传感器中断 fifo 全部清空时自动重置
+ * (1ul << 1) PVALID PDATA 中数据读取后重置
+ * (1ul << 0) AVALID 0x94~0x9b 中数据被读取后重置
+*/
+#define APDS9960_GetSTATUS() APDS9960_ReadReg8(APDS9960_STATUS)
 //-----------------------------------------------------------------------------
 /// 初始化APDS-9960
 void APDS9960_Init();
@@ -368,8 +333,7 @@ void APDS9960_DisableGestureSensor();
 #define Put_APDS9960_ENABLE(_v) APDS9960_WriteReg8(APDS9960_ENABLE,_v)
 
 ///
-#define Get_APDS9960_ATIME() APDS9960_ReadReg8(APDS9960_ATIME)
-#define Set_APDS9960_ATIME(_v) APDS9960_WriteReg8(APDS9960_ATIME,_v)
+
 
 #define Get_APDS9960_WTIME() APDS9960_ReadReg8(APDS9960_WTIME)
 #define Get_APDS9960_AILT() APDS9960_ReadReg16(APDS9960_AILTL)
