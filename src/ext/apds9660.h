@@ -38,7 +38,7 @@
 #define APDS9960_PIHT           0x8B
 
 /// 循环测试设置 光线传感器&接近传感器
-#define APDS9960_PERS           0x8C
+#define APDS9960_PERS           0x8C                
 #define APDS9960_CONFIG1        0x8D
 /// 接近脉冲寄存器
 #define APDS9960_PPULSE         0x8E
@@ -68,22 +68,23 @@
 #define APDS9960_POFFSET_UR     0x9D
 #define APDS9960_POFFSET_DL     0x9E
 #define APDS9960_CONFIG3        0x9F
-#define APDS9960_GPENTH         0xA0
-#define APDS9960_GEXTH          0xA1
-#define APDS9960_GCONF1         0xA2
-#define APDS9960_GCONF2         0xA3
-#define APDS9960_GOFFSET_U      0xA4
-#define APDS9960_GOFFSET_D      0xA5
-#define APDS9960_GOFFSET_L      0xA7
-#define APDS9960_GOFFSET_R      0xA9
-#define APDS9960_GPULSE         0xA6
+
+#define APDS9960_GPENTH         0xA0            // 手势进入阀值寄存器
+#define APDS9960_GEXTH          0xA1            // 手势退出阀值寄存器
+#define APDS9960_GCONF1         0xA2            // 手势配置寄存器1
+#define APDS9960_GCONF2         0xA3            // 手势配置寄存器2
+#define APDS9960_GOFFSET_U      0xA4            // 手势传感器 U 偏移设置 -127 ~ 127
+#define APDS9960_GOFFSET_D      0xA5            // 手势传感器 D 偏移设置 -127 ~ 127
+#define APDS9960_GOFFSET_L      0xA7            // 手势传感器 L 偏移设置 -127 ~ 127
+#define APDS9960_GOFFSET_R      0xA9            // 手势传感器 R 偏移设置 -127 ~ 127
+#define APDS9960_GPULSE         0xA6            // 手势 脉冲 & 计数 寄存器
 #define APDS9960_GCONF3         0xAA
 /// 手势设定 
-#define APDS9960_GCONF4         0xAB
+#define APDS9960_GCONF4         0xAB            // 手势配置寄存器4 GIEM:手势中断/GMODE:手势模式/GFIFO_CLR:数据清理
 /// 手势寄存器缓冲数量
 #define APDS9960_GFLVL          0xAE
 /// 手势状态
-#define APDS9960_GSTATUS        0xAF
+#define APDS9960_GSTATUS        0xAF            // R : 
 /// 强制中断
 #define APDS9960_IFORCE         0xE4
 /// 接近中断清除
@@ -132,7 +133,26 @@
 #define AGAIN_4X                1
 #define AGAIN_16X               2
 #define AGAIN_64X               3
+/* Gesture Gain (GGAIN) values */
+#define GGAIN_1X                0
+#define GGAIN_2X                1
+#define GGAIN_4X                2
+#define GGAIN_8X                3
+/* LED Boost values */
+#define LED_BOOST_100           0
+#define LED_BOOST_150           1
+#define LED_BOOST_200           2
+#define LED_BOOST_300           3    
 
+/* Gesture wait time values */
+#define GWTIME_0MS              0
+#define GWTIME_2_8MS            1
+#define GWTIME_5_6MS            2
+#define GWTIME_8_4MS            3
+#define GWTIME_14_0MS           4
+#define GWTIME_22_4MS           5
+#define GWTIME_30_8MS           6
+#define GWTIME_39_2MS           7
 //-----------------------------------------------------------------------------
 /// Apds9960 写寄存器数据
 void APDS9960_Write(unsigned char reg,unsigned len,char* src);
@@ -150,6 +170,25 @@ void APDS9960_WriteReg8(unsigned char reg,unsigned char val);
 /// 写16位
 //#define APDS9960_WriteReg16(_r,_v) do{APDS9960_WriteReg8((_r),(_v)&0x00ff);APDS9960_WriteReg8((_r)+1,((_v) & 0xff00) >> 8);}while(0) 
 void APDS9960_WriteReg16(unsigned char reg,unsigned short val);
+//-----------------------------------------------------------------------------
+#define APDS9960_GetENABLE()        APDS9960_ReadReg8(APDS9960_ENABLE)
+//#define APDS9960_SetENABLE(_v)      APDS9960_WriteReg8(APDS9960_ENABLE,_v);
+/// Apds 9960 关闭所有使能
+#define APDS9960_ClearENABLE()      APDS9960_WriteReg8(APDS9960_ENABLE,0x00);
+/// 手势模式使能
+#define APDS9960_SetGEN(_v)         APDS9960_WriteReg8(APDS9960_ENABLE,(APDS9960_GetENABLE() & 0x3f) | (_v & 0x01) << 6 );
+/// 中断使能
+#define APDS9960_SetPIEN(_v)        APDS9960_WriteReg8(APDS9960_ENABLE,(APDS9960_GetENABLE() & 0x5f) | (_v & 0x01) << 5 );
+/// ALS 中断使能
+#define APDS9960_SetAIEN(_v)        APDS9960_WriteReg8(APDS9960_ENABLE,(APDS9960_GetENABLE() & 0x6f) | (_v & 0x01) << 4 );
+/// 等待使能,同时暂停等待计时
+#define APDS9960_SetWEN(_v)         APDS9960_WriteReg8(APDS9960_ENABLE,(APDS9960_GetENABLE() & 0x77) | (_v & 0x01) << 3 );
+/// 接近模式使能
+#define APDS9960_SetPEN(_v)         APDS9960_WriteReg8(APDS9960_ENABLE,(APDS9960_GetENABLE() & 0x7b) | (_v & 0x01) << 2 );
+/// ALS 模式使能
+#define APDS9960_SetAEN(_v)         APDS9960_WriteReg8(APDS9960_ENABLE,(APDS9960_GetENABLE() & 0x7d) | (_v & 0x01) << 1 );
+/// 主电源使能
+#define APDS9960_SetPON(_v)         APDS9960_WriteReg8(APDS9960_ENABLE,(APDS9960_GetENABLE() & 0x7e) | (_v & 0x01) << 0 );
 
 /// 环境光线
 /**
@@ -170,7 +209,13 @@ void APDS9960_WriteReg16(unsigned char reg,unsigned short val);
 #define APDS9960_Light_blue()       APDS9960_ReadReg16(APDS9960_BDATAL)
 
 #define APDS9960_GetGCONF4()        APDS9960_ReadReg8(APDS9960_GCONF4)
-#define APDS9960_ClearGFIFO()       APDS9960_WriteReg8(APDS9960_GCONF4,APDS9960_GetGCONF4()|0x04)
+/// 手势模式 清除GFIFO,GINT,GVALID等.
+#define APDS9960_ClearGFIFO()       APDS9960_WriteReg8(APDS9960_GCONF4,(APDS9960_GetGCONF4() & 0x03) | 0x04 );
+/// 手势模式 中断开关
+#define APDS9960_SetGIEN(_v)          APDS9960_WriteReg8(APDS9960_GCONF4,(APDS9960_GetGCONF4() & 0x05) | (_v & 0x01) << 1);
+/// 手势模式 ALS 与 手势 切换.
+#define APDS9960_SetGMODE(_v)         APDS9960_WriteReg8(APDS9960_GCONF4,(APDS9960_GetGCONF4() & 0x06) | (_v & 0x01) << 0);
+//#define APDS9960_ClearGFIFO()       APDS9960_WriteReg8(APDS9960_GCONF4,APDS9960_GetGCONF4()|0x04)
 
 /*
 #define ExecIForce()    APDS9960_WriteReg8(APDS9960_IFORCE,0x00)
@@ -223,16 +268,99 @@ void APDS9960_WriteReg16(unsigned char reg,unsigned short val);
 /// ALS 中断
 #define APDS9960_SetCPSIEN()    APDS9960_WriteReg8(APDS9960_CONFIG2,(APDS9960_GetCONFIG2() & 0xbf) | (_v & 0xfe ) << 6 ) ;
 
+/// 手势进入
 #define APDS9960_SetGestureEnterThresh(_v)  APDS9960_WriteReg8(APDS9960_GPENTH,_v)
-
+/// 手势离开
 #define APDS9960_SetGestureExitThresh(_v) APDS9960_WriteReg8(APDS9960_GEXTH,_v)
+
+/// 获取手势配置寄存器1
+#define APDS9960_GetGCONF1()    APDS9960_ReadReg8(APDS9960_GCONF1)
+/**
+ * ????
+ * 手势模式 中断前提交FIFO数量
+ * 0 = 1 
+ * 1 = 4
+ * 2 = 8
+ * 3 = 16
+*/
+#define APDS9960_SetGFIFOTH(_v) APDS9960_WriteReg8(APDS9960_GCONF1, (APDS9960_GetGCONF1() & 0x3f) | (_v & 0xfc) << 6 )
+/**
+ * 
+*/
+#define APDS9960_SetGEXMSK(_v)  APDS9960_WriteReg8(APDS9960_GCONF1, (APDS9960_GetGCONF1() & 0xc3) | (_v & 0xf0) << 2 )
+#define APDS9960_SetGEXPERS(_v) APDS9960_WriteReg8(APDS9960_GCONF1, (APDS9960_GetGCONF1() & 0xfc) | (_v & 0xfc) << 0 )
+
+/// 获取手势配置寄存器2
+#define APDS9960_GetGCONF2()    APDS9960_ReadReg8(APDS9960_GCONF2)
+/**
+ * 手势模式 距离增益
+ * 0 = 1x
+ * 1 = 2x
+ * 2 = 4x
+ * 3 = 8x
+*/
+#define APDS9960_SetGGAIN(_v) APDS9960_WriteReg8(APDS9960_GCONF2, (APDS9960_GetGCONF2() & 0x1f) | (_v & 0xfc) << 5 )
+/**
+ * 手势模式 LED驱动能力
+ * 0 = 100 mA
+ * 1 = 50 mA
+ * 2 = 25 mA
+ * 3 = 12.5 mA
+*/
+#define APDS9960_SetGLDRIVE(_v) APDS9960_WriteReg8(APDS9960_GCONF2, (APDS9960_GetGCONF2() & 0x73) | (_v & 0xfc) << 3 )
+/**
+ * 手势模式 检测时间间隔
+ * 0 = 0 ms
+ * 1 = 2.8 ms
+ * 3 = 8.4 ms
+ * 4 = 14 ms
+ * 5 = 22.4 ms
+ * 6 = 30.8 ms
+ * 7 = 39.2 ms
+*/
+#define APDS9960_SetGWTIME(_v) APDS9960_WriteReg8(APDS9960_GCONF2, (APDS9960_GetGCONF2() & 0x7c) | (_v & 0xf8) << 0 )
+
+#define APDS9960_GetGPULSE()    APDS9960_ReadReg8(APDS9960_GPULSE)
+/**
+ * 手势模式 LED 脉冲宽度
+ * 0 = 4/us
+ * 1 = 8/us (Default)
+ * 2 = 16/us
+ * 3 = 32/us
+*/
+#define APDS9960_SetGPLEN(_v)   APDS9960_WriteReg8(APDS9960_GPULSE, (APDS9960_GetGPULSE() & 0x3f) | (_v & 0xfc) << 6 )
+/**
+ * 手势模式 LDR 脉冲计数
+ * 赋值为 val + 1
+*/
+#define APDS9960_SetGPULSE(_v)   APDS9960_WriteReg8(APDS9960_GPULSE, (APDS9960_GetGPULSE() & 0xc0) | (_v & 0x3f) << 0 )
+/**
+ * 手势模式 选择手势接受用传感器
+ * 0 = 上下/左右 同时生效
+ * 1 = 上下 有效 左右无效
+ * 2 = 左右 有效 上下无效
+ * 3 = 上下/左右 同时生效
+*/
+#define APDS9960_SetGDIMS(_v)   APDS9960_WriteReg8(APDS9960_GCONF3,(_v & 0x03));
+/// 手势FIFO寄存器溢出
+#define APDS9960_GetGFOV()      ((APDS9960_ReadReg8(APDS9960_GSTATUS) & 0x02) >> 1 )
+/// 手势FIFO寄存器存在数据
+#define APDS9960_GetGVALID()    (APDS9960_ReadReg8(APDS9960_GSTATUS) & 0x01)
+
+
+
 //-----------------------------------------------------------------------------
 /// 初始化APDS-9960
 void APDS9960_Init();
 
 unsigned char APDS9960_ReadGesture();
+/// 开启手势模式
+void APDS9960_EnableGestureSensor(unsigned char itr);
+/// 关闭手势模式
+void APDS9960_DisableGestureSensor();
+
 //-------------
-void APDS9960_GestureSensor();
+//void APDS9960_GestureSensor();
 //void APDS9960_ReadGesture();
 //--------------
 /*

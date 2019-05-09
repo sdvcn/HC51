@@ -204,8 +204,43 @@ void APDS9960_WriteReg16(unsigned char reg,unsigned short val)
 }
 
 //-----------------------------------------------------------------------------
+/**
+ * 开启手势识别
+*/
+void APDS9960_EnableGestureSensor(unsigned char itr)
+{
+    DLOG("APDS9960_EnableGestureSensor()");
 
+    APDS9960_WriteReg8(APDS9960_WTIME,0xff);
 
+    APDS9960_WriteReg8(APDS9960_PPULSE,DEFAULT_GESTURE_PPULSE);
+
+    APDS9960_LedBoost(LED_BOOST_300);
+
+    if(itr){
+        APDS9960_SetGIEN(0);
+    }else{
+        APDS9960_SetGIEN(0);
+    }
+
+    APDS9960_SetGMODE(1);
+
+    APDS9960_SetPON(1);
+
+    APDS9960_SetWEN(1);
+
+    APDS9960_SetPEN(1);
+
+    APDS9960_SetGEN(1);
+}
+
+void APDS9960_DisableGestureSensor()
+{
+    DLOG("APDS9960_DisableGestureSensor()");
+    APDS9960_SetGIEN(0)
+    APDS9960_SetGMODE(0);
+    APDS9960_SetGEN(0);
+}
 //-----------------------------------------------------------------------------
 
 /// 获取开启模式
@@ -279,43 +314,42 @@ void APDS9960_Init()
     APDS9960_SetGestureEnterThresh(DEFAULT_GPENTH);
 
     APDS9960_SetGestureExitThresh(DEFAULT_GEXTH);
+
+    APDS9960_WriteReg8(APDS9960_GCONF1,DEFAULT_GCONF1);
+
+    APDS9960_SetGGAIN(DEFAULT_GGAIN);
+
+    APDS9960_SetGLDRIVE(DEFAULT_GLDRIVE);
+
+    APDS9960_SetGWTIME(DEFAULT_GWTIME);
+
+    // 手势偏移
+    APDS9960_WriteReg8(APDS9960_GOFFSET_U,DEFAULT_GOFFSET);
+    APDS9960_WriteReg8(APDS9960_GOFFSET_D,DEFAULT_GOFFSET);
+    APDS9960_WriteReg8(APDS9960_GOFFSET_L,DEFAULT_GOFFSET);
+    APDS9960_WriteReg8(APDS9960_GOFFSET_R,DEFAULT_GOFFSET);
+
+    APDS9960_WriteReg8(APDS9960_GPULSE,DEFAULT_GPULSE);
+
+    APDS9960_WriteReg8(APDS9960_GCONF3,DEFAULT_GCONF3);
+
+    APDS9960_SetGIEN(DEFAULT_GIEN);
+
+    //APDS9960_GCONF4
+
     //----
-
-    r = APDS9960_GetLightIntLowThreshold();
-    
-    DLOGINT(_GetLightIntLowThreshold,r);
-
-    r = APDS9960_ReadReg8(APDS9960_AILTL);
-    DLOGINT(AAPDS9960_PILT,r);
-    r = APDS9960_ReadReg8(APDS9960_AILTH);
-    DLOGINT(AAPDS9960_PIHT,r);
-
-}
-
-void APDS9960_GestureSensor()
-{
-    DLOG("APDS9960_GestureSensor()");
-
-    //D_PowerOFF();
-    APDS9960_WriteReg8(APDS9960_ENABLE,0x00);
-    //延时值
-    APDS9960_WriteReg8(APDS9960_WTIME,0xff);
-    //设置
-    APDS9960_WriteReg8(APDS9960_PPULSE,DEFAULT_GESTURE_PPULSE);
-    // 设置LED
-    //APDS9960_WriteReg8(APDS9960_CONFIG2,0xf0);
-    APDS9960_LedBoost(3u);
-    // 开启手势中断 设定手势模式
-    APDS9960_WriteReg8(APDS9960_GCONF4,0x03);
-    // 开启供电
-    APDS9960_WriteReg8(APDS9960_ENABLE,0x7f);
-    
 }
 
 
 
 unsigned char APDS9960_ReadGesture()
 {
+    DLOG("APDS9960_DisableGestureSensor()");
+
+    if(!APDS9960_GetGVALID()){
+        return 0x00;
+    }
+
     unsigned char ret = 0x00;
     //unsigned char bup[32*4];
     unsigned char flevel = APDS9960_ReadReg8(APDS9960_GFLVL);
@@ -327,5 +361,5 @@ unsigned char APDS9960_ReadGesture()
     return ret;
 }
 
-//#define LEDA(_v) ((_v & 0x03) << 4)
+
 
