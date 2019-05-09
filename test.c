@@ -67,6 +67,7 @@ far void aa1() _at_ 0x06
 */
 void main()
 {
+	unsigned char aStat = 0x00;
 	Uart2Init();
 	EA = 1;
 	//----------------------
@@ -89,8 +90,14 @@ void main()
 	///设置IO端口
 
 	APDS9960_Init();					///Apds-9960 默认状态下初始化
+
+	//APDS9960_SetATIME(0);
 	///
 	APDS9960_EnableGestureSensor(0x01);
+	// 识别时间间隔
+	APDS9960_SetGWTIME(7);
+	// GFIfo 数量
+	//APDS9960_SetGFIFOTH(3);
 	//APDS9960_GestureSensor();
 	//APDS9960_ReadGesture();
 
@@ -101,7 +108,18 @@ void main()
 		P75 = P76;
 		if(P76 == 0)
 		{
-			DLOG("Apds-9960 Int");
+			aStat = APDS9960_ReadReg8(APDS9960_STATUS);
+			//DLOG("Apds-9960 Int");
+			DLOGINT(APDS9960_STATUS,aStat);
+			aStat = APDS9960_ReadReg8(APDS9960_GSTATUS);
+			DLOGINT(APDS9960_GSTATUS,aStat);
+
+			 
+
+			APDS9960_ReadGesture();
+
+			///清理中断
+			APDS9960_ClearGFIFO();
 		}
 		//uSENDs("Init:",5);
 		
@@ -110,7 +128,6 @@ void main()
 		//uSEND(S2CON);
 		
 		if(P77 == 0){
-			Console_DumpHex(5,"ABCDEFG");
 			//APDS9960_ReadGesture();
 			
 			//printf("0123456789\n");
