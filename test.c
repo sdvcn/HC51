@@ -88,7 +88,9 @@ void main()
 	
 	///设置IO端口
 
-	APDS9960_Init();
+	APDS9960_Init();					///Apds-9960 默认状态下初始化
+	///
+	APDS9960_EnableGestureSensor(0x01);
 	//APDS9960_GestureSensor();
 	//APDS9960_ReadGesture();
 
@@ -108,6 +110,7 @@ void main()
 		//uSEND(S2CON);
 		
 		if(P77 == 0){
+			Console_DumpHex(5,"ABCDEFG");
 			//APDS9960_ReadGesture();
 			
 			//printf("0123456789\n");
