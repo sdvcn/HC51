@@ -62,22 +62,22 @@
 #define APDS9960_POFFSET_DL     0x9E
 #define APDS9960_CONFIG3        0x9F
 
-#define APDS9960_GPENTH         0xA0            // 手势进入阀值寄存器
-#define APDS9960_GEXTH          0xA1            // 手势退出阀值寄存器
-#define APDS9960_GCONF1         0xA2            // 手势配置寄存器1
-#define APDS9960_GCONF2         0xA3            // 手势配置寄存器2
-#define APDS9960_GOFFSET_U      0xA4            // 手势传感器 U 偏移设置 -127 ~ 127
-#define APDS9960_GOFFSET_D      0xA5            // 手势传感器 D 偏移设置 -127 ~ 127
-#define APDS9960_GOFFSET_L      0xA7            // 手势传感器 L 偏移设置 -127 ~ 127
-#define APDS9960_GOFFSET_R      0xA9            // 手势传感器 R 偏移设置 -127 ~ 127
-#define APDS9960_GPULSE         0xA6            // 手势 脉冲 & 计数 寄存器
+#define APDS9960_GPENTH         0xA0                // 手势进入阀值寄存器
+#define APDS9960_GEXTH          0xA1                // 手势退出阀值寄存器
+#define APDS9960_GCONF1         0xA2                // 手势配置寄存器1
+#define APDS9960_GCONF2         0xA3                // 手势配置寄存器2
+#define APDS9960_GOFFSET_U      0xA4                // 手势传感器 U 偏移设置 -127 ~ 127
+#define APDS9960_GOFFSET_D      0xA5                // 手势传感器 D 偏移设置 -127 ~ 127
+#define APDS9960_GOFFSET_L      0xA7                // 手势传感器 L 偏移设置 -127 ~ 127
+#define APDS9960_GOFFSET_R      0xA9                // 手势传感器 R 偏移设置 -127 ~ 127
+#define APDS9960_GPULSE         0xA6                // 手势 脉冲 & 计数 寄存器
 #define APDS9960_GCONF3         0xAA
 /// 手势设定 
-#define APDS9960_GCONF4         0xAB            // 手势配置寄存器4 GIEM:手势中断/GMODE:手势模式/GFIFO_CLR:数据清理
+#define APDS9960_GCONF4         0xAB                // 手势配置寄存器4 GIEM:手势中断/GMODE:手势模式/GFIFO_CLR:数据清理
 /// 手势寄存器缓冲数量
-#define APDS9960_GFLVL          0xAE
+#define APDS9960_GFLVL          0xAE                //[*R] 
 /// 手势状态
-#define APDS9960_GSTATUS        0xAF            // R : 
+#define APDS9960_GSTATUS        0xAF                //[*R] 
 /// 强制中断
 #define APDS9960_IFORCE         0xE4
 /// 接近中断清除
@@ -86,14 +86,10 @@
 #define APDS9960_CICLEAR        0xE6
 /// 全部非手势中断清除
 #define APDS9960_AICLEAR        0xE7
-/// 手势 上
-#define APDS9960_GFIFO_U        0xFC
-/// 手势 下
-#define APDS9960_GFIFO_D        0xFD
-/// 手势 左
-#define APDS9960_GFIFO_L        0xFE
-/// 手势 右
-#define APDS9960_GFIFO_R        0xFF
+#define APDS9960_GFIFO_U        0xFC                //[*R] 手势 上
+#define APDS9960_GFIFO_D        0xFD                //[*R] 手势 下
+#define APDS9960_GFIFO_L        0xFE                //[*R] 手势 左
+#define APDS9960_GFIFO_R        0xFF                //[*R] 手势 右
 //-----------------------------------------------------------------------------
 /* 启动使能 */
 /// 主电源
@@ -297,7 +293,7 @@ void APDS9960_WriteReg16(unsigned char reg,unsigned short val);
 #define APDS9960_SetGDIMS(_v)   APDS9960_WriteReg8(APDS9960_GCONF3,(_v & 0x03));
 /// 手势FIFO寄存器溢出
 #define APDS9960_GetGFOV()      ((APDS9960_ReadReg8(APDS9960_GSTATUS) & 0x02) >> 1 )
-/// 手势FIFO寄存器存在数据
+/// 判定手势FIFO寄存器存在数据
 #define APDS9960_GetGVALID()    (APDS9960_ReadReg8(APDS9960_GSTATUS) & 0x01)
 
 #define APDS9960_GetATIME() APDS9960_ReadReg8(APDS9960_ATIME)
