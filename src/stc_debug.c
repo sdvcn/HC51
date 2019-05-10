@@ -4,6 +4,8 @@
 
 /**
  * Dump Bin to Hex
+ * @size_t len = 长度
+ * @char* src = 起始地址
 */
 void Console_DumpHex(size_t len,char* src)
 {
@@ -38,6 +40,4 @@ void Console_DumpHex(size_t len,char* src)
         }
         printf(" |\n");
     }
-
-    //printf(DumpTxt,123);
 }
