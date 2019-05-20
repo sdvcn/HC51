@@ -2,8 +2,15 @@
  * STC8 测试后部分扩展指令支持存在问题
 */
 #include <stcmcu.h>
+
+
+#include <string.h>
+
+
+
 #include <i2c.h>
 #include <ext_debug.h>
+
 
 /**
  * 时许严谨,禁止占用
@@ -144,7 +151,7 @@ void Emu_delay()
     j = LOOP2;
     do{
         while(--i);
-    }while(--j)
+    }while(--j);
 }
 
 void Emu_Init()
@@ -201,5 +208,67 @@ void Emu_Write(unsigned char c)
 
 void Emu_RxACK()
 {
+
+}
+void Emu_Cmd(unsigned char cmd)
+{
+
+}
+/**
+ * 通用方法
+*/
+
+// IIC 起始
+void MMC_Start(sI2c *mio)
+{
+    mio->pCommand(MSCMD_START);
+    mio->mError = IO_NONE;
+}
+
+void MMC_Stop(sI2c *mio)
+{
+    mio->pCommand(MSCMD_STOP);
+    mio->mError = IO_NONE;
+}
+
+void MMC_RxAck(sI2c *mio)
+{
+    mio->pCommand(MSCMD_RACK);
+    mio->mError = IO_NONE;
+}
+
+unsigned char MMC_Read(sI2c *mio)
+{
+    unsigned char r = 0x00;
+    r = mio->pRead();
+    mio->mError = IO_NONE;
+    return r;
+}
+
+unsigned MMC_Reads(sI2c *mio,unsigned char* dst,unsigned len)
+{
+    unsigned r;
+    r = mio->pReads(len,dst);
+    return r;
+}
+/**
+ * 寄存器方式实现
+*/
+void CreateIIC4Sfr(sI2c *mio,unsigned char op)
+{
+    assert((sizeof(sI2c)==sizeof(BaseIO)));
+    
+    memset(mio,0x00,sizeof(sI2c));                     //重置
+    //
+    //
+    mio->pRead = I2c_Read;
+    mio->pReads = I2c_Reads;
+    mio->pCommand = I2c_Cmd;
+    mio->pWrite = I2c_Write;
+    mio->pWrites = I2c_Writes;
+    mio->pSeek = NULL;
+    //v->pStart = I2c_Start;
+    //v->pStart = I2c_Read
+    
 
 }
