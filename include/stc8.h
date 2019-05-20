@@ -111,6 +111,12 @@ static volatile unsigned char	T2L		@	0xD7;
 /// P7端口配置寄存器
 static volatile unsigned char	P7M1	@	0xE1;
 static volatile unsigned char	P7M0	@	0xE2;
+
+/// STC8 增强双数据指针
+static volatile unsigned char	DPS 	_at_	0xE3;
+static volatile unsigned char	DPL1	_at_	0xE4;
+static volatile unsigned char	DPH1	_at_	0xE5;
+
 // Port 4 P4
 static volatile unsigned char   P4  _at_ 0xC0;
 //static volatile SFR_BITS	P4_BITS @ 0xC0;
