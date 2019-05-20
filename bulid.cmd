@@ -18,5 +18,6 @@ echo ChipInfo = %CHIP%
 echo //////////////////////////////////////////////////////////////////////
 
 rem c51 -C  %ARGS% %LIB% %1
+c51 -S -Q %ARGS% %1
 c51 --time --summary=all %ARGS% %1
 endlocal
