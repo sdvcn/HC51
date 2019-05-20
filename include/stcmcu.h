@@ -38,20 +38,6 @@ typedef unsigned short	ushort;
 /**
  * 通用IO结构
 */
-typedef struct
-{
-    unsigned char (*pError)();                          // 获取错误
-    void (*pCommand)(unsigned char);                    // 命令
-    void (*pWrite)(unsigned char);                      // 写入字节
-    unsigned (*pWrites)(unsigned,unsigned char*);       // 写入字符串
-    unsigned char (*pRead)();                           // 读出字节
-    unsigned (*pReads)(unsigned,unsigned char*);        // 读出字符串
-    unsigned (*pSeek)(signed);                          // 移动 *有符号整数
-	//---
-} BaseIO;
-
-
-
 
 typedef enum IOStatus{
     IO_NONE = 0,                                     // 无错误

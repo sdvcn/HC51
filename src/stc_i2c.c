@@ -217,27 +217,42 @@ void Emu_Cmd(unsigned char cmd)
 /**
  * 通用方法
 */
+typedef struct
+{
+    unsigned char (*pError)();                          // 获取错误
+    void (*pCommand)(unsigned char);                    // 命令
+    void (*pWrite)(unsigned char);                      // 写入字节
+    unsigned (*pWrites)(unsigned,unsigned char*);       // 写入字符串
+    unsigned char (*pRead)();                           // 读出字节
+    unsigned (*pReads)(unsigned,unsigned char*);        // 读出字符串
+    unsigned (*pSeek)(signed);                          // 移动 *有符号整数
+	//---
+	unsigned char mError;
+	void *mData;										// 私有数据结构
+} BaseIO;
+
+#define pIO(_v)      ((sI2c*)_v)
 
 // IIC 起始
-void MMC_Start(sI2c *mio)
+void MMC_Start(BaseIO *mio)
 {
     mio->pCommand(MSCMD_START);
     mio->mError = IO_NONE;
 }
 
-void MMC_Stop(sI2c *mio)
+void MMC_Stop(BaseIO *mio)
 {
     mio->pCommand(MSCMD_STOP);
     mio->mError = IO_NONE;
 }
 
-void MMC_RxAck(sI2c *mio)
+void MMC_RxAck(BaseIO *mio)
 {
     mio->pCommand(MSCMD_RACK);
     mio->mError = IO_NONE;
 }
 
-unsigned char MMC_Read(sI2c *mio)
+unsigned char MMC_Read(BaseIO *mio)
 {
     unsigned char r = 0x00;
     r = mio->pRead();
@@ -245,7 +260,7 @@ unsigned char MMC_Read(sI2c *mio)
     return r;
 }
 
-unsigned MMC_Reads(sI2c *mio,unsigned char* dst,unsigned len)
+unsigned MMC_Reads(BaseIO *mio,unsigned char* dst,unsigned len)
 {
     unsigned r;
     r = mio->pReads(len,dst);
@@ -257,6 +272,7 @@ unsigned MMC_Reads(sI2c *mio,unsigned char* dst,unsigned len)
 void CreateIIC4Sfr(void *mio,unsigned char op)
 {
     //assert((sizeof(sI2c)==sizeof(BaseIO)));
+    ///申请内存
     
     memset(mio,0x00,sizeof(BaseIO));                     //重置
     //
