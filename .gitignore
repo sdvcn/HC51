@@ -14,4 +14,5 @@ bulid
 *.hex
 *.hum
 *.mcu
+test_*.c
 
