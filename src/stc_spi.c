@@ -37,6 +37,6 @@ void SpiReads(char* buf,unsigned short len)
 
 void CreateSPI4Sfr(sSPI *mio,unsigned char op)
 {
-    assert(sizeof(sSPI)==sizeof(BaseIO));
-    memset(mio,0x00,sizeof(sSPI));                     //重置
+    //assert(sizeof(sSPI)==sizeof(BaseIO));
+    memset(mio,0x00,sizeof(BaseIO));                     //重置
 }

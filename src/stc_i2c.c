@@ -254,19 +254,19 @@ unsigned MMC_Reads(sI2c *mio,unsigned char* dst,unsigned len)
 /**
  * 寄存器方式实现
 */
-void CreateIIC4Sfr(sI2c *mio,unsigned char op)
+void CreateIIC4Sfr(void *mio,unsigned char op)
 {
-    assert((sizeof(sI2c)==sizeof(BaseIO)));
+    //assert((sizeof(sI2c)==sizeof(BaseIO)));
     
-    memset(mio,0x00,sizeof(sI2c));                     //重置
+    memset(mio,0x00,sizeof(BaseIO));                     //重置
     //
     //
-    mio->pRead = I2c_Read;
-    mio->pReads = I2c_Reads;
-    mio->pCommand = I2c_Cmd;
-    mio->pWrite = I2c_Write;
-    mio->pWrites = I2c_Writes;
-    mio->pSeek = NULL;
+    ((BaseIO*)mio)->pRead = I2c_Read;
+    ((BaseIO*)mio)->pReads = I2c_Reads;
+    ((BaseIO*)mio)->pCommand = I2c_Cmd;
+    ((BaseIO*)mio)->pWrite = I2c_Write;
+    ((BaseIO*)mio)->pWrites = I2c_Writes;
+    ((BaseIO*)mio)->pSeek = NULL;
     //v->pStart = I2c_Start;
     //v->pStart = I2c_Read
     

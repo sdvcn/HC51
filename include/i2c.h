@@ -123,25 +123,11 @@ extern unsigned I2c_Reads(unsigned len,char* dst);
 */
 
 
-
-typedef struct
-{
-    unsigned char (*pError)();                          // 获取错误
-    void (*pCommand)(unsigned char);                    // 命令
-    void (*pWrite)(unsigned char);                      // 写入字节
-    unsigned (*pWrites)(unsigned,unsigned char*);       // 写入字符串
-    unsigned char (*pRead)();                           // 读出字节
-    unsigned (*pReads)(unsigned,unsigned char*);        // 读出字符串
-    unsigned (*pSeek)(signed);                          // 移动 *有符号整数
-    //---
-    unsigned char mError;
-} sI2c;
-
-
 /**
  * 使用寄存器
 */
-void CreateIIC4Sfr(sI2c *mio,unsigned char op);
+//void CreateIIC4Sfr(sI2c *mio,unsigned char op);
+void CreateIIC4Sfr(void *mio,unsigned char op);
 /**
  * 模拟方式
 */
