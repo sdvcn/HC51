@@ -2,10 +2,13 @@
 #define __I2C_H__
 
 
-
 /**
  * 通用
 */
+
+
+
+
 
 /// 读地址移位
 #define I2C_READ_ADDR(_addr) ((_addr << 1) | 1ul)
@@ -49,7 +52,6 @@ enum{
 };
 
 
-extern unsigned char I2c_StartAddr(unsigned char addr);
 /**
  * 扩展方式
 */
@@ -114,5 +116,21 @@ extern unsigned I2c_Reads(unsigned len,char* dst);
 #define I2c_Di() I2c_CFG(0x00)
 
 
+//-----------------------------------------------------------------------------
+
+/**
+ * 
+*/
+
+
+/**
+ * 使用寄存器
+*/
+//void CreateIIC4Sfr(sI2c *mio,unsigned char op);
+void CreateIIC4Sfr(void *mio,unsigned char op);
+/**
+ * 模拟方式
+*/
+//void Create4Emu(BaseIO* mio,unsigned char mhz,unsigned char mSda,unsigned char mScl);
 
 #endif

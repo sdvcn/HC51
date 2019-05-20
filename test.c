@@ -3,10 +3,11 @@
 
 #include "include/ext_debug.h"
 
-#include "src/ext/apds9660.h"
+//#include "src/ext/apds9660.h"
 
 //#include "include/ext_apds9960.h"
 
+#include <i2c.h>
 
 
 ////功能函数调用头
@@ -65,6 +66,14 @@ far void aa1() _at_ 0x06
 	P3=0xf1;
 }
 */
+
+void a19()
+{
+	BaseIO i2c;
+	CreateIIC4Sfr((sI2c*)&i2c,0xff);
+	i2c.pWrite('a');
+}
+
 void main()
 {
 	unsigned char aStat = 0x00;
@@ -73,9 +82,10 @@ void main()
 	//----------------------
 
 	DLOG("\n::::::::::::::::System Reset::::::::::::::::\n");
+	a19();
 	/// 初始化串口
 	//ExtSfrSet(&P3PU,BIT(0)|BIT(1));
-	
+
 	
 	
 	/// 设置端口寄存器 高阻态
@@ -89,13 +99,13 @@ void main()
 	
 	///设置IO端口
 
-	APDS9960_Init();					///Apds-9960 默认状态下初始化
+	//APDS9960_Init();					///Apds-9960 默认状态下初始化
 
 	//APDS9960_SetATIME(0);
 	///
-	APDS9960_EnableGestureSensor(0x01);
+	//APDS9960_EnableGestureSensor(0x01);
 	// 识别时间间隔
-	APDS9960_SetGWTIME(7);
+	//APDS9960_SetGWTIME(7);
 	// GFIfo 数量
 	//APDS9960_SetGFIFOTH(3);
 	//APDS9960_GestureSensor();
@@ -108,18 +118,18 @@ void main()
 		P75 = P76;
 		if(P76 == 0)
 		{
-			aStat = APDS9960_ReadReg8(APDS9960_STATUS);
+			//aStat = APDS9960_ReadReg8(APDS9960_STATUS);
 			//DLOG("Apds-9960 Int");
-			DLOGINT(APDS9960_STATUS,aStat);
-			aStat = APDS9960_ReadReg8(APDS9960_GSTATUS);
-			DLOGINT(APDS9960_GSTATUS,aStat);
+			//DLOGINT(APDS9960_STATUS,aStat);
+			//aStat = APDS9960_ReadReg8(APDS9960_GSTATUS);
+			//DLOGINT(APDS9960_GSTATUS,aStat);
 
 			 
 
-			APDS9960_ReadGesture();
+			//APDS9960_ReadGesture();
 
 			///清理中断
-			APDS9960_ClearGFIFO();
+			//APDS9960_ClearGFIFO();
 		}
 		//uSENDs("Init:",5);
 		

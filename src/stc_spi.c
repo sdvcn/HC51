@@ -1,4 +1,8 @@
+#include <string.h>
 #include <stcmcu.h>
+
+#include <ext_debug.h>
+#include <spi.h>
 
 
 static void InitSPI(void)
@@ -29,3 +33,10 @@ void SpiReads(char* buf,unsigned short len)
 }
 
 ///模拟方式实现spi
+
+
+void CreateSPI4Sfr(sSPI *mio,unsigned char op)
+{
+    //assert(sizeof(sSPI)==sizeof(BaseIO));
+    memset(mio,0x00,sizeof(BaseIO));                     //重置
+}

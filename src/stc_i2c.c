@@ -2,8 +2,15 @@
  * STC8 测试后部分扩展指令支持存在问题
 */
 #include <stcmcu.h>
+
+
+#include <string.h>
+
+
+
 #include <i2c.h>
 #include <ext_debug.h>
+
 
 /**
  * 时许严谨,禁止占用
@@ -123,4 +130,145 @@ unsigned I2c_Reads(unsigned len,char* dst)
         I2c_Cmd(MSCMD_TACK);
     }
     return ret;
+}
+//------------------------------------------
+/**
+ * 模拟方式实现IIC
+*/
+#define PSDA P01
+#define PSCL P02
+#define PHigh   1
+#define PLow    0
+
+/// 400Khz
+#define LOOP1   5
+#define LOOP2   6
+
+void Emu_delay()
+{
+    unsigned char i,j;
+    i = LOOP1;
+    j = LOOP2;
+    do{
+        while(--i);
+    }while(--j);
+}
+
+void Emu_Init()
+{
+    PSCL = PHigh;
+    PSDA = PHigh;
+}
+
+void Emu_Start()
+{
+    PSDA = PHigh;
+    PSCL = PHigh;
+    Emu_delay();
+    PSDA = PLow;
+    Emu_delay();
+    PSCL = PLow;
+}
+
+void Emu_Stop()
+{
+    PSDA = PLow;
+    Emu_delay();
+    PSCL = PHigh;
+    Emu_delay();
+    PSDA = PHigh;
+}
+
+unsigned char Emu_Read()
+{
+    unsigned char c = 0x00;
+    for (unsigned char i = 0; i < 8; i++)
+    {
+        PSCL = PHigh;
+        Emu_delay();
+        Emu_delay();
+        c << = 1;
+        c |= PSDA;
+        PSCL = PLow;
+        Emu_delay();
+        Emu_delay();
+    }
+    return c;
+}
+void Emu_Write(unsigned char c)
+{
+    for (unsigned char i = 0; i < 8; i++){
+        PSDA = (c & (1 << i))?PHigh:PLow;
+        PSCL = PHigh;
+        Emu_delay();
+        PSCL = PLow;
+        Emu_delay();
+    }
+}
+
+void Emu_RxACK()
+{
+
+}
+void Emu_Cmd(unsigned char cmd)
+{
+
+}
+/**
+ * 通用方法
+*/
+
+// IIC 起始
+void MMC_Start(sI2c *mio)
+{
+    mio->pCommand(MSCMD_START);
+    mio->mError = IO_NONE;
+}
+
+void MMC_Stop(sI2c *mio)
+{
+    mio->pCommand(MSCMD_STOP);
+    mio->mError = IO_NONE;
+}
+
+void MMC_RxAck(sI2c *mio)
+{
+    mio->pCommand(MSCMD_RACK);
+    mio->mError = IO_NONE;
+}
+
+unsigned char MMC_Read(sI2c *mio)
+{
+    unsigned char r = 0x00;
+    r = mio->pRead();
+    mio->mError = IO_NONE;
+    return r;
+}
+
+unsigned MMC_Reads(sI2c *mio,unsigned char* dst,unsigned len)
+{
+    unsigned r;
+    r = mio->pReads(len,dst);
+    return r;
+}
+/**
+ * 寄存器方式实现
+*/
+void CreateIIC4Sfr(void *mio,unsigned char op)
+{
+    //assert((sizeof(sI2c)==sizeof(BaseIO)));
+    
+    memset(mio,0x00,sizeof(BaseIO));                     //重置
+    //
+    //
+    ((BaseIO*)mio)->pRead = I2c_Read;
+    ((BaseIO*)mio)->pReads = I2c_Reads;
+    ((BaseIO*)mio)->pCommand = I2c_Cmd;
+    ((BaseIO*)mio)->pWrite = I2c_Write;
+    ((BaseIO*)mio)->pWrites = I2c_Writes;
+    ((BaseIO*)mio)->pSeek = NULL;
+    //v->pStart = I2c_Start;
+    //v->pStart = I2c_Read
+    
+
 }
