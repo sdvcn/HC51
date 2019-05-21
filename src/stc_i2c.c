@@ -33,6 +33,7 @@ void _CheckI2C()
         DLOG("_CheckI2C");  
     }
 }
+
 // 内置延时等待
 void I2c_Wait()
 {
@@ -214,77 +215,82 @@ void Emu_Cmd(unsigned char cmd)
 {
 
 }
-/**
- * 通用方法
-*/
-typedef struct
-{
-    unsigned char (*pError)();                          // 获取错误
-    void (*pCommand)(unsigned char);                    // 命令
-    void (*pWrite)(unsigned char);                      // 写入字节
-    unsigned (*pWrites)(unsigned,unsigned char*);       // 写入字符串
-    unsigned char (*pRead)();                           // 读出字节
-    unsigned (*pReads)(unsigned,unsigned char*);        // 读出字符串
-    unsigned (*pSeek)(signed);                          // 移动 *有符号整数
-	//---
-	unsigned char mError;
-	void *mData;										// 私有数据结构
-} BaseIO;
 
-#define pIO(_v)      ((sI2c*)_v)
 
-// IIC 起始
-void MMC_Start(BaseIO *mio)
-{
-    mio->pCommand(MSCMD_START);
-    mio->mError = IO_NONE;
-}
-
-void MMC_Stop(BaseIO *mio)
-{
-    mio->pCommand(MSCMD_STOP);
-    mio->mError = IO_NONE;
-}
-
-void MMC_RxAck(BaseIO *mio)
-{
-    mio->pCommand(MSCMD_RACK);
-    mio->mError = IO_NONE;
-}
-
-unsigned char MMC_Read(BaseIO *mio)
-{
-    unsigned char r = 0x00;
-    r = mio->pRead();
-    mio->mError = IO_NONE;
-    return r;
-}
-
-unsigned MMC_Reads(BaseIO *mio,unsigned char* dst,unsigned len)
-{
-    unsigned r;
-    r = mio->pReads(len,dst);
-    return r;
-}
+//-----------------------------------------------------------------------------
 /**
  * 寄存器方式实现
 */
-void CreateIIC4Sfr(void *mio,unsigned char op)
+void Sfr_CFG(unsigned char op)
+{
+    DLOGINT(Sfr_CFG,op);
+    //DLOGINT(I2c_CFG,op);
+    //if(ExtSfrGet8((size_t)&I2CMSST) & MSBUSY) return 0ul;
+    ExtSfrSet8((size_t)&I2CCFG,op);
+    ExtSfrSet8((size_t)&I2CMSST,0x00);
+    ExtSfrSet8((size_t)&I2CMSAUX,0x00);
+    //return 1ul;
+}
+
+void Sfr_Wait()
+{
+    DLOGINT(Sfr_Wait,0);
+    while(!(ExtSfrGet8((size_t)&I2CMSST) & MSIF));
+    ExtSfrClear((size_t)&I2CMSST,MSIF);
+}
+
+void Sfr_Cmd(sI2c* h,unsigned char cmd)
+{
+    DLOGINT(Sfr_Cmd,cmd);
+    /// 清除高4位
+    cmd &= ~0xF0;
+    //todo 处理硬件版本兼容问题
+    //I2CMSCR = ((I2CMSCR & ~0x0f)| cmd);
+    ExtSfrSet8((size_t)&I2CMSCR,(ExtSfrGet8((size_t)&I2CMSCR) & ~0x0f)|cmd);
+    Sfr_Wait();
+}
+
+void Sfr_Write(sI2c* h,unsigned char c)
+{
+    ExtSfrSet8((size_t)&I2CTxD,c);
+    Sfr_Cmd(h,MSCMD_WRITE);
+}
+
+/// 读字符
+unsigned char Sfr_Read(sI2c* h)
+{
+    Sfr_Cmd(h,MSCMD_READ);
+    return ExtSfrGet8((size_t)&I2CRxD);
+}
+
+void Sfr_Close(sI2c* h)
+{
+    Sfr_CFG(0x00);
+}
+
+///
+#pragma warning disable 359
+
+void CreateIICM4Sfr(void *mio,unsigned char op)
 {
     //assert((sizeof(sI2c)==sizeof(BaseIO)));
     ///申请内存
-    
-    memset(mio,0x00,sizeof(BaseIO));                     //重置
-    //
-    //
-    ((BaseIO*)mio)->pRead = I2c_Read;
-    ((BaseIO*)mio)->pReads = I2c_Reads;
-    ((BaseIO*)mio)->pCommand = I2c_Cmd;
-    ((BaseIO*)mio)->pWrite = I2c_Write;
-    ((BaseIO*)mio)->pWrites = I2c_Writes;
-    ((BaseIO*)mio)->pSeek = NULL;
-    //v->pStart = I2c_Start;
-    //v->pStart = I2c_Read
-    
+    memset(mio,0x00,sizeof(sI2c));                     //重置
+    /// 函数赋值
+    pI2c(mio)->pCommand = Sfr_Cmd;
 
+    pI2c(mio)->mIOs.pRead = Sfr_Read;
+    pI2c(mio)->mIOs.pWrite = Sfr_Write;
+    pI2c(mio)->mIOs.pClose = Sfr_Close;
+    //----
+
+    ///重置
+    Sfr_CFG(0x00);
+
+    //ExtSfrSet8((size_t)&I2CCFG,0xc0|op);
+    Sfr_CFG(0xc0 | op);
 }
+//-----------------------------------------------------------------------------
+/**
+ * 通用方法
+*/

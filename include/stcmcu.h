@@ -33,11 +33,12 @@ typedef unsigned int	uint;
 typedef unsigned char	ubyte;
 typedef signed char		byte;
 typedef unsigned short	ushort;
-//typedef void 			*HANDLE;
+typedef void* 			HANDLE;
 
 /**
  * 通用IO结构
 */
+
 
 typedef enum IOStatus{
     IO_NONE = 0,                                     // 无错误

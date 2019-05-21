@@ -44,10 +44,10 @@ enum{
     MSCMD_TACK    = 0b0101,
     MSCMD_STOP    = 0b0110,
     //todo:未确认硬件兼容
-    //Ext_MSCMD_START = 0b1001,
-    //Ext_MSCMD_WRITE = 0b1010,
-    //Ext_MSCMD_READACK = 0b1011,
-    //Ext_MSCMD_READNACK = 0b1100,
+    Ext_MSCMD_START = 0b1001,
+    Ext_MSCMD_WRITE = 0b1010,
+    Ext_MSCMD_READACK = 0b1011,
+    Ext_MSCMD_READNACK = 0b1100,
 
 };
 
@@ -118,16 +118,31 @@ extern unsigned I2c_Reads(unsigned len,char* dst);
 
 //-----------------------------------------------------------------------------
 
+#include <obj.h>
+
+typedef struct _sI2c
+{
+    BaseIO  mIOs;                                       // 基础IO操作
+	//---
+    void (*pCommand)(void*,unsigned char);                    // 指令
+    unsigned char mFlag;                                //
+} sI2c;
+#define I2c_Flag_Ext            0b00000001
+#define I2c_Flag_ExtAuto        0b00000010
 /**
- * 
+ * I2c扩展指令部分
 */
+#define pI2c(_v)      ((sI2c*)_v)
+#define m2_I2c_Start(_h)    pI2c(_h)->pCommand(_h,MSCMD_START)
+#define m2_I2c_Stop(_h)     pI2c(_h)->pCommand(_h,MSCMD_STOP)
+
 
 
 /**
  * 使用寄存器
 */
-//void CreateIIC4Sfr(sI2c *mio,unsigned char op);
-void CreateIIC4Sfr(void *mio,unsigned char op);
+
+void CreateIICM4Sfr(void *mio,unsigned char op);
 /**
  * 模拟方式
 */

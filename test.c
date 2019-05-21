@@ -67,13 +67,6 @@ far void aa1() _at_ 0x06
 }
 */
 
-void a19()
-{
-	BaseIO i2c;
-	CreateIIC4Sfr((sI2c*)&i2c,0xff);
-	i2c.pWrite('a');
-}
-
 void main()
 {
 	unsigned char aStat = 0x00;
@@ -82,7 +75,6 @@ void main()
 	//----------------------
 
 	DLOG("\n::::::::::::::::System Reset::::::::::::::::\n");
-	a19();
 	/// 初始化串口
 	//ExtSfrSet(&P3PU,BIT(0)|BIT(1));
 
