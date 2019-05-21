@@ -342,6 +342,8 @@ far volatile unsigned char TADCPH	@ 0xFFF3;
 far volatile unsigned char TADCPL	@ 0xFFF4; 
 
 
+near static xdata unsigned char rv[512] _at_ 0xFE00;
+
 //far  volatile unsigned short EBandgap   @ 0x3ff7;
 code unsigned char STCID_ROM[7] @ 0xfdf9;
 #if defined (_STC8A8K16S4A12)
@@ -357,22 +359,24 @@ code unsigned char STCID_ROM[7] @ 0xfdf9;
  * 扩展寄存器操作
 */
 ///扩展寄存器状态
-#define EaxFRST() CheckBIT(P_SW2,EAXFR)
+//#define EaxFRST() CheckBIT(P_SW2,EAXFR)
 
 ///组合使用
 //#define En_EAXFR() do{bit _oldEaxfr = CheckBIT(P_SW2,EAXFR); SetBIT(P_SW2,EAXFR)
 //#define Di_EAXFR() if(!_oldEaxfr) ClearBIT(P_SW2,EAXFR);}while(0)
 
 ///Ext
-extern unsigned char ExtSfrGet8(size_t addr);
-extern unsigned short ExtSfrGet16(size_t addr);
-extern void ExtSfrSet8(size_t addr,unsigned char nv);
-extern void ExtSfrSet16(size_t addr,unsigned short nv);
+unsigned char ExtSfrGet8(size_t addr);
+unsigned short ExtSfrGet16(size_t addr);
+void ExtSfrSet8(size_t addr,unsigned char nv);
+void ExtSfrSet16(size_t addr,unsigned short nv);
 #define ExtSfrClear(_a,_b) ExtSfrSet8(_a,(ExtSfrGet8(_a) & ~(_b)))
 
 
 //#pragma inline(ExtSfrGet)
-//#pragma inline(ExtSfrSet)
+
+
+
 
 #define DEFCLK 24000000u
 #define STCCLKR (DEFCLK )
