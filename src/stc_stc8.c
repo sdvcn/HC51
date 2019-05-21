@@ -7,6 +7,43 @@
 #define NDEBUG
 #include <ext_debug.h>
 
+
+
+
+
+
+
+/**
+ * stc8a8k 8k/ram
+*/
+near static xdata unsigned char membuff[512] _at_ 0xFE00;
+
+typedef struct _mNode
+{
+    struct mNode * mNext;
+    //unsigned char mFlag;
+    unsigned char mFlag:1;
+    unsigned char mSize:7;
+
+}mNode,*pNode;
+
+
+
+void * malloc(size_t nw)
+{
+    pNode s1 = 0x33;
+    s1->mSize=80;
+    return NULL;
+}
+
+void free(void * p)
+{
+
+}
+
+
+
+
 #ifdef STC8
 /**
  * 地址直读

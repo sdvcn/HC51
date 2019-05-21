@@ -346,7 +346,7 @@ far volatile unsigned char TADCPH	_at_ 0xFFF3;
 far volatile unsigned char TADCPL	_at_ 0xFFF4; 
 
 
-near static xdata unsigned char rv[512] _at_ 0xFE00;
+
 
 //far  volatile unsigned short EBandgap   _at_ 0x3ff7;
 code unsigned char STCID_ROM[7] _at_ 0xfdf9;
