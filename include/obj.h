@@ -18,10 +18,10 @@ typedef struct _BaseIO
 }BaseIO;
 
 #define pIO(_h)                         ((BaseIO*)_h)                   // 类型转换
-#define pIO_Write(_h,_v)                pIO(_h)->pWrite(_h,_v)          // 写入字符
-#define pIO_Writes(_h,_s,_l)            pIO(_h)->pWrite(_h,_s,_l)       // 写入字符串
-#define pIO_Read(_h)                    pIO(_h)->pRead(_h)              // 读取字符
-#define pIO_Reads(_h,_d,_l)             pIO(_h)->pReads(_h,_d,_l)       // 读取字符串
-#define pIO_Close(_h)                   pIO(_h)->pClose(_h)             // 
+#define iWrite(_h,_v)                pIO(_h)->pWrite(_h,_v)          	// 写入字符
+#define iWrites(_h,_s,_l)            pIO(_h)->pWrite(_h,_s,_l)       	// 写入字符串
+#define iRead(_h)                    pIO(_h)->pRead(_h)              	// 读取字符
+#define iReads(_h,_d,_l)             pIO(_h)->pReads(_h,_d,_l)       	// 读取字符串
+#define iClose(_h)                   pIO(_h)->pClose(_h)             	// 
 
 #endif /* __OBJ_H__ */
