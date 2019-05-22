@@ -7,6 +7,8 @@
 #include <i2c.h>
 #include <ext_debug.h>
 #include "apds9660.h"
+#ifdef AAC
+
 /**
  * 内置宏
 */
@@ -415,3 +417,4 @@ unsigned char APDS9960_ReadGesture()
 
 
 
+#endif 
