@@ -6,10 +6,6 @@
  * 通用
 */
 
-
-
-
-
 /// 读地址移位
 #define I2C_READ_ADDR(_addr) ((_addr << 1) | 1ul)
 /// 写地址移位
@@ -125,8 +121,41 @@ typedef struct _sI2c
     BaseIO  mIOs;                                       // 基础IO操作
 	//---
     void (*pCommand)(void*,unsigned char);                    // 指令
+    void (*pIOs)(void*,unsigned char);                  // 端口操作回调
     unsigned char mFlag;                                //
 } sI2c;
+
+
+
+#ifdef DEMO
+ unsigned char CallIOs(void*,unsigned char op)
+{
+    #define SDA P33
+    #define SCL P34
+    unsigned char r = 0x00;
+
+    if (op & IOs_Read) {
+        r |= IOs_Read;
+    }else{
+        P33 = (op & 1ul << 0) ?1ul:0ul;
+        P34 = (op & 1ul << 1) ?1ul:0ul;
+    }
+
+    r |= (SDA) ? IOs_SDA:IOs_None;
+    r |= (SCL) ? IOs_SCL:IOs_None;
+    return r;
+
+    #undef SDA
+    #undef SCL
+}
+#endif
+enum {
+    IOs_None = 0ul,
+    IOs_SDA  = (1ul << 0),                              // 控制SDA
+    IOs_SCL  = (1ul << 1),                              // 控制SCL
+    IOs_Read = 0x80,                                    // 只读控制
+};
+
 #define I2c_Flag_Ext            0b00000001
 #define I2c_Flag_ExtAuto        0b00000010
 /**
