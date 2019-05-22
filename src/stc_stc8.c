@@ -7,22 +7,20 @@
 #define NDEBUG
 #include <ext_debug.h>
 
-
-
-
-
-
-
 /**
  * stc8a8k 8k/ram
 */
 near static xdata unsigned char membuff[512] _at_ 0xFE00;
 
+const size_t memPtr = (size_t)&membuff;
+const size_t memSize = sizeof(membuff);
+
+// 分配不大于 127 
 typedef struct _mNode
 {
-    struct mNode * mNext;
+    //struct mNode * mNext;
     //unsigned char mFlag;
-    unsigned char mFlag:1;
+    //unsigned char mFlag:1;
     unsigned char mSize:7;
 
 }mNode,*pNode;
@@ -31,8 +29,15 @@ typedef struct _mNode
 
 void * malloc(size_t nw)
 {
-    pNode s1 = 0x33;
-    s1->mSize=80;
+    //pNode s1 = 0x33;
+    //s1->mSize=80;
+    unsigned char * pMem;
+
+    if(nw == 0) return NULL;
+    pMem = &membuff[0];
+    
+
+
     return NULL;
 }
 
