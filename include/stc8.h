@@ -7,6 +7,10 @@
 
 //#define STC8
 #define STCY	6
+#define DELAY_BASE (1+)
+
+#define DEFCLK 24000000ul
+#define STCCLKR (DEFCLK )
 /**
  * 取消自带全局EA定义
  * 重新定义
@@ -46,6 +50,8 @@ static volatile unsigned char	S2CON	_at_	0x9A;
 #define S2RI        (1ul << 0)
 
 static volatile unsigned char	S2BUF	_at_	0x9B;
+
+static volatile unsigned char	IRCRC	_at_	0x9F;           // IRC频率调整寄存器
 
 static volatile unsigned char	SADDR	_at_	0xA9;
 static volatile unsigned char	WKTCL	_at_	0xAA;
@@ -168,16 +174,6 @@ static volatile bit	P74	_at_ 0xF8 ^ 4;
 static volatile bit	P75	_at_ 0xF8 ^ 5;
 static volatile bit	P76	_at_ 0xF8 ^ 6;
 static volatile bit	P77	_at_ 0xF8 ^ 7;
-
-
-//// 内存中预制
-idata volatile unsigned short Bandgap   _at_ 0xEF;
-idata volatile unsigned char STCID[7]	_at_ 0xF1;
-idata volatile unsigned short STC32K	_at_ 0xF8;
-idata volatile unsigned char STC22K     _at_ 0xFA;
-idata volatile unsigned char STC24K     _at_ 0xFB;
-
-
 
 //如下特殊功能寄存器位于扩展RAM区域
 //访问这些寄存器,需先将P_SW2的BIT7设置为1,才可正常读写
@@ -347,14 +343,25 @@ far volatile unsigned char TADCPL	_at_ 0xFFF4;
 
 
 
+//// 内存中预制
+idata volatile unsigned short Bandgap   _at_ 0xEF;
+idata volatile unsigned char STCID[7]	_at_ 0xF1;
+idata volatile unsigned short IRC32K	_at_ 0xF8;
+idata volatile unsigned char IRC22M     _at_ 0xFA;
+idata volatile unsigned char IRC24M     _at_ 0xFB;
 
 //far  volatile unsigned short EBandgap   _at_ 0x3ff7;
-code unsigned char STCID_ROM[7] _at_ 0xfdf9;
+
 #if defined (_STC8A8K16S4A12)
 #define OFFADDR 0xff
 #elif defined (_STC8A8K32S4A12)
 #elif defined (_STC8A8K60S4A12)
 #elif defined (_STC8A8K64S4A12)
+code unsigned char STCID_ROM[7]     _at_ 0xfdf9;
+code unsigned short Bandgap_ROM     _at_ 0xfdf7;
+code unsigned short IRC32K_ROM      _at_ 0xfdf5;
+code unsigned char IRC22M_ROM       _at_ 0xfdf4;
+code unsigned char IRC24M_ROM       _at_ 0xFDF3;
 #else
 #endif
 
@@ -370,16 +377,46 @@ code unsigned char STCID_ROM[7] _at_ 0xfdf9;
 //#define Di_EAXFR() if(!_oldEaxfr) ClearBIT(P_SW2,EAXFR);}while(0)
 
 ///Ext
-unsigned char ExtSfrGet8(size_t addr);
-unsigned short ExtSfrGet16(size_t addr);
-void ExtSfrSet8(size_t addr,unsigned char nv);
-void ExtSfrSet16(size_t addr,unsigned short nv);
-#define ExtSfrClear(_a,_b) ExtSfrSet8(_a,(ExtSfrGet8(_a) & ~(_b)))
+unsigned char _ExtSfrGet8(far volatile unsigned char * reg);
+unsigned short _ExtSfrGet16(far volatile unsigned short * reg);
 
 
+void _ExtSfrSet8(far volatile unsigned char* reg,unsigned char nv);
+void _ExtSfrSet16(far volatile unsigned short* reg,unsigned short nv);
 
-#define DEFCLK 24000000u
-#define STCCLKR (DEFCLK )
+#define ExtSfrGet8              _ExtSfrGet8
+#define ExtSfrGet16             _ExtSfrGet16
+#define ExtSfrSet8              _ExtSfrSet8
+#define ExtSfrSet16             _ExtSfrSet16
+
+#define ExtSfrClear8(_a,_b)     ExtSfrSet8(_a,(ExtSfrGet8(_a) & ~(_b)))
+#define ExtSfrClear16(_a,_b)    ExtSfrSet16(_a,(ExtSfrGet16(_a) & ~(_b)))
+
+
+/**
+ * 系统时钟函数
+ * @1=设定系统时钟源,对外输出,对外输出分频
+ * @2=设定分频
+*/
+void SetSystemClock(unsigned char,unsigned char);
+
+/**
+ * 获取当前时钟频率设定
+*/
+unsigned long GetSystemClock();
+
+/**
+ * 重置微调参数
+ * 设定为24m
+*/
+#define Select24M() SetSystemClock(0x00,0x00)
+
+/**
+ * 设定为32k
+*/
+#define Select32K() SetSystemClock(0x03,0x00)
+
+
 
 /**
  * GPIO
