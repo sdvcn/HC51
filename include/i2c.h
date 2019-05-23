@@ -182,6 +182,6 @@ void CreateIICM4Sfr(sI2c *mio);
 /**
  * IIC总线速度设置
 */
-void I2c_Speed(sI2c *mio,size_t sp);
+void I2c_Speed(sI2c *mio,unsigned sp);
 
 #endif

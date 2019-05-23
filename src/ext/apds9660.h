@@ -350,4 +350,20 @@ void APDS9960_DisableGestureSensor();
 //unsigned char ADPS9960_I2c_Di();
 
 
+#include <obj.h>
+
+typedef struct _sApds9960
+{
+    BaseIO  mIOs;                                       // 基础IO操作
+	//---
+    //void 
+    unsigned char (*pGetReg8)(unsigned char reg,struct sApds9960*);
+    void (*pSetReg8)(unsigned char,unsigned char,struct sApds9960*);
+    void *  mApdsIO;
+
+} sApds9960;
+
+// aa->read(reg)
+
+
 #endif

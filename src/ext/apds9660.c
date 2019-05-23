@@ -7,7 +7,7 @@
 #include <i2c.h>
 #include <ext_debug.h>
 #include "apds9660.h"
-#ifdef AAC
+
 
 /**
  * 内置宏
@@ -140,6 +140,21 @@ xdata static GFifos fifoBuf[32];
 /// 停止APDS-9960 I2c访问
 #define ADPS9960_I2c_Di() I2c_Di()
 
+//sI2c ApdsI2c;
+
+static sI2c* pmio;
+
+void Apds9960_Init(sApds9960* pApds)
+{
+    //pApds->mIOs.pRead
+
+}
+
+void Apds9960_SetIIC(sApds9960* pApds,sI2c* pmio)
+{
+    //(sI2c*)(pApds->mApdsIO) = pmio;
+}
+
 
 ///私有 设置寄存器
 void pWriteReg(unsigned char reg)
@@ -150,6 +165,7 @@ void pWriteReg(unsigned char reg)
     I2c_Write(reg);
     I2c_RxAck();
 }
+#ifdef AAC
 
 /// 写字符串到指定寄存器
 unsigned APDS9960_WriteReg(unsigned char reg,unsigned len,char* src)

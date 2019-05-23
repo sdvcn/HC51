@@ -242,6 +242,7 @@ void _Sfr_Cmd(sI2c* h,unsigned char cmd)
     DLOGINT(_Sfr_Cmd,cmd);
     /// 清除高4位
     cmd &= ~0xF0;
+    /// 新连接 开启IIC
     if(!(ExtSfrGet8(&I2CMSST) & MSBUSY)){
         if(h->mSpeed > 127) h->mSpeed = 127;
         _Sfr_CFG(IIC_ENI2C|IIC_MSSL|(h->mSpeed-1)/2);
@@ -277,7 +278,7 @@ void _Sfr_Close(sI2c* h)
 void CreateIICM4Sfr(sI2c *mio)
 {
     //assert((sizeof(sI2c)==sizeof(BaseIO)));
-    ///申请内存
+    /// 申请内存
     //memset(mio,0x00,sizeof(sI2c));                     //重置
     /// 函数赋值
     pI2c(mio)->pCommand = _Sfr_Cmd;
@@ -292,7 +293,8 @@ void CreateIICM4Sfr(sI2c *mio)
 /**
  * 通用方法
 */
-void I2c_Speed(sI2c *mio,size_t sp)
+void I2c_Speed(sI2c *mio,unsigned sp)
 {
     mio->mSpeed = GetSystemClock()/sp;    
 }
+
