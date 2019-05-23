@@ -285,9 +285,7 @@ void CreateIICM4Sfr(sI2c *mio)
     pI2c(mio)->mIOs.pRead = _Sfr_Read;
     pI2c(mio)->mIOs.pWrite = _Sfr_Write;
     pI2c(mio)->mIOs.pClose = _Sfr_Close;
-    //----
-    ///重置
-    //_Sfr_CFG(0x00);
+
 }
 #pragma warning enable 359
 //-----------------------------------------------------------------------------

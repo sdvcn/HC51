@@ -179,4 +179,9 @@ void CreateIICM4Sfr(sI2c *mio);
 */
 //void Create4Emu(BaseIO* mio,unsigned char mhz,unsigned char mSda,unsigned char mScl);
 
+/**
+ * IIC总线速度设置
+*/
+void I2c_Speed(sI2c *mio,size_t sp);
+
 #endif
