@@ -113,6 +113,8 @@ extern unsigned I2c_Reads(unsigned len,char* dst);
 
 
 //-----------------------------------------------------------------------------
+#define IIC_ENI2C   (1ul << 7)
+#define IIC_MSSL    (1ul << 6)
 
 #include <obj.h>
 
@@ -120,35 +122,35 @@ typedef struct _sI2c
 {
     BaseIO  mIOs;                                       // 基础IO操作
 	//---
-    void (*pCommand)(void*,unsigned char);                    // 指令
-    void (*pIOs)(void*,unsigned char);                  // 端口操作回调
+    void (*pCommand)(void *,unsigned char);              // 指令
+    /*
+        unsigned char CallIOs(void*,unsigned char op)
+        {
+            #define SDA P33
+            #define SCL P34
+            unsigned char r = 0x00;
+
+            if (op & IOs_Read) {
+                r |= IOs_Read;
+            }else{
+                P33 = (op & 1ul << 0) ?1ul:0ul;
+                P34 = (op & 1ul << 1) ?1ul:0ul;
+            }
+
+            r |= (SDA) ? IOs_SDA:IOs_None;
+            r |= (SCL) ? IOs_SCL:IOs_None;
+            return r;
+
+            #undef SDA
+            #undef SCL
+        }
+    */
+    void (*pIOs)(void*,unsigned char);                  
+    unsigned char mSpeed;                               // 仅主机模式生效
     unsigned char mFlag;                                //
+    
 } sI2c;
 
-
-
-#ifdef DEMO
- unsigned char CallIOs(void*,unsigned char op)
-{
-    #define SDA P33
-    #define SCL P34
-    unsigned char r = 0x00;
-
-    if (op & IOs_Read) {
-        r |= IOs_Read;
-    }else{
-        P33 = (op & 1ul << 0) ?1ul:0ul;
-        P34 = (op & 1ul << 1) ?1ul:0ul;
-    }
-
-    r |= (SDA) ? IOs_SDA:IOs_None;
-    r |= (SCL) ? IOs_SCL:IOs_None;
-    return r;
-
-    #undef SDA
-    #undef SCL
-}
-#endif
 enum {
     IOs_None = 0ul,
     IOs_SDA  = (1ul << 0),                              // 控制SDA
@@ -171,7 +173,7 @@ enum {
  * 使用寄存器
 */
 
-void CreateIICM4Sfr(void *mio,unsigned char op);
+void CreateIICM4Sfr(sI2c *mio);
 /**
  * 模拟方式
 */
