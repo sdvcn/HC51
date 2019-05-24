@@ -232,7 +232,6 @@ void _Sfr_CFG(unsigned char op)
 
 void _Sfr_Wait()
 {
-    DLOGINT(_Sfr_Wait,0);
     while(!(ExtSfrGet8(&I2CMSST) & MSIF));
     ExtSfrClear8(&I2CMSST,MSIF);
 }
@@ -244,7 +243,11 @@ void _Sfr_Cmd(sI2c* h,unsigned char cmd)
     cmd &= ~0xF0;
     /// 新连接 开启IIC
     if(!(ExtSfrGet8(&I2CMSST) & MSBUSY)){
+        //
+        P_SW2 |= (h->mSelectPort << 4);
+        //
         if(h->mSpeed > 127) h->mSpeed = 127;
+        DLOGINT(_Sfr_Cmd,h->mSpeed);
         _Sfr_CFG(IIC_ENI2C|IIC_MSSL|(h->mSpeed-1)/2);
     } 
 
@@ -272,6 +275,43 @@ void _Sfr_Close(sI2c* h)
     _Sfr_CFG(0x00);
 }
 
+
+unsigned char _sfr_ReadReg8(sI2c *h,unsigned char reg)
+{
+    unsigned char r = 0x00;
+    
+    
+    ExtSfrSet8(&I2CTxD,I2C_READ_ADDR(h->mAddr));                // 数据写入寄存器
+
+    if(h->mFlag & SI2c_Flag_Ext){
+        h->pCommand(h,Ext_MSCMD_START);
+    }
+
+
+    h->pCommand(h,MSCMD_START);
+    h->mIOs.pWrite(h,I2C_READ_ADDR(h->mAddr));
+    h->pCommand(h,MSCMD_RACK);
+    r = h->mIOs.pRead(h);
+
+    _Sfr_CFG(0x00);
+    
+    return r;
+}
+//----------------
+
+void _sfr_Start(sI2c *h,unsigned char addr)
+{
+     ExtSfrSet8(&I2CTxD,addr);
+     if(h->mFlag & SI2c_Flag_Ext){
+         h->pCommand(h,Ext_MSCMD_START);
+     }else{
+         h->pCommand(h,MSCMD_START);
+         h->mIOs.pWrite(addr);
+         //h->pCommand(h,MSCMD_WRITE);
+         /* code */
+     }
+     
+}
 ///
 #pragma warning disable 359
 
@@ -282,6 +322,7 @@ void CreateIICM4Sfr(sI2c *mio)
     //memset(mio,0x00,sizeof(sI2c));                     //重置
     /// 函数赋值
     pI2c(mio)->pCommand = _Sfr_Cmd;
+    pI2c(mio)->pReadReg8 = _sfr_ReadReg8;
 
     pI2c(mio)->mIOs.pRead = _Sfr_Read;
     pI2c(mio)->mIOs.pWrite = _Sfr_Write;
@@ -293,8 +334,3 @@ void CreateIICM4Sfr(sI2c *mio)
 /**
  * 通用方法
 */
-void I2c_Speed(sI2c *mio,unsigned sp)
-{
-    mio->mSpeed = GetSystemClock()/sp;    
-}
-

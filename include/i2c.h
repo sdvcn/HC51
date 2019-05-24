@@ -145,10 +145,13 @@ typedef struct _sI2c
             #undef SCL
         }
     */
-    void (*pIOs)(void*,unsigned char);                  
-    unsigned char mSpeed;                               // 仅主机模式生效
-    unsigned char mFlag;                                //
-    
+
+    unsigned char (*pIOs)(void*,unsigned char);  
+    unsigned char (*pReadReg8)(struct _sI2c *,unsigned char);
+    unsigned mSpeed;                               // 仅主机模式生效
+    unsigned char mFlag:6;                                //
+    unsigned char mSelectPort:2;                        // 端口选择 
+    unsigned char mAddr;   
 } sI2c;
 
 enum {
@@ -158,8 +161,8 @@ enum {
     IOs_Read = 0x80,                                    // 只读控制
 };
 
-#define I2c_Flag_Ext            0b00000001
-#define I2c_Flag_ExtAuto        0b00000010
+#define SI2c_Flag_Ext            BIT(1)
+#define SI2c_Flag_ExtAuto        BIT(2)
 /**
  * I2c扩展指令部分
 */
@@ -182,6 +185,16 @@ void CreateIICM4Sfr(sI2c *mio);
 /**
  * IIC总线速度设置
 */
-void I2c_Speed(sI2c *mio,unsigned sp);
+#define SI2c_Speed(_h,_v)               do{pI2c(_h)->mSpeed = GetSystemClock()/(_v);}while(0)
+/**
+ * 总线端口选择
+ * 0:SCL=P15 SDA=P14
+ * 1:SCL=P25 SDA=P24
+ * 2:SCL=P77 SDA=P76
+ * 3:SCL=P32 SDA=P33
+*/
+#define SI2c_SelectPort(_h,_v)          do{pI2c(_h)->mSelectPort = (_v & 0x03);}while(0)
+
+#define I2c_SetAddr(_h,_v)              do{pI2c(_h)->mAddr = (_v);}while(0)
 
 #endif
