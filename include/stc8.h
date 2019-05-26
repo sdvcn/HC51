@@ -207,6 +207,8 @@ far volatile unsigned char I2CCFG	_at_ 0xFE80;
 #define ENI2C   (1ul << 7)
 #define MSSL    (1ul << 6)
 far volatile unsigned char I2CMSCR	_at_ 0xFE81; 
+#define EMSI    (1ul << 7)
+
 far volatile unsigned char I2CMSST	_at_ 0xFE82; 
 #define MSBUSY  (1ul << 7)
 #define MSIF    (1ul << 6)
@@ -214,7 +216,6 @@ far volatile unsigned char I2CMSST	_at_ 0xFE82;
 #define MSACKO  (1ul << 0)
 
 far volatile unsigned char I2CSLCR	_at_ 0xFE83; 
-#define EMSI    (1ul << 7)
 
 
 

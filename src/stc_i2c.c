@@ -297,7 +297,7 @@ unsigned char _sfr_ReadReg8(sI2c *h,unsigned char reg)
     
     return r;
 }
-//----------------
+//----------------------------------------------
 
 void _sfr_Start(sI2c *h,unsigned char addr)
 {
@@ -312,24 +312,38 @@ void _sfr_Start(sI2c *h,unsigned char addr)
      }
      
 }
-///
-#pragma warning disable 359
-
-void CreateIICM4Sfr(sI2c *mio)
+/**
+ * 读字符串
+*/
+unsigned char _sfr_Reads(sI2c *h,char* dst,unsigned char len)
 {
-    //assert((sizeof(sI2c)==sizeof(BaseIO)));
-    /// 申请内存
-    //memset(mio,0x00,sizeof(sI2c));                     //重置
-    /// 函数赋值
-    pI2c(mio)->pCommand = _Sfr_Cmd;
-    pI2c(mio)->pReadReg8 = _sfr_ReadReg8;
+    unsigned char r = len;
+    //start 
+    ExtSfrSet8(&I2CTxD,I2C_READ_ADDR(h->mAddr));
 
-    pI2c(mio)->mIOs.pRead = _Sfr_Read;
-    pI2c(mio)->mIOs.pWrite = _Sfr_Write;
-    pI2c(mio)->mIOs.pClose = _Sfr_Close;
+    //
+    while (len--)
+    {
+        *dst++ = h->mIOs.pRead(h);
+        if(len) ;//ack
+    }
+    
+    return (r - len);
+}
+
+unsigned char _sfr_Writes(sI2c *h,const char* src,unsigned char len)
+{
+    unsigned char r = 0x00;
 
 }
-#pragma warning enable 359
+
+void _sfr_Stop()
+{
+    //nack
+
+}
+///
+
 //-----------------------------------------------------------------------------
 /**
  * 通用方法

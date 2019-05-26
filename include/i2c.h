@@ -32,13 +32,13 @@
 */
 /// 寄存器基本指令
 enum{
-    MSCMD_NONE    = 0b0000,
-    MSCMD_START   = 0b0001,
-    MSCMD_WRITE   = 0b0010,
-    MSCMD_RACK    = 0b0011,
-    MSCMD_READ    = 0b0100,
-    MSCMD_TACK    = 0b0101,
-    MSCMD_STOP    = 0b0110,
+    MSCMD_NONE    = 0b0000,                                             //  无动作
+    MSCMD_START   = 0b0001,                                             //  起始
+    MSCMD_WRITE   = 0b0010,                                             //  写入
+    MSCMD_RACK    = 0b0011,                                             //  收ACK
+    MSCMD_READ    = 0b0100,                                             //  读取
+    MSCMD_TACK    = 0b0101,                                             //  发ACK
+    MSCMD_STOP    = 0b0110,                                             //  停止
     //todo:未确认硬件兼容
     Ext_MSCMD_START = 0b1001,
     Ext_MSCMD_WRITE = 0b1010,
@@ -116,8 +116,17 @@ extern unsigned I2c_Reads(unsigned len,char* dst);
 #define IIC_ENI2C   (1ul << 7)
 #define IIC_MSSL    (1ul << 6)
 
-#include <obj.h>
+#define IIC_sfr_Command _IIC_sfr_Command
 
+#define IIC_sfr_RecvAck() IIC_sfr_Command(MSCMD_RACK)                   //  接收ACK指令
+#define IIC_sfr_SendAck() IIC_sfr_Command(MSCMD_TACK)                   //  发送ACK指令
+#define IIC_sfr_AckI() (ExtSfrGet8(&I2CMSST) & MSACKI)                  //  收到的ACK状态
+
+#include <obj.h>
+/**
+ * 读写完成开始时建立IIC通道
+ * 结束读写后立即释放
+*/
 typedef struct _sI2c
 {
     BaseIO  mIOs;                                       // 基础IO操作
@@ -148,9 +157,9 @@ typedef struct _sI2c
 
     unsigned char (*pIOs)(void*,unsigned char);  
     unsigned char (*pReadReg8)(struct _sI2c *,unsigned char);
-    unsigned mSpeed;                               // 仅主机模式生效
-    unsigned char mFlag:6;                                //
-    unsigned char mSelectPort:2;                        // 端口选择 
+    unsigned mSpeed;                                            // 仅主机模式生效
+    unsigned char mFlag:6;                                      //
+    unsigned char mSelectPort:2;                                // 端口选择 仅寄存器方式
     unsigned char mAddr;   
 } sI2c;
 
