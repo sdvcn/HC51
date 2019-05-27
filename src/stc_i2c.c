@@ -333,6 +333,7 @@ void CreateIICM4Sfr(sI2c *h)
 
     //h->pReadReg8 = _IIC_ReadMem8;
     //h->pWriteReg8 = _IIC_WriteMem8;
+    //todo 端口电阻初始化
     #pragma warning enable 359
 }
 
@@ -342,8 +343,9 @@ void CreateIICM4Sfr(sI2c *h)
 ///
 
 //-----------------------------------------------------------------------------
+// 通用方法
 /**
- * 通用方法
+ * 读取8位寄存器
 */
 unsigned char IIC_ReadMem8(sI2c* h,unsigned char reg)
 {
@@ -357,6 +359,9 @@ unsigned char IIC_ReadMem8(sI2c* h,unsigned char reg)
     return r;
 }
 
+/**
+ * 写入8位
+*/
 void IIC_WriteMem8(sI2c* h,unsigned char reg,unsigned char v)
 {
     unsigned char wbuf[2]={0x00};
@@ -367,4 +372,35 @@ void IIC_WriteMem8(sI2c* h,unsigned char reg,unsigned char v)
     h->pStart(h,0x00);
     h->mIOs.pWrites(h,&wbuf,2);
     h->pDisable(h);
+}
+
+/**
+ * 连续写寄存器
+*/
+unsigned char IIC_WriteMem(sI2c* h,unsigned char reg,const char *src,unsigned char len)
+{
+    unsigned char r = 0x00;
+    //wbuf[0] = reg;
+    //wbuf[1] = 
+    h->pEnable(h);
+    h->pStart(h,0x00);
+    h->mIOs.pWrites(h,&reg,1);
+    r = h->mIOs.pWrites(h,src,len);
+    h->pDisable(h);
+    return r;
+}
+
+/**
+ * 连续读取寄存器
+*/
+unsigned char IIC_ReadMem(sI2c* h,unsigned char reg,char *dst,unsigned char len)
+{
+    unsigned char r = 0x00;
+    h->pEnable(h);
+    h->pStart(h,0x00);
+    h->mIOs.pWrites(h,&reg,1);
+    h->pStart(h,0x01);
+    r = h->mIOs.pReads(h,dst,len);
+    h->pDisable(h);
+    return r;
 }
