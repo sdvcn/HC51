@@ -21,114 +21,6 @@
 
 #undef DEBUG
 
-
-
-//检查确认I2c总线开启
-void _CheckI2C()
-{
-    if(ExtSfrGet8(&I2CCFG)&ENI2C){
-        DLOG("_CheckI2C");  
-    }
-}
-
-// 内置延时等待
-void I2c_Wait()
-{
-    while(!(ExtSfrGet8(&I2CMSST) & MSIF));
-    ExtSfrClear8(&I2CMSST,MSIF);
-}
-
-unsigned char I2c_GetBuf()
-{
-    return (ExtSfrGet8(&I2CRxD));
-}
-
-void I2c_SetBuf(unsigned char c)
-{
-    //I2CTxD = c;
-    ExtSfrSet8(&I2CTxD,c);
-}
-
-bit I2c_Busy()
-{
-    return ((ExtSfrGet8(&I2CMSST) & MSBUSY) ? 1ul:0ul;
-}
-
-
-/// 检测收到NAck
-unsigned char I2c_NAckStatus()
-{
-    unsigned char ret = 0x00;
-    ret = ExtSfrGet8(&I2CMSST);
-    return (ret & MSACKI);
-}
-
-bit I2c_CFG(unsigned char op)
-{
-    //DLOGINT(I2c_CFG,op);
-    if(ExtSfrGet8(&I2CMSST) & MSBUSY) return 0ul;
-    ExtSfrSet8(&I2CCFG,op);
-    ExtSfrSet8(&I2CMSST,0x00);
-    ExtSfrSet8(&I2CMSAUX,0x00);
-    return 1ul;
-}
-/// I2C 控制命令
-void I2c_Cmd(unsigned char cmd)
-{
-    /// 清除高4位
-    cmd &= ~0xF0;
-    //todo 处理硬件版本兼容问题
-    //I2CMSCR = ((I2CMSCR & ~0x0f)| cmd);
-    ExtSfrSet8(&I2CMSCR,(ExtSfrGet8(&I2CMSCR) & ~0x0f)|cmd);
-    I2c_Wait();
-}
-/**
- * 基础方式实现
-*/
-/// 写入字符
-void I2c_Write(unsigned char c)
-{
-    ExtSfrSet8(&I2CTxD,c);
-    I2c_Cmd(MSCMD_WRITE);
-}
-/// 读字符
-unsigned char I2c_Read()
-{
-    I2c_Cmd(MSCMD_READ);
-    return ExtSfrGet8(&I2CRxD);
-}
-/// 发送应答
-void I2c_Ack(unsigned char nAck)
-{
-    ExtSfrSet8(&I2CMSST,(nAck?0x01:0x00));
-    I2c_Cmd(MSCMD_TACK);
-}
-//-----------
-///写字符串 ???
-unsigned I2c_Writes(unsigned len,char* src)
-{
-    unsigned ret = 0x00;
-
-    while((!I2c_NAckStatus())&&(len--)){
-        I2c_Write(*src++);
-        ret++;
-        ///收ACK
-        I2c_RxAck();
-    }
-    return ret;
-}
-///读字符串
-unsigned I2c_Reads(unsigned len,char* dst)
-{
-    unsigned ret = 0x00;
-    while((!I2c_NAckStatus())&&(len--)){
-        *dst++=I2c_Read();
-        ret++;
-        I2CMSST = ((len)?0x00:0x01);
-        I2c_Cmd(MSCMD_TACK);
-    }
-    return ret;
-}
 //------------------------------------------
 /**
  * 模拟方式实现IIC
@@ -204,147 +96,275 @@ void Emu_Write(unsigned char c)
     }
 }
 
-void Emu_RxACK()
-{
-
-}
-void Emu_Cmd(unsigned char cmd)
-{
-
-}
-
-
 //-----------------------------------------------------------------------------
+/**
+ * IIC中断向量 0xc3
+*/
+
 
 /**
- * 寄存器方式实现
+ * 等待指令执行
+ * 私有
 */
-void _Sfr_CFG(unsigned char op)
+void IIC_sfr_Wait()
 {
-    DLOGINT(_Sfr_CFG,op);
-    //DLOGINT(I2c_CFG,op);
-    //if(ExtSfrGet8(&I2CMSST) & MSBUSY) return 0ul;
-    ExtSfrSet8(&I2CCFG,op);
-    ExtSfrSet8(&I2CMSST,0x00);
-    ExtSfrSet8(&I2CMSAUX,0x00);
-    //return 1ul;
-}
-
-void _Sfr_Wait()
-{
+    //if(!(ExtSfrGet8(&I2CCFG) & IIC_ENI2C)) return;
     while(!(ExtSfrGet8(&I2CMSST) & MSIF));
     ExtSfrClear8(&I2CMSST,MSIF);
 }
 
-void _Sfr_Cmd(sI2c* h,unsigned char cmd)
+/**
+ * 配置寄存器初始化
+ * todo 未实现从机模式
+*/
+void IIC_sfr_Config(unsigned char op,unsigned char saddr)
 {
-    DLOGINT(_Sfr_Cmd,cmd);
-    /// 清除高4位
-    cmd &= ~0xF0;
-    /// 新连接 开启IIC
-    if(!(ExtSfrGet8(&I2CMSST) & MSBUSY)){
-        //
-        P_SW2 |= (h->mSelectPort << 4);
-        //
-        if(h->mSpeed > 127) h->mSpeed = 127;
-        DLOGINT(_Sfr_Cmd,h->mSpeed);
-        _Sfr_CFG(IIC_ENI2C|IIC_MSSL|(h->mSpeed-1)/2);
-    } 
+    DLOGINT(IIC_sfr_Config,op);
 
-    //todo 处理硬件版本兼容问题
-    //I2CMSCR = ((I2CMSCR & ~0x0f)| cmd);
-    ExtSfrSet8(&I2CMSCR,(ExtSfrGet8(&I2CMSCR) & ~0x0f)|cmd);
-    _Sfr_Wait();
+    ExtSfrSet8(&I2CCFG,op);
+    ExtSfrSet8(&I2CMSST,0x00);
+    ExtSfrSet8(&I2CMSAUX,0x00);
+    //ExtSfrSet8(&I2CSLADR,saddr);
+    //if(!(ExtSfrGet8(&I2CCFG) & IIC_MSSL)){
+        //ExtSfrSet8(&I2CSLST,0x00);
+        //ExtSfrSet8(&I2CSLCR,0x78);
+    //}
 }
 
-void _Sfr_Write(sI2c* h,unsigned char c)
+/**
+ * 指令
+*/
+void IIC_sfr_Command(unsigned char cmd)
 {
-    ExtSfrSet8(&I2CTxD,c);
-    _Sfr_Cmd(h,MSCMD_WRITE);
+    cmd &= 0x0F;                                                        //  保留底4位
+    ExtSfrSet8(&I2CMSCR,(ExtSfrGet8(&I2CMSCR) & 0xF0)|cmd);             //  执行新指令
+    IIC_sfr_Wait();                                                    //  等待执行部完毕
 }
 
-/// 读字符
-unsigned char _Sfr_Read(sI2c* h)
+/**
+ * 字节读
+*/
+unsigned char IIC_sfr_Read()
 {
-    _Sfr_Cmd(h,MSCMD_READ);
+    IIC_sfr_Command(MSCMD_READ);
     return ExtSfrGet8(&I2CRxD);
 }
 
-void _Sfr_Close(sI2c* h)
-{
-    _Sfr_CFG(0x00);
-}
-
-
-unsigned char _sfr_ReadReg8(sI2c *h,unsigned char reg)
-{
-    unsigned char r = 0x00;
-    
-    
-    ExtSfrSet8(&I2CTxD,I2C_READ_ADDR(h->mAddr));                // 数据写入寄存器
-
-    if(h->mFlag & SI2c_Flag_Ext){
-        h->pCommand(h,Ext_MSCMD_START);
-    }
-
-
-    h->pCommand(h,MSCMD_START);
-    h->mIOs.pWrite(h,I2C_READ_ADDR(h->mAddr));
-    h->pCommand(h,MSCMD_RACK);
-    r = h->mIOs.pRead(h);
-
-    _Sfr_CFG(0x00);
-    
-    return r;
-}
-//----------------------------------------------
-
-void _sfr_Start(sI2c *h,unsigned char addr)
-{
-     ExtSfrSet8(&I2CTxD,addr);
-     if(h->mFlag & SI2c_Flag_Ext){
-         h->pCommand(h,Ext_MSCMD_START);
-     }else{
-         h->pCommand(h,MSCMD_START);
-         h->mIOs.pWrite(addr);
-         //h->pCommand(h,MSCMD_WRITE);
-         /* code */
-     }
-     
-}
 /**
  * 读字符串
 */
-unsigned char _sfr_Reads(sI2c *h,char* dst,unsigned char len)
+unsigned char IIC_sfr_Reads(char * dst,unsigned char len)
 {
     unsigned char r = len;
-    //start 
-    ExtSfrSet8(&I2CTxD,I2C_READ_ADDR(h->mAddr));
+    if(!(ExtSfrGet8(&I2CCFG) & IIC_ENI2C)) return 0;
 
-    //
-    while (len--)
-    {
-        *dst++ = h->mIOs.pRead(h);
-        if(len) ;//ack
+    while(!IIC_sfr_AckI()&&len--){
+        *dst++ = IIC_sfr_Read();
+        if(len == 0x00) {
+            unsigned char to = (ExtSfrGet8(&I2CMSST) & 0xfe) | 0x01 ; 
+            ExtSfrSet8(&I2CMSST,to);
+        }
+        IIC_sfr_SendAck();
     }
-    
     return (r - len);
 }
 
-unsigned char _sfr_Writes(sI2c *h,const char* src,unsigned char len)
+/**
+ * 扩展方式读字符串
+*/
+unsigned char IIC_sfr_ExReads(char * dst,unsigned char len)
 {
-    unsigned char r = 0x00;
+    unsigned char r = len;
+    if(!(ExtSfrGet8(&I2CCFG) & IIC_ENI2C)) return 0;
 
+    while(!IIC_sfr_AckI()&&len--){
+        (len)?IIC_sfr_Command(Ext_MSCMD_READACK):IIC_sfr_Command(Ext_MSCMD_READNACK);
+        *dst++ = ExtSfrGet8(&I2CRxD);
+    }
+    return (r - len);
 }
 
-void _sfr_Stop()
+/**
+ * 字节写
+*/
+void IIC_sfr_Write(unsigned char c)
 {
-    //nack
-
+    DLOGINT(IIC_sfr_Write,c);
+    ExtSfrSet8(&I2CTxD,c);
+    IIC_sfr_Command(MSCMD_WRITE);
+    IIC_sfr_RecvAck();
 }
+
+/**
+ * 写字符串
+*/
+unsigned char IIC_sfr_Writes(const char* src,unsigned char len)
+{
+    unsigned char r = len;
+    //if(!(ExtSfrGet8(&I2CCFG) & IIC_ENI2C)) return 0;
+    DLOGINT(IIC_sfr_Writes,len);
+
+    while(!IIC_sfr_AckI()&&len--){
+        IIC_sfr_Write(*src++);
+    }
+    return (r - len);
+}
+
+/**
+ * 扩展指令完成写
+*/
+unsigned char IIC_sfr_ExWrites(const char* src,unsigned char len)
+{
+    unsigned char r = len;
+    //if(!(ExtSfrGet8(&I2CCFG) & IIC_ENI2C)) return 0;
+    DLOGINT(IIC_sfr_ExWrites,len);
+
+    while(!IIC_sfr_AckI()&&len--){
+        ExtSfrSet8(&I2CTxD,*src++);
+        IIC_sfr_Command(Ext_MSCMD_WRITE);
+    }
+    return (r - len);
+}
+
+/**
+ * 扩展:自动完成写入
+*/
+unsigned char IIC_sfr_ExAuxWrites(const char* src,unsigned char len)
+{
+    unsigned char r = len;
+    if(!(ExtSfrGet8(&I2CCFG) & IIC_ENI2C)) return 0;
+    
+    ExtSfrSet8(&I2CMSAUX,0x01);                     // 扩展使能
+
+    while(!IIC_sfr_AckI()&&len--){
+        ExtSfrSet8(&I2CTxD,*src++);
+        IIC_sfr_Wait();                            // 无指令形式,需手动等待
+    }
+    ExtSfrSet8(&I2CMSAUX,0x00);                     // 关闭扩展
+    return (r - len);
+}
+
+void IIC_sfr_Start(unsigned char addr)
+{
+    //DLOGINT(IIC_sfr_Start,addr);
+    IIC_sfr_Command(MSCMD_START);
+    IIC_sfr_Write(addr);
+}
+
+void IIC_sfr_ExStart(unsigned char addr)
+{
+    //DLOGINT(IIC_sfr_ExStart,addr);
+    ExtSfrSet8(&I2CTxD,addr);
+    IIC_sfr_Command(Ext_MSCMD_START);
+}
+//-----------------------------------------------------------------------------
+/**
+ * 寄存器方式实现
+*/
+unsigned char _IIC_sfr_Writes(sI2c* h,const char* src,unsigned char len)
+{
+    if(h->mFlag & SI2c_Flag_Ext){
+        return IIC_sfr_ExWrites(src,len);
+    }else{
+        return IIC_sfr_Writes(src,len);
+    }
+    //IIC_sfr_Write(c);
+    
+}
+
+unsigned char _IIC_sfr_Reads(sI2c* h,char* dst,unsigned char len)
+{
+    if(h->mFlag & SI2c_Flag_Ext){
+        return IIC_sfr_ExReads(dst,len);
+    }else{
+        return IIC_sfr_Reads(dst,len);
+    }
+    //return IIC_sfr_Reads(dst,len);
+}
+
+void _IIC_sfr_Disable(sI2c* h)
+{
+    //DLOGINT(IIC_sfr_Writes,ExtSfrGet8(&I2CCFG));
+    if(!(ExtSfrGet8(&I2CCFG) & IIC_ENI2C)) return;
+
+    //DLOGINT(IIC_sfr_Writes,ExtSfrGet8(&I2CMSST));
+    if(ExtSfrGet8(&I2CMSST) & MSBUSY){
+        //IIC_sfr_Command(MSCMD_STOP);
+        IIC_sfr_Command(MSCMD_STOP);
+    } 
+
+    IIC_sfr_Config(0x00,0x00);
+    
+}
+
+void _IIC_sfr_Enable(sI2c* h)
+{
+    if(ExtSfrGet8(&I2CCFG) & IIC_ENI2C) return;
+
+    P_SW2 |= (h->mSelectPort << 4);
+
+    if(h->mSpeed > 127) h->mSpeed = 127;
+    IIC_sfr_InitM(h->mSpeed);
+}
+
+void _IIC_sfr_Start(sI2c* h,unsigned char read)
+{
+    if(h->mFlag & SI2c_Flag_Ext){
+        IIC_sfr_ExStart(h->mAddr << 1 | (read & 0x01));
+    }else{
+        IIC_sfr_Start(h->mAddr << 1 | (read & 0x01));
+    }
+}
+/**
+ * 初始化创建
+*/
+void CreateIICM4Sfr(sI2c *h)
+{
+    #pragma warning disable 359
+    h->mIOs.pWrites = _IIC_sfr_Writes;
+    h->mIOs.pReads = _IIC_sfr_Reads;
+
+    h->pStart = _IIC_sfr_Start;
+    //h->pCommand = _IIC_sfr_Command;
+
+    h->pEnable = _IIC_sfr_Enable;
+    h->pDisable = _IIC_sfr_Disable;
+
+
+    //h->pReadReg8 = _IIC_ReadMem8;
+    //h->pWriteReg8 = _IIC_WriteMem8;
+    #pragma warning enable 359
+}
+
+
+//----------------------------------------------
+
 ///
 
 //-----------------------------------------------------------------------------
 /**
  * 通用方法
 */
+unsigned char IIC_ReadMem8(sI2c* h,unsigned char reg)
+{
+    unsigned char r = 0x00;
+    h->pEnable(h);
+    h->pStart(h,0x00);
+    h->mIOs.pWrites(h,&reg,1);
+    h->pStart(h,0x01);
+    h->mIOs.pReads(h,&r,1);
+    h->pDisable(h);
+    return r;
+}
+
+void IIC_WriteMem8(sI2c* h,unsigned char reg,unsigned char v)
+{
+    unsigned char wbuf[2]={0x00};
+    
+    wbuf[0]=reg;
+    wbuf[1]=v;
+    h->pEnable(h);
+    h->pStart(h,0x00);
+    h->mIOs.pWrites(h,&wbuf,2);
+    h->pDisable(h);
+}
