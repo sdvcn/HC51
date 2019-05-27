@@ -88,7 +88,7 @@
 #define GWTIME_30_8MS           6
 #define GWTIME_39_2MS           7
 
-
+#ifdef AAC
 
 /**
  * 获取器件ID
@@ -165,7 +165,7 @@ void pWriteReg(unsigned char reg)
     I2c_Write(reg);
     I2c_RxAck();
 }
-#ifdef AAC
+
 
 /// 写字符串到指定寄存器
 unsigned APDS9960_WriteReg(unsigned char reg,unsigned len,char* src)

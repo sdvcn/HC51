@@ -20,12 +20,7 @@
 /**
  * 寄存器及基础定义
 */
-/// I2c 主机辅助控制寄存器
-//far volatile unsigned char I2CMSAUX	@ 0xFE88;
-//#define EXTSFR_I2CMSST  0xFE82
-//#define EXTSFR_I2CMSAUX 0xFE88
 
-#define WDTA    0
 
 /*
 扩展指令部分在D/E版本之后被支持
@@ -46,81 +41,24 @@ enum{
     Ext_MSCMD_READNACK = 0b1100,
 
 };
-
-
+//-----------------------------------------------------------------------------
 /**
  * 扩展方式
 */
-//extern void I2c_Ext_Start(unsigned char c);
-//extern unsigned char I2c_Ext_Write(unsigned char c);
-//extern unsigned char I2c_Ext_Writes(unsigned char len,char* src);
-//extern unsigned char I2c_Ext_StartReg(unsigned char addr,unsigned char reg);
-//extern unsigned char I2c_Ext_Reads(unsigned char len,char* dst);
-/// 导出内置
-extern unsigned char I2c_GetBuf();
-extern void I2c_SetBuf(unsigned char c);
-/**
- * 基本方式
- * todo:故障
-*/
-
-
-
-/// 初始化配置
-extern bit I2c_CFG(unsigned char op);
-/// 总线上ACK状态
-extern unsigned char I2c_NAckStatus();
-/// 读取忙
-extern bit I2c_Busy();
-/// I2C 控制命令
-extern void I2c_Cmd(unsigned char cmd);
-/// 启动
-#define I2c_Start() I2c_Cmd(MSCMD_START);
-/// 读应答
-#define I2c_RxAck() I2c_Cmd(MSCMD_RACK);
-/// 传输停止
-#define I2c_Stop()  I2c_Cmd(MSCMD_STOP);
-
-
-//extern void I2c_Start();
-//extern void I2c_RxAck();
-
-/// 发送应答
-extern void I2c_Ack(unsigned char nAck);
-#define I2c_TxAck() I2c_Ack(0x00)
-#define I2c_TxNAck() I2c_Ack(0x01)
-
-/// 发送无回应应答
-//extern void I2c_TxNAck();
-
-/// 传输停止
-//extern void I2c_Stop();
-
-/// 写字节
-extern void I2c_Write(unsigned char c);
-/// 写字串
-extern unsigned I2c_Writes(unsigned len,char* src);
-/// 读字符
-extern unsigned char I2c_Read();
-/// 读字串
-extern unsigned I2c_Reads(unsigned len,char* dst);
-
-
-
-#define I2c_InitM(_v) I2c_CFG(0xc0 | _v)
-#define I2c_InitS(_v) I2c_CFG(0x80 | _v)
-#define I2c_Di() I2c_CFG(0x00)
-
-
 //-----------------------------------------------------------------------------
 #define IIC_ENI2C   (1ul << 7)
 #define IIC_MSSL    (1ul << 6)
 
-#define IIC_sfr_Command _IIC_sfr_Command
+#define IIC_sfr_RecvAck()       IIC_sfr_Command(MSCMD_RACK)                   //  接收ACK指令
+#define IIC_sfr_SendAck()       IIC_sfr_Command(MSCMD_TACK)                   //  发送ACK指令
 
-#define IIC_sfr_RecvAck() IIC_sfr_Command(MSCMD_RACK)                   //  接收ACK指令
-#define IIC_sfr_SendAck() IIC_sfr_Command(MSCMD_TACK)                   //  发送ACK指令
-#define IIC_sfr_AckI() (ExtSfrGet8(&I2CMSST) & MSACKI)                  //  收到的ACK状态
+
+
+#define IIC_sfr_AckI()          (ExtSfrGet8(&I2CMSST) & MSACKI)                  //  收到的ACK状态
+#define IIC_sfr_Stop()          IIC_sfr_Command(MSCMD_STOP)
+#define IIC_sfr_InitM(_v)       IIC_sfr_Config(IIC_ENI2C|IIC_MSSL|(_v & 0x0F),0x00)
+#define IIC_sfr_InitS(_v,_s)    IIC_sfr_Config(IIC_ENI2C|(_v & 0x0F),_s)
+#define IIC_sfr_Disable()       IIC_sfr_Config(0x00,0x00)
 
 #include <obj.h>
 /**
@@ -131,7 +69,6 @@ typedef struct _sI2c
 {
     BaseIO  mIOs;                                       // 基础IO操作
 	//---
-    void (*pCommand)(void *,unsigned char);              // 指令
     /*
         unsigned char CallIOs(void*,unsigned char op)
         {
@@ -155,8 +92,13 @@ typedef struct _sI2c
         }
     */
 
+    void (*pEnable)(struct _sI2c *h );
+    void (*pDisable)(struct _sI2c *h );
+    void (*pStart)(struct _sI2c *h ,unsigned char read);
+    void (*pCommand)(struct _sI2c *h ,unsigned char cmd);       // 指令
     unsigned char (*pIOs)(void*,unsigned char);  
-    unsigned char (*pReadReg8)(struct _sI2c *,unsigned char);
+    //unsigned char (*pReadReg8)(struct _sI2c *,unsigned char);
+    //void (*pWriteReg8)(struct _sI2c *,unsigned char,unsigned char);
     unsigned mSpeed;                                            // 仅主机模式生效
     unsigned char mFlag:6;                                      //
     unsigned char mSelectPort:2;                                // 端口选择 仅寄存器方式
@@ -176,10 +118,8 @@ enum {
  * I2c扩展指令部分
 */
 #define pI2c(_v)      ((sI2c*)_v)
-#define m2_I2c_Start(_h)    pI2c(_h)->pCommand(_h,MSCMD_START)
-#define m2_I2c_Stop(_h)     pI2c(_h)->pCommand(_h,MSCMD_STOP)
-
-
+//#define m2_I2c_Start(_h)    pI2c(_h)->pCommand(_h,MSCMD_START)
+//#define m2_I2c_Stop(_h)     pI2c(_h)->pCommand(_h,MSCMD_STOP)
 
 /**
  * 使用寄存器
@@ -205,5 +145,33 @@ void CreateIICM4Sfr(sI2c *mio);
 #define SI2c_SelectPort(_h,_v)          do{pI2c(_h)->mSelectPort = (_v & 0x03);}while(0)
 
 #define I2c_SetAddr(_h,_v)              do{pI2c(_h)->mAddr = (_v);}while(0)
+
+
+//-----------------------------------------------------------------------------
+/**
+ * 寄存器方法
+*/
+void IIC_sfr_Config(unsigned char op,unsigned char saddr);
+void IIC_sfr_Command(unsigned char cmd);
+unsigned char IIC_sfr_Read();
+unsigned char IIC_sfr_Reads(char * dst,unsigned char len);
+unsigned char IIC_sfr_ExReads(char * dst,unsigned char len);
+void IIC_sfr_Write(unsigned char c);
+unsigned char IIC_sfr_Writes(const char* src,unsigned char len);
+unsigned char IIC_sfr_ExWrites(const char* src,unsigned char len);
+unsigned char IIC_sfr_ExAuxWrites(const char* src,unsigned char len);
+void IIC_sfr_Start(unsigned char addr);
+void IIC_sfr_ExStart(unsigned char addr);
+//-----------------------------------------------------------------------------
+/**
+ * 模拟方式实现
+*/
+//-----------------------------------------------------------------------------
+/**
+ * 通用方法
+*/
+unsigned char IIC_ReadMem8(sI2c* h,unsigned char reg);
+void IIC_WriteMem8(sI2c* h,unsigned char reg,unsigned char v);
+
 
 #endif
