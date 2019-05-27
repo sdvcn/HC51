@@ -21,6 +21,8 @@
 
 unsigned short GetResult(unsigned char ch)
 {
+    asm("push ie");
+    EA=0;                                                       //关闭全局中断
     ch &= ~0xf8;
     ADC_CONTR = ADC_POWER|ADC_SPEED9 | ADC_START | ch;
     NOP();
@@ -28,9 +30,10 @@ unsigned short GetResult(unsigned char ch)
     NOP();
     NOP();
     while (!(ADC_CONTR & ADC_FLAG));
+    asm("pop ie");                                              // 恢复中断
     ADC_CONTR &= ~ADC_FLAG;
     //return (ADC_DATA << 2) | ADC_LOW2;
-    return Adc_Result;
+    return Adc_Result;                                          // 宏定义返回值
 }
 
 void Adc_Init(unsigned char mask)
