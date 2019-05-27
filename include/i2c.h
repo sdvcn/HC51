@@ -170,10 +170,13 @@ void IIC_sfr_ExStart(unsigned char addr);
 /**
  * 通用方法
 */
+unsigned char IIC_ReadMem(sI2c* h,unsigned char reg,char *dst,unsigned char len);
+unsigned char IIC_WriteMem(sI2c* h,unsigned char reg,const char *src,unsigned char len);
+
 unsigned char IIC_ReadMem8(sI2c* h,unsigned char reg);
 void IIC_WriteMem8(sI2c* h,unsigned char reg,unsigned char v);
 
-unsigned char IIC_ReadMem(sI2c* h,unsigned char reg,char *dst,unsigned char len);
-unsigned char IIC_WriteMem(sI2c* h,unsigned char reg,const char *src,unsigned char len);
+unsigned short IIC_ReadShort(sI2c* h,unsigned char reg);
+void IIC_WriteShort(sI2c* h,unsigned char reg,unsigned short v);
 
 #endif

@@ -359,6 +359,7 @@ unsigned char IIC_ReadMem8(sI2c* h,unsigned char reg)
     return r;
 }
 
+
 /**
  * 写入8位
 */
@@ -403,4 +404,27 @@ unsigned char IIC_ReadMem(sI2c* h,unsigned char reg,char *dst,unsigned char len)
     r = h->mIOs.pReads(h,dst,len);
     h->pDisable(h);
     return r;
+}
+
+/**
+ * 
+*/
+unsigned short IIC_ReadShort(sI2c* h,unsigned char reg)
+{
+    unsigned char buf[2] = {0x00};
+    if(IIC_ReadMem(h,reg,&buf,2) == 2){
+        return (unsigned short)((buf[1] << 8)|(buf[0]));
+    };
+    return 0;
+}
+
+void IIC_WriteShort(sI2c* h,unsigned char reg,unsigned short v)
+{
+    unsigned char buf[2] = {0x00};
+
+    buf[0] = v & 0xff;
+    buf[1] = (v >> 8);
+
+    IIC_WriteMem(h,reg,&buf,2);
+
 }
