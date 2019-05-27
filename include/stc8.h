@@ -27,6 +27,8 @@
 #define di()    do{NOP();EA = 0;NOP();}while(0)
 
 
+static volatile unsigned char	S4CON	_at_	0x84;               // 串口4控制寄存器
+static volatile unsigned char	S4BUF	_at_	0x85;               // 串口4缓冲寄存器
 
 volatile unsigned AUXR _at_ 0x8e;
 /// P1端口配置寄存器
@@ -82,7 +84,8 @@ static volatile unsigned char	P_SW2	_at_	0xBA;
 static volatile unsigned char	ADC_CONTR	_at_	0xBC;
 
 ///FIX 16Bit
-static volatile unsigned short	ADC_RES	_at_	0xBD;
+//static volatile unsigned short	ADC_RES	_at_	0xBD;
+
 static volatile unsigned char	ADC_RESL	_at_	0xBE;
 static volatile unsigned char	ADC_RESH	_at_	0xBF;
 //
