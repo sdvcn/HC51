@@ -9,9 +9,9 @@
 typedef struct _BaseIO
 {
 	unsigned char (*pRead)(void*);						// 读字节
-	void (*pReads)(void*,unsigned char*,unsigned);		// 写字符串
+	unsigned char (*pReads)(void*,char*,unsigned char);		// 写字符串
 	void (*pWrite)(void*,unsigned char);				// 写字节
-	unsigned (*pWrites)(void*,unsigned char*,unsigned);	// 读字符串
+	unsigned char (*pWrites)(void*,const char*,unsigned char);	// 读字符串
 	void (*pSeek)(void*,signed);						// 移动
     void (*pClose)(void*);                                   //
 
