@@ -173,5 +173,7 @@ void IIC_sfr_ExStart(unsigned char addr);
 unsigned char IIC_ReadMem8(sI2c* h,unsigned char reg);
 void IIC_WriteMem8(sI2c* h,unsigned char reg,unsigned char v);
 
+unsigned char IIC_ReadMem(sI2c* h,unsigned char reg,char *dst,unsigned char len);
+unsigned char IIC_WriteMem(sI2c* h,unsigned char reg,const char *src,unsigned char len);
 
 #endif
