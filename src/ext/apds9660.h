@@ -126,24 +126,27 @@ void APDS9960_WriteReg8(unsigned char reg,unsigned char val);
 //#define APDS9960_WriteReg16(_r,_v) do{APDS9960_WriteReg8((_r),(_v)&0x00ff);APDS9960_WriteReg8((_r)+1,((_v) & 0xff00) >> 8);}while(0) 
 void APDS9960_WriteReg16(unsigned char reg,unsigned short val);
 //-----------------------------------------------------------------------------
-#define APDS9960_GetENABLE()        APDS9960_ReadReg8(APDS9960_ENABLE)
-//#define APDS9960_SetENABLE(_v)      APDS9960_WriteReg8(APDS9960_ENABLE,_v);
+
+// 获取供电状态
+#define APDS9960_GetENABLE(_h)        IIC_ReadMem8(_h,APDS9960_ENABLE)
+//#define APDS9960_SetENABLE(_v)      IIC_WriteMem8(_h,APDS9960_ENABLE,_v);
 /// Apds 9960 关闭所有使能
-#define APDS9960_ClearENABLE()      APDS9960_WriteReg8(APDS9960_ENABLE,0x00);
+#define APDS9960_ClearENABLE(_h)      IIC_WriteMem8(_h,APDS9960_ENABLE,0x00);
+
 /// 手势模式使能
-#define APDS9960_SetGEN(_v)         APDS9960_WriteReg8(APDS9960_ENABLE,(APDS9960_GetENABLE() & 0x3f) | (_v & 0x01) << 6 );
+#define APDS9960_SetGEN(_h,_v)         IIC_WriteMem8(_h,APDS9960_ENABLE,(APDS9960_GetENABLE() & 0x3f) | (_v & 0x01) << 6 );
 /// 中断使能
-#define APDS9960_SetPIEN(_v)        APDS9960_WriteReg8(APDS9960_ENABLE,(APDS9960_GetENABLE() & 0x5f) | (_v & 0x01) << 5 );
+#define APDS9960_SetPIEN(_h,_v)        IIC_WriteMem8(_h,APDS9960_ENABLE,(APDS9960_GetENABLE() & 0x5f) | (_v & 0x01) << 5 );
 /// ALS 中断使能
-#define APDS9960_SetAIEN(_v)        APDS9960_WriteReg8(APDS9960_ENABLE,(APDS9960_GetENABLE() & 0x6f) | (_v & 0x01) << 4 );
+#define APDS9960_SetAIEN(_h,_v)        IIC_WriteMem8(_h,APDS9960_ENABLE,(APDS9960_GetENABLE() & 0x6f) | (_v & 0x01) << 4 );
 /// 等待使能,同时暂停等待计时
-#define APDS9960_SetWEN(_v)         APDS9960_WriteReg8(APDS9960_ENABLE,(APDS9960_GetENABLE() & 0x77) | (_v & 0x01) << 3 );
+#define APDS9960_SetWEN(_h,_v)         IIC_WriteMem8(_h,APDS9960_ENABLE,(APDS9960_GetENABLE() & 0x77) | (_v & 0x01) << 3 );
 /// 接近模式使能
-#define APDS9960_SetPEN(_v)         APDS9960_WriteReg8(APDS9960_ENABLE,(APDS9960_GetENABLE() & 0x7b) | (_v & 0x01) << 2 );
+#define APDS9960_SetPEN(_h,_v)         IIC_WriteMem8(_h,APDS9960_ENABLE,(APDS9960_GetENABLE() & 0x7b) | (_v & 0x01) << 2 );
 /// ALS 模式使能
-#define APDS9960_SetAEN(_v)         APDS9960_WriteReg8(APDS9960_ENABLE,(APDS9960_GetENABLE() & 0x7d) | (_v & 0x01) << 1 );
+#define APDS9960_SetAEN(_h,_v)         IIC_WriteMem8(_h,APDS9960_ENABLE,(APDS9960_GetENABLE() & 0x7d) | (_v & 0x01) << 1 );
 /// 主电源使能
-#define APDS9960_SetPON(_v)         APDS9960_WriteReg8(APDS9960_ENABLE,(APDS9960_GetENABLE() & 0x7e) | (_v & 0x01) << 0 );
+#define APDS9960_SetPON(_h,_v)         IIC_WriteMem8(_h,APDS9960_ENABLE,(APDS9960_GetENABLE() & 0x7e) | (_v & 0x01) << 0 );
 
 /// 环境光线
 /**
@@ -163,35 +166,35 @@ void APDS9960_WriteReg16(unsigned char reg,unsigned short val);
 */
 #define APDS9960_Light_blue()       APDS9960_ReadReg16(APDS9960_BDATAL)
 
-#define APDS9960_GetGCONF4()        APDS9960_ReadReg8(APDS9960_GCONF4)
+#define APDS9960_GetGCONF4()        IIC_ReadMem8(_h,APDS9960_GCONF4)
 /// 手势模式 清除GFIFO,GINT,GVALID等.
-#define APDS9960_ClearGFIFO()       APDS9960_WriteReg8(APDS9960_GCONF4,(APDS9960_GetGCONF4() & 0x03) | 0x04 );
+#define APDS9960_ClearGFIFO()       IIC_WriteMem8(_h,APDS9960_GCONF4,(APDS9960_GetGCONF4() & 0x03) | 0x04 );
 /// 手势模式 中断开关
-#define APDS9960_SetGIEN(_v)          APDS9960_WriteReg8(APDS9960_GCONF4,(APDS9960_GetGCONF4() & 0x05) | (_v & 0x01) << 1);
+#define APDS9960_SetGIEN(_v)          IIC_WriteMem8(_h,APDS9960_GCONF4,(APDS9960_GetGCONF4() & 0x05) | (_v & 0x01) << 1);
 /// 手势模式 ALS 与 手势 切换.
-#define APDS9960_SetGMODE(_v)         APDS9960_WriteReg8(APDS9960_GCONF4,(APDS9960_GetGCONF4() & 0x06) | (_v & 0x01) << 0);
-//#define APDS9960_ClearGFIFO()       APDS9960_WriteReg8(APDS9960_GCONF4,APDS9960_GetGCONF4()|0x04)
+#define APDS9960_SetGMODE(_v)         IIC_WriteMem8(_h,APDS9960_GCONF4,(APDS9960_GetGCONF4() & 0x06) | (_v & 0x01) << 0);
+//#define APDS9960_ClearGFIFO()       IIC_WriteMem8(_h,APDS9960_GCONF4,APDS9960_GetGCONF4()|0x04)
 
 
 
 //-----------------------------------------------------------------------------
-#define APDS9960_GetCONFIG2()       APDS9960_ReadReg8(APDS9960_CONFIG2)
-#define APDS9960_GetCONTROL()       APDS9960_ReadReg8(APDS9960_CONTROL)
+#define APDS9960_GetCONFIG2()       IIC_ReadMem8(_h,APDS9960_CONFIG2)
+#define APDS9960_GetCONTROL()       IIC_ReadMem8(_h,APDS9960_CONTROL)
 //-----------------------------------------------------------------------------
 /// Led Boost 设置 
-#define APDS9960_LedBoost(_v)       APDS9960_WriteReg8(APDS9960_CONFIG2,((APDS9960_GetCONFIG2() & 0xCF) | ((_v & 0x03) << 4)))
+#define APDS9960_LedBoost(_v)       IIC_WriteMem8(_h,APDS9960_CONFIG2,((APDS9960_GetCONFIG2() & 0xCF) | ((_v & 0x03) << 4)))
 /// LED 驱动电流控制
-#define APDS9960_LedDrive(_v)       APDS9960_WriteReg8(APDS9960_CONTROL,((APDS9960_GetCONTROL() & 0x3F) | ((_v & 0x03) << 5)))
+#define APDS9960_LedDrive(_v)       IIC_WriteMem8(_h,APDS9960_CONTROL,((APDS9960_GetCONTROL() & 0x3F) | ((_v & 0x03) << 5)))
 /// 接近增益控制
-#define APDS9960_SetProximityGain(_v)   APDS9960_WriteReg8(APDS9960_CONTROL,((APDS9960_GetCONTROL() & 0xF3) | ((_v & 0x03) << 2)))
+#define APDS9960_SetProximityGain(_v)   IIC_WriteMem8(_h,APDS9960_CONTROL,((APDS9960_GetCONTROL() & 0xF3) | ((_v & 0x03) << 2)))
 /// 颜色增益控制
-#define APDS9960_SetAmbientLightGain(_v)   APDS9960_WriteReg8(APDS9960_CONTROL,((APDS9960_GetCONTROL() & 0xFC) | ((_v & 0x03) << 0)))
+#define APDS9960_SetAmbientLightGain(_v)   IIC_WriteMem8(_h,APDS9960_CONTROL,((APDS9960_GetCONTROL() & 0xFC) | ((_v & 0x03) << 0)))
 /// 接近中断阀值 低
-#define APDS9960_SetProxIntLowThresh(_v)   APDS9960_WriteReg8(APDS9960_PILT,_v)
-#define APDS9960_GetProxIntLowThresh()   APDS9960_ReadReg8(APDS9960_PILT)
+#define APDS9960_SetProxIntLowThresh(_v)   IIC_WriteMem8(_h,APDS9960_PILT,_v)
+#define APDS9960_GetProxIntLowThresh()   IIC_ReadMem8(_h,APDS9960_PILT)
 /// 接近中断阀值 高
-#define APDS9960_SetProxIntHighThresh(_v)   APDS9960_WriteReg8(APDS9960_PIHT,_v)
-#define APDS9960_GetProxIntHighThresh()   APDS9960_ReadReg8(APDS9960_PIHT)
+#define APDS9960_SetProxIntHighThresh(_v)   IIC_WriteMem8(_h,APDS9960_PIHT,_v)
+#define APDS9960_GetProxIntHighThresh()   IIC_ReadMem8(_h,APDS9960_PIHT)
 
 /// 光线传感器阀值 低
 #define APDS9960_SetLightIntLowThreshold(_v)    APDS9960_WriteReg16(APDS9960_AILTL,_v);
@@ -202,28 +205,28 @@ void APDS9960_WriteReg16(unsigned char reg,unsigned short val);
 #define APDS9960_GetLightIntHighThreshold()      APDS9960_ReadReg16(APDS9960_AIHTL)
 
 
-#define APDS9960_GetPERS()      APDS9960_ReadReg8(APDS9960_PERS)
+#define APDS9960_GetPERS()      IIC_ReadMem8(_h,APDS9960_PERS)
 #define APDS9960_GetPPERS()     (APDS9960_GetPERS() >> 4)
 #define APDS9960_GetAPRES()     (APDS9960_GetPERS() & 0x0f)
 /// 接近传感器循环设置
 /// 取值范围不大于 0x0f
-#define APDS9960_SetPPERS(_v)   APDS9960_WriteReg8(APDS9960_PERS,(APDS9960_GetPERS() & 0x0f) | (_v << 4))
+#define APDS9960_SetPPERS(_v)   IIC_WriteMem8(_h,APDS9960_PERS,(APDS9960_GetPERS() & 0x0f) | (_v << 4))
 /// ALS 传感器循环设置
 /// 取值范围不大于 0x0f
-#define APDS9960_SetAPRES(_v)   APDS9960_WriteReg8(APDS9960_PERS,(APDS9960_GetPERS() & 0xf0) | (_v & 0x0f))
+#define APDS9960_SetAPRES(_v)   IIC_WriteMem8(_h,APDS9960_PERS,(APDS9960_GetPERS() & 0xf0) | (_v & 0x0f))
 
 /// 接近中断
-#define APDS9960_SetPSIEN()     APDS9960_WriteReg8(APDS9960_CONFIG2,(APDS9960_GetCONFIG2() & 0x7f) | (_v & 0xfe ) << 7 ) ;
+#define APDS9960_SetPSIEN()     IIC_WriteMem8(_h,APDS9960_CONFIG2,(APDS9960_GetCONFIG2() & 0x7f) | (_v & 0xfe ) << 7 ) ;
 /// ALS 中断
-#define APDS9960_SetCPSIEN()    APDS9960_WriteReg8(APDS9960_CONFIG2,(APDS9960_GetCONFIG2() & 0xbf) | (_v & 0xfe ) << 6 ) ;
+#define APDS9960_SetCPSIEN()    IIC_WriteMem8(_h,APDS9960_CONFIG2,(APDS9960_GetCONFIG2() & 0xbf) | (_v & 0xfe ) << 6 ) ;
 
 /// 手势进入
-#define APDS9960_SetGestureEnterThresh(_v)  APDS9960_WriteReg8(APDS9960_GPENTH,_v)
+#define APDS9960_SetGestureEnterThresh(_v)  IIC_WriteMem8(_h,APDS9960_GPENTH,_v)
 /// 手势离开
-#define APDS9960_SetGestureExitThresh(_v) APDS9960_WriteReg8(APDS9960_GEXTH,_v)
+#define APDS9960_SetGestureExitThresh(_v) IIC_WriteMem8(_h,APDS9960_GEXTH,_v)
 
 /// 获取手势配置寄存器1
-#define APDS9960_GetGCONF1()    APDS9960_ReadReg8(APDS9960_GCONF1)
+#define APDS9960_GetGCONF1()    IIC_ReadMem8(_h,APDS9960_GCONF1)
 /**
  * ????
  * 手势模式 中断前提交FIFO数量
@@ -232,15 +235,15 @@ void APDS9960_WriteReg16(unsigned char reg,unsigned short val);
  * 2 = 8
  * 3 = 16
 */
-#define APDS9960_SetGFIFOTH(_v) APDS9960_WriteReg8(APDS9960_GCONF1, (APDS9960_GetGCONF1() & 0x3f) | (_v & 0xfc) << 6 )
+#define APDS9960_SetGFIFOTH(_v) IIC_WriteMem8(_h,APDS9960_GCONF1, (APDS9960_GetGCONF1() & 0x3f) | (_v & 0xfc) << 6 )
 /**
  * 
 */
-#define APDS9960_SetGEXMSK(_v)  APDS9960_WriteReg8(APDS9960_GCONF1, (APDS9960_GetGCONF1() & 0xc3) | (_v & 0xf0) << 2 )
-#define APDS9960_SetGEXPERS(_v) APDS9960_WriteReg8(APDS9960_GCONF1, (APDS9960_GetGCONF1() & 0xfc) | (_v & 0xfc) << 0 )
+#define APDS9960_SetGEXMSK(_v)  IIC_WriteMem8(_h,APDS9960_GCONF1, (APDS9960_GetGCONF1() & 0xc3) | (_v & 0xf0) << 2 )
+#define APDS9960_SetGEXPERS(_v) IIC_WriteMem8(_h,APDS9960_GCONF1, (APDS9960_GetGCONF1() & 0xfc) | (_v & 0xfc) << 0 )
 
 /// 获取手势配置寄存器2
-#define APDS9960_GetGCONF2()    APDS9960_ReadReg8(APDS9960_GCONF2)
+#define APDS9960_GetGCONF2()    IIC_ReadMem8(_h,APDS9960_GCONF2)
 /**
  * 手势模式 距离增益
  * 0 = 1x
@@ -248,7 +251,7 @@ void APDS9960_WriteReg16(unsigned char reg,unsigned short val);
  * 2 = 4x
  * 3 = 8x
 */
-#define APDS9960_SetGGAIN(_v) APDS9960_WriteReg8(APDS9960_GCONF2, (APDS9960_GetGCONF2() & 0x1f) | (_v & 0xfc) << 5 )
+#define APDS9960_SetGGAIN(_v) IIC_WriteMem8(_h,APDS9960_GCONF2, (APDS9960_GetGCONF2() & 0x1f) | (_v & 0xfc) << 5 )
 /**
  * 手势模式 LED驱动能力
  * 0 = 100 mA
@@ -256,7 +259,7 @@ void APDS9960_WriteReg16(unsigned char reg,unsigned short val);
  * 2 = 25 mA
  * 3 = 12.5 mA
 */
-#define APDS9960_SetGLDRIVE(_v) APDS9960_WriteReg8(APDS9960_GCONF2, (APDS9960_GetGCONF2() & 0x73) | (_v & 0xfc) << 3 )
+#define APDS9960_SetGLDRIVE(_v) IIC_WriteMem8(_h,APDS9960_GCONF2, (APDS9960_GetGCONF2() & 0x73) | (_v & 0xfc) << 3 )
 /**
  * 手势模式 检测时间间隔
  * 0 = 0 ms
@@ -267,9 +270,9 @@ void APDS9960_WriteReg16(unsigned char reg,unsigned short val);
  * 6 = 30.8 ms
  * 7 = 39.2 ms
 */
-#define APDS9960_SetGWTIME(_v) APDS9960_WriteReg8(APDS9960_GCONF2, (APDS9960_GetGCONF2() & 0x7c) | (_v & 0xf8) << 0 )
+#define APDS9960_SetGWTIME(_v) IIC_WriteMem8(_h,APDS9960_GCONF2, (APDS9960_GetGCONF2() & 0x7c) | (_v & 0xf8) << 0 )
 
-#define APDS9960_GetGPULSE()    APDS9960_ReadReg8(APDS9960_GPULSE)
+#define APDS9960_GetGPULSE()    IIC_ReadMem8(_h,APDS9960_GPULSE)
 /**
  * 手势模式 LED 脉冲宽度
  * 0 = 4/us
@@ -277,12 +280,12 @@ void APDS9960_WriteReg16(unsigned char reg,unsigned short val);
  * 2 = 16/us
  * 3 = 32/us
 */
-#define APDS9960_SetGPLEN(_v)   APDS9960_WriteReg8(APDS9960_GPULSE, (APDS9960_GetGPULSE() & 0x3f) | (_v & 0xfc) << 6 )
+#define APDS9960_SetGPLEN(_v)   IIC_WriteMem8(_h,APDS9960_GPULSE, (APDS9960_GetGPULSE() & 0x3f) | (_v & 0xfc) << 6 )
 /**
  * 手势模式 LDR 脉冲计数
  * 赋值为 val + 1
 */
-#define APDS9960_SetGPULSE(_v)   APDS9960_WriteReg8(APDS9960_GPULSE, (APDS9960_GetGPULSE() & 0xc0) | (_v & 0x3f) << 0 )
+#define APDS9960_SetGPULSE(_v)   IIC_WriteMem8(_h,APDS9960_GPULSE, (APDS9960_GetGPULSE() & 0xc0) | (_v & 0x3f) << 0 )
 /**
  * 手势模式 选择手势接受用传感器
  * 0 = 上下/左右 同时生效
@@ -290,14 +293,14 @@ void APDS9960_WriteReg16(unsigned char reg,unsigned short val);
  * 2 = 左右 有效 上下无效
  * 3 = 上下/左右 同时生效
 */
-#define APDS9960_SetGDIMS(_v)   APDS9960_WriteReg8(APDS9960_GCONF3,(_v & 0x03));
+#define APDS9960_SetGDIMS(_v)   IIC_WriteMem8(_h,APDS9960_GCONF3,(_v & 0x03));
 /// 手势FIFO寄存器溢出
-#define APDS9960_GetGFOV()      ((APDS9960_ReadReg8(APDS9960_GSTATUS) & 0x02) >> 1 )
+#define APDS9960_GetGFOV()      ((IIC_ReadMem8(_h,APDS9960_GSTATUS) & 0x02) >> 1 )
 /// 判定手势FIFO寄存器存在数据
-#define APDS9960_GetGVALID()    (APDS9960_ReadReg8(APDS9960_GSTATUS) & 0x01)
+#define APDS9960_GetGVALID()    (IIC_ReadMem8(_h,APDS9960_GSTATUS) & 0x01)
 
-#define APDS9960_GetATIME() APDS9960_ReadReg8(APDS9960_ATIME)
-#define APDS9960_SetATIME(_v) APDS9960_WriteReg8(APDS9960_ATIME,_v)
+#define APDS9960_GetATIME() IIC_ReadMem8(_h,APDS9960_ATIME)
+#define APDS9960_SetATIME(_v) IIC_WriteMem8(_h,APDS9960_ATIME,_v)
 /**
  * 获取器件状态
  * (1ul << 7) CPSAT 光线传感器 清除寄存器 0xe6
@@ -309,7 +312,7 @@ void APDS9960_WriteReg16(unsigned char reg,unsigned short val);
  * (1ul << 1) PVALID PDATA 中数据读取后重置
  * (1ul << 0) AVALID 0x94~0x9b 中数据被读取后重置
 */
-#define APDS9960_GetSTATUS() APDS9960_ReadReg8(APDS9960_STATUS)
+#define APDS9960_GetSTATUS() IIC_ReadMem8(_h,APDS9960_STATUS)
 //-----------------------------------------------------------------------------
 /// 初始化APDS-9960
 void APDS9960_Init();
@@ -325,20 +328,20 @@ void APDS9960_DisableGestureSensor();
 //void APDS9960_ReadGesture();
 //--------------
 /*
-#define Get_APDS9960_ENABLE() APDS9960_ReadReg8(APDS9960_ENABLE)
-#define Put_APDS9960_ENABLE(_v) APDS9960_WriteReg8(APDS9960_ENABLE,_v)
+#define Get_APDS9960_ENABLE() IIC_ReadMem8(_h,APDS9960_ENABLE)
+#define Put_APDS9960_ENABLE(_v) IIC_WriteMem8(_h,APDS9960_ENABLE,_v)
 
 ///
 
 
-#define Get_APDS9960_WTIME() APDS9960_ReadReg8(APDS9960_WTIME)
+#define Get_APDS9960_WTIME() IIC_ReadMem8(_h,APDS9960_WTIME)
 #define Get_APDS9960_AILT() APDS9960_ReadReg16(APDS9960_AILTL)
 #define Get_APDS9960_AIHT() APDS9960_ReadReg16(APDS9960_AIHTL)
 
-#define Get_APDS9960_PILT() APDS9960_ReadReg8(APDS9960_PILT)
-#define Get_APDS9960_PIHT() APDS9960_ReadReg8(APDS9960_PIHT)
+#define Get_APDS9960_PILT() IIC_ReadMem8(_h,APDS9960_PILT)
+#define Get_APDS9960_PIHT() IIC_ReadMem8(_h,APDS9960_PIHT)
 
-#define Get_APDS9960_PERS() APDS9960_ReadReg8(APDS9960_PERS)
+#define Get_APDS9960_PERS() IIC_ReadMem8(_h,APDS9960_PERS)
 
 */
 
@@ -350,20 +353,11 @@ void APDS9960_DisableGestureSensor();
 //unsigned char ADPS9960_I2c_Di();
 
 
-#include <obj.h>
+//#include <obj.h>
+//-----------------------------------------------------------------------------
 
-typedef struct _sApds9960
-{
-    BaseIO  mIOs;                                       // 基础IO操作
-	//---
-    //void 
-    unsigned char (*pGetReg8)(unsigned char reg,struct sApds9960*);
-    void (*pSetReg8)(unsigned char,unsigned char,struct sApds9960*);
-    void *  mApdsIO;
+unsigned char ApdsCheckID(sI2c* h);
 
-} sApds9960;
-
-// aa->read(reg)
 
 
 #endif
