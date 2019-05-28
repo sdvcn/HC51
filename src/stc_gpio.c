@@ -19,9 +19,26 @@ typedef struct _IOMODE
  * 
  * 返回已设置状态
 */
+//unsigned short GPIO_SetMode(size_t io,)
+unsigned short GPIO_GetMode(size_t io)
+{
+
+    if(io == PtrAddr(&P0)) return  (unsigned short)((P0M1 << 8) | P0M0);
+    if(io == PtrAddr(&P1)) return  (unsigned short)((P1M1 << 8) | P1M0);
+    if(io == PtrAddr(&P2)) return  (unsigned short)((P2M1 << 8) | P2M0);
+    if(io == PtrAddr(&P3)) return  (unsigned short)((P3M1 << 8) | P3M0);
+    if(io == PtrAddr(&P4)) return  (unsigned short)((P4M1 << 8) | P4M0);
+    if(io == PtrAddr(&P5)) return  (unsigned short)((P5M1 << 8) | P5M0);
+    if(io == PtrAddr(&P6)) return  (unsigned short)((P6M1 << 8) | P6M0);
+    if(io == PtrAddr(&P7)) return  (unsigned short)((P7M1 << 8) | P7M0);
+
+    return 0ul;
+}
+
 unsigned short GPIO_Mode(size_t io,unsigned short mode)
 {
     IOMODE *pmode = (IOMODE*)&mode;
+
     if(io == PtrAddr(&P0)){
         P0M0 = pmode->M0;
         P0M1 = pmode->M1;
@@ -81,6 +98,18 @@ unsigned short GPIO_Mode(size_t io,unsigned short mode)
     return 0x00;
 }
 
+unsigned char GPIO_GetPU(size_t io)
+{
+    if(io == PtrAddr(&P0)) return  ExtSfrGet8(&P0PU);
+    if(io == PtrAddr(&P1)) return  ExtSfrGet8(&P0PU);
+    if(io == PtrAddr(&P2)) return  ExtSfrGet8(&P0PU);
+    if(io == PtrAddr(&P3)) return  ExtSfrGet8(&P0PU);
+    if(io == PtrAddr(&P4)) return  ExtSfrGet8(&P0PU);
+    if(io == PtrAddr(&P5)) return  ExtSfrGet8(&P0PU);
+    if(io == PtrAddr(&P6)) return  ExtSfrGet8(&P0PU);
+    if(io == PtrAddr(&P7)) return  ExtSfrGet8(&P0PU);
+    return 0x00;
+}
 /**
  * 设置端口上拉电阻
  * Example:
@@ -125,6 +154,19 @@ unsigned char GPIO_PU(size_t io,unsigned char mask)
     return 0x00;
 }
 
+
+unsigned char GPIO_GetNCS(size_t io)
+{
+    if(io == PtrAddr(&P0)) return  ExtSfrGet8(&P0NCS);
+    if(io == PtrAddr(&P1)) return  ExtSfrGet8(&P1NCS);
+    if(io == PtrAddr(&P2)) return  ExtSfrGet8(&P2NCS);
+    if(io == PtrAddr(&P3)) return  ExtSfrGet8(&P3NCS);
+    if(io == PtrAddr(&P4)) return  ExtSfrGet8(&P4NCS);
+    if(io == PtrAddr(&P5)) return  ExtSfrGet8(&P5NCS);
+    if(io == PtrAddr(&P6)) return  ExtSfrGet8(&P6NCS);
+    if(io == PtrAddr(&P7)) return  ExtSfrGet8(&P7NCS);
+    return 0x00;
+}
 /**
  * 设置端口斯密特触发
  * Example:
