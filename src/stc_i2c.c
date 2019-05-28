@@ -6,6 +6,8 @@
 #include <string.h>
 
 #include <i2c.h>
+
+#define NDEBUG
 #include <ext_debug.h>
 
 
