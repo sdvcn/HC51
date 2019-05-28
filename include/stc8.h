@@ -422,14 +422,6 @@ unsigned long GetSystemClock();
 
 
 
-/**
- * GPIO
-*/
-typedef struct {
-    unsigned char M0;
-    unsigned char M1;
-    unsigned char PU;
-    unsigned char CS;
-} ModeOP;
+
 
 #endif
