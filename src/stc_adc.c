@@ -22,7 +22,7 @@
 unsigned short GetResult(unsigned char ch)
 {
     asm("push ie");
-    EA=0;                                                       //关闭全局中断
+    di();                                                       //关闭全局中断
     ch &= ~0xf8;
     ADC_CONTR = ADC_POWER|ADC_SPEED9 | ADC_START | ch;
     NOP();
