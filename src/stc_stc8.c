@@ -25,7 +25,10 @@ typedef struct _mNode
 
 }mNode,*pNode;
 
-
+void mem_Info()
+{
+   
+}
 
 void * malloc(size_t nw)
 {
