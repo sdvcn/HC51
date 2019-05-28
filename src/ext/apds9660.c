@@ -104,6 +104,14 @@ unsigned char ApdsCheckID(sI2c* h)
     return 0ul;
 }
 
+unsigned char Apds9960_Init(sI2c* h)
+{
+    APDS9960_SetENABLE(h,0x00);                   //关闭所有
+    APDS9960_SetATIME(h,DEFAULT_ATIME);
+    
+
+}
+
 /**
  * 获取状态
 */
@@ -129,6 +137,12 @@ void Apds_irs()
 /**
  * 颜色传感器
 */
+void Apds_InitAls(sI2c *h)
+{
+
+    APDS9960_SetENABLE(h,BIT_PON|BIT_AEN|BIT_WEN);
+}
+
 
 /**
  * 环境光传感器

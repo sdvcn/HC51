@@ -94,17 +94,17 @@
 /* 启动使能 */
 
 /// 主电源
-#define APDS9960_PON            (1ul << 0)
+#define BIT_PON            (1ul << 0)
 /// 环境光线
-#define APDS9960_AEN            (1ul << 1)
+#define BIT_AEN            (1ul << 1)
 /// 接近判定
-#define APDS9960_PEN            (1ul << 2)
+#define BIT_PEN            (1ul << 2)
 /// 等待延时
-#define APDS9960_WEN            (1ul << 3)
-#define APSD9960_AIEN           (1ul << 4)                  // 环境光线
-#define APDS9960_PIEN           (1ul << 5)                  // 接近中断
+#define BIT_WEN            (1ul << 3)
+#define BIT_AIEN           (1ul << 4)                  // 环境光线
+#define BIT_PIEN           (1ul << 5)                  // 接近中断
 /// 手势
-#define APDS9960_GEN            (1ul << 6)
+#define BIT_GEN            (1ul << 6)
 
 //-----------------------------------------------------------------------------
 
@@ -126,10 +126,10 @@
 //-----------------------------------------------------------------------------
 /// 环境光线
 
-#define APDS9960_Light_Ambient()        IIC_ReadShort(_h,APDS9960_CDATAL)     // 获取环境光线值
-#define APDS9960_Light_Red()            IIC_ReadShort(_h,APDS9960_RDATAL)     // 获取红色环境光线值
-#define APDS9960_Light_Green()          IIC_ReadShort(_h,APDS9960_GDATAL)     // 获取绿色环境光线值
-#define APDS9960_Light_blue()           IIC_ReadShort(_h,APDS9960_BDATAL)     //获取蓝色环境光线值
+#define APDS9960_Light_Ambient(_h)        IIC_ReadShort(_h,APDS9960_CDATAL)     // 获取环境光线值
+#define APDS9960_Light_Red(_h)            IIC_ReadShort(_h,APDS9960_RDATAL)     // 获取红色环境光线值
+#define APDS9960_Light_Green(_h)          IIC_ReadShort(_h,APDS9960_GDATAL)     // 获取绿色环境光线值
+#define APDS9960_Light_blue(_h)           IIC_ReadShort(_h,APDS9960_BDATAL)     //获取蓝色环境光线值
 
 #define APDS9960_GetGCONF4(_h)          IIC_ReadMem8(_h,APDS9960_GCONF4)
 #define APDS9960_ClearGFIFO(_h)         IIC_WriteMem8(_h,APDS9960_GCONF4,(APDS9960_GetGCONF4() & 0x03) | 0x04 )                   // 手势模式 清除GFIFO,GINT,GVALID等.
@@ -143,6 +143,7 @@
 /**
  * 距离相关
 */
+
 #define APDS9960_SetPPLEN(_h,_v)        IIC_WriteMem8(_h,APDS9960_PPULSE,IIC_ReadMem8(_h,APDS9960_PPULSE) & 0x3f | ((_v & 0x03) << 6))
 #define APDS9960_SetPPULSE(_h,_v)       IIC_WriteMem8(_h,APDS9960_PPULSE,IIC_ReadMem8(_h,APDS9960_PPULSE) & 0xc0 | (_v & 0x3f))
 //-----------------------------------------------------------------------------
@@ -267,8 +268,8 @@
 /// 判定手势FIFO寄存器存在数据
 #define APDS9960_GetGVALID()    (IIC_ReadMem8(_h,APDS9960_GSTATUS) & 0x01)
 
-#define APDS9960_GetATIME() IIC_ReadMem8(_h,APDS9960_ATIME)
-#define APDS9960_SetATIME(_v) IIC_WriteMem8(_h,APDS9960_ATIME,_v)
+#define APDS9960_GetATIME(_h) IIC_ReadMem8(_h,APDS9960_ATIME)
+#define APDS9960_SetATIME(_h,_v) IIC_WriteMem8(_h,APDS9960_ATIME,_v)
 /**
  * 获取器件状态
  * (1ul << 7) CPSAT 光线传感器 清除寄存器 0xe6
