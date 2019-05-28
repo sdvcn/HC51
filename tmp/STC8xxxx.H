@@ -38,7 +38,7 @@ sfr WAKE_CLKO = 0x8F;
 sfr INT_CLKO  = 0x8F;
 
 sfr P1    = 0x90;
-sfr P1M1  = 0x91;	//P1M1.n,P1M0.n 	=00--->Standard,	01--->push-pull		Êµ¼ÊÉÏ1TµÄ¶¼Ò»Ñù
+sfr P1M1  = 0x91;	//P1M1.n,P1M0.n 	=00--->Standard,	01--->push-pull		å®žé™…ä¸Š1Tçš„éƒ½ä¸€æ ·
 sfr P1M0  = 0x92;	//					=10--->pure input,	11--->open drain
 sfr P0M1  = 0x93;	//P0M1.n,P0M0.n 	=00--->Standard,	01--->push-pull
 sfr P0M0  = 0x94;	//					=10--->pure input,	11--->open drain
@@ -59,29 +59,29 @@ sfr P_SW1 = 0xA2;
 
 sfr IE    = 0xA8;
 sfr SADDR = 0xA9;
-sfr WKTCL = 0xAA;	//»½ÐÑ¶¨Ê±Æ÷µÍ×Ö½Ú
-sfr WKTCH = 0xAB;	//»½ÐÑ¶¨Ê±Æ÷¸ß×Ö½Ú
+sfr WKTCL = 0xAA;	//å”¤é†’å®šæ—¶å™¨ä½Žå­—èŠ‚
+sfr WKTCH = 0xAB;	//å”¤é†’å®šæ—¶å™¨é«˜å­—èŠ‚
 sfr	S3CON = 0xAC;
 sfr S3BUF = 0xAD;
 sfr TA    = 0xAE;
-sfr IE2   = 0xAF;	//STC12C5A60S2ÏµÁÐ
+sfr IE2   = 0xAF;	//STC12C5A60S2ç³»åˆ—
 
 sfr P3    = 0xB0;
 sfr P3M1  = 0xB1;	//P3M1.n,P3M0.n 	=00--->Standard,	01--->push-pull
 sfr P3M0  = 0xB2;	//					=10--->pure input,	11--->open drain
 sfr P4M1  = 0xB3;	//P4M1.n,P4M0.n 	=00--->Standard,	01--->push-pull
 sfr P4M0  = 0xB4;	//					=10--->pure input,	11--->open drain
-sfr IP2   = 0xB5;	//STC12C5A60S2ÏµÁÐ
-sfr IP2H  = 0xB6;	//STC12C5A60S2ÏµÁÐ
+sfr IP2   = 0xB5;	//STC12C5A60S2ç³»åˆ—
+sfr IP2H  = 0xB6;	//STC12C5A60S2ç³»åˆ—
 sfr IPH   = 0xB7;
 
 sfr IP        = 0xB8;
 sfr SADEN     = 0xB9;
 sfr	P_SW2     = 0xBA;
 sfr	VOCTRL    = 0xBB;
-sfr ADC_CONTR = 0xBC;	//ADC¿ØÖÆ¼Ä´æÆ÷
-sfr ADC_RES   = 0xBD;	//ADC½á¹û¸ß×Ö½Ú
-sfr ADC_RESL  = 0xBE;	//ADC½á¹ûµÍ×Ö½Ú
+sfr ADC_CONTR = 0xBC;	//ADCæŽ§åˆ¶å¯„å­˜å™¨
+sfr ADC_RES   = 0xBD;	//ADCç»“æžœé«˜å­—èŠ‚
+sfr ADC_RESL  = 0xBE;	//ADCç»“æžœä½Žå­—èŠ‚
 
 sfr P4        = 0xC0;
 sfr WDT_CONTR = 0xC1;
@@ -127,10 +127,10 @@ sfr	TL2    = 0xD7;
 
 sfr CCON   = 0xD8;	//
 sfr CMOD   = 0xD9;	//
-sfr CCAPM0 = 0xDA;	//PCAÄ£¿é0µÄ¹¤×÷Ä£Ê½¼Ä´æÆ÷¡£
-sfr CCAPM1 = 0xDB;	//PCAÄ£¿é1µÄ¹¤×÷Ä£Ê½¼Ä´æÆ÷¡£
-sfr CCAPM2 = 0xDC;	//PCAÄ£¿é2µÄ¹¤×÷Ä£Ê½¼Ä´æÆ÷¡£
-sfr CCAPM3 = 0xDD;	//PCAÄ£¿é3µÄ¹¤×÷Ä£Ê½¼Ä´æÆ÷¡£
+sfr CCAPM0 = 0xDA;	//PCAæ¨¡å—0çš„å·¥ä½œæ¨¡å¼å¯„å­˜å™¨ã€‚
+sfr CCAPM1 = 0xDB;	//PCAæ¨¡å—1çš„å·¥ä½œæ¨¡å¼å¯„å­˜å™¨ã€‚
+sfr CCAPM2 = 0xDC;	//PCAæ¨¡å—2çš„å·¥ä½œæ¨¡å¼å¯„å­˜å™¨ã€‚
+sfr CCAPM3 = 0xDD;	//PCAæ¨¡å—3çš„å·¥ä½œæ¨¡å¼å¯„å­˜å™¨ã€‚
 sfr	ADCCFG = 0xDE;	//
 
 sfr ACC    = 0xE0;
@@ -144,33 +144,33 @@ sfr	CMPCR2 = 0xE7;
 
 sfr	P6     = 0xE8;
 sfr CL     = 0xE9;	//
-sfr CCAP0L = 0xEA;	//PCAÄ£¿é0µÄ²¶×½/±È½Ï¼Ä´æÆ÷µÍ8Î»¡£
-sfr CCAP1L = 0xEB;	//PCAÄ£¿é1µÄ²¶×½/±È½Ï¼Ä´æÆ÷µÍ8Î»¡£
-sfr CCAP2L = 0xEC;	//PCAÄ£¿é2µÄ²¶×½/±È½Ï¼Ä´æÆ÷µÍ8Î»¡£
-sfr CCAP3L = 0xED;	//PCAÄ£¿é3µÄ²¶×½/±È½Ï¼Ä´æÆ÷µÍ8Î»¡£
-sfr	AUXINTIF = 0xEF;	//¸¨ÖúÖÐ¶Ï±êÖ¾ B6-INT4IF, B5-INT3IF, B4-INT2IF, B2-T4IF, B1-T3IF, B0-T2IF
+sfr CCAP0L = 0xEA;	//PCAæ¨¡å—0çš„æ•æ‰/æ¯”è¾ƒå¯„å­˜å™¨ä½Ž8ä½ã€‚
+sfr CCAP1L = 0xEB;	//PCAæ¨¡å—1çš„æ•æ‰/æ¯”è¾ƒå¯„å­˜å™¨ä½Ž8ä½ã€‚
+sfr CCAP2L = 0xEC;	//PCAæ¨¡å—2çš„æ•æ‰/æ¯”è¾ƒå¯„å­˜å™¨ä½Ž8ä½ã€‚
+sfr CCAP3L = 0xED;	//PCAæ¨¡å—3çš„æ•æ‰/æ¯”è¾ƒå¯„å­˜å™¨ä½Ž8ä½ã€‚
+sfr	AUXINTIF = 0xEF;	//è¾…åŠ©ä¸­æ–­æ ‡å¿— B6-INT4IF, B5-INT3IF, B4-INT2IF, B2-T4IF, B1-T3IF, B0-T2IF
 
 sfr B        = 0xF0;
-sfr	PWMCFG   = 0xF1;	//PWMÅäÖÃ¼Ä´æÆ÷
-sfr PCA_PWM0 = 0xF2;	//PCAÄ£¿é0 PWM¼Ä´æÆ÷¡£
-sfr PCA_PWM1 = 0xF3;	//PCAÄ£¿é1 PWM¼Ä´æÆ÷¡£
-sfr PCA_PWM2 = 0xF4;	//PCAÄ£¿é2 PWM¼Ä´æÆ÷¡£
-sfr PCA_PWM3 = 0xF5;	//PCAÄ£¿é3 PWM¼Ä´æÆ÷¡£
-sfr	PWMIF    = 0xF6;	//PWMÖÐ¶Ï±êÖ¾¼Ä´æÆ÷
-sfr	PWMFDCR  = 0xF7;	//PWMÍâ²¿Òì³£¿ØÖÆ¼Ä´æÆ÷
+sfr	PWMCFG   = 0xF1;	//PWMé…ç½®å¯„å­˜å™¨
+sfr PCA_PWM0 = 0xF2;	//PCAæ¨¡å—0 PWMå¯„å­˜å™¨ã€‚
+sfr PCA_PWM1 = 0xF3;	//PCAæ¨¡å—1 PWMå¯„å­˜å™¨ã€‚
+sfr PCA_PWM2 = 0xF4;	//PCAæ¨¡å—2 PWMå¯„å­˜å™¨ã€‚
+sfr PCA_PWM3 = 0xF5;	//PCAæ¨¡å—3 PWMå¯„å­˜å™¨ã€‚
+sfr	PWMIF    = 0xF6;	//PWMä¸­æ–­æ ‡å¿—å¯„å­˜å™¨
+sfr	PWMFDCR  = 0xF7;	//PWMå¤–éƒ¨å¼‚å¸¸æŽ§åˆ¶å¯„å­˜å™¨
 
 sfr	P7     = 0xF8;
 sfr CH     = 0xF9;
-sfr CCAP0H = 0xFA;		//PCAÄ£¿é0µÄ²¶×½/±È½Ï¼Ä´æÆ÷¸ß8Î»¡£
-sfr CCAP1H = 0xFB;		//PCAÄ£¿é1µÄ²¶×½/±È½Ï¼Ä´æÆ÷¸ß8Î»¡£
-sfr CCAP2H = 0xFC;		//PCAÄ£¿é2µÄ²¶×½/±È½Ï¼Ä´æÆ÷¸ß8Î»¡£
-sfr CCAP3H = 0xFD;		//PCAÄ£¿é3µÄ²¶×½/±È½Ï¼Ä´æÆ÷¸ß8Î»¡£
-sfr	PWMCR  = 0xFE;		//PWM¿ØÖÆ¼Ä´æÆ÷
+sfr CCAP0H = 0xFA;		//PCAæ¨¡å—0çš„æ•æ‰/æ¯”è¾ƒå¯„å­˜å™¨é«˜8ä½ã€‚
+sfr CCAP1H = 0xFB;		//PCAæ¨¡å—1çš„æ•æ‰/æ¯”è¾ƒå¯„å­˜å™¨é«˜8ä½ã€‚
+sfr CCAP2H = 0xFC;		//PCAæ¨¡å—2çš„æ•æ‰/æ¯”è¾ƒå¯„å­˜å™¨é«˜8ä½ã€‚
+sfr CCAP3H = 0xFD;		//PCAæ¨¡å—3çš„æ•æ‰/æ¯”è¾ƒå¯„å­˜å™¨é«˜8ä½ã€‚
+sfr	PWMCR  = 0xFE;		//PWMæŽ§åˆ¶å¯„å­˜å™¨
 sfr	RSTCFG = 0xFF;		//
 
 
 //                                     7    6    5    4    3     2       1       0      Reset Value
-//INT_CLKO:  ÖÐ¶ÏÓëÊ±ÖÓÊä³ö¿ØÖÆ¼Ä´æÆ÷  -   EX4  EX3  EX2   -   T2CLKO  T1CLKO  T0CLKO    0000,0000
+//INT_CLKO:  ä¸­æ–­ä¸Žæ—¶é’Ÿè¾“å‡ºæŽ§åˆ¶å¯„å­˜å™¨  -   EX4  EX3  EX2   -   T2CLKO  T1CLKO  T0CLKO    0000,0000
 #define	INT4_Enable()	INT_CLKO |= (1 << 6)
 #define	INT3_Enable()	INT_CLKO |= (1 << 5)	
 #define	INT2_Enable()	INT_CLKO |= (1 << 4)	
@@ -184,7 +184,7 @@ sfr	RSTCFG = 0xFF;		//
 #define	INT0_Disable()	EX0 = 0
 
 //                               7    6       5       4      3    2     1     0      Reset Value
-//AUXINTIF:  ¸¨ÖúÖÐ¶Ï±êÖ¾¼Ä´æÆ÷  -  INT4IF  INT3IF  INT2IF   -   T4IF  T3IF  T2IF    0000,0000
+//AUXINTIF:  è¾…åŠ©ä¸­æ–­æ ‡å¿—å¯„å­˜å™¨  -  INT4IF  INT3IF  INT2IF   -   T4IF  T3IF  T2IF    0000,0000
 #define	INT4IF	0x40
 #define	INT3IF	0x20
 #define	INT2IF	0x10
@@ -192,57 +192,57 @@ sfr	RSTCFG = 0xFF;		//
 #define	T3IF	0x02
 #define	T2IF	0x01
 
-#define	INT4_Clear()	AUXINTIF &= ~INT4IF		/* Çå³ýÍâÖÐ¶Ï4±êÖ¾Î» */
-#define	INT3_Clear()	AUXINTIF &= ~INT3IF		/* Çå³ýÍâÖÐ¶Ï3±êÖ¾Î» */
-#define	INT2_Clear()	AUXINTIF &= ~INT2IF		/* Çå³ýÍâÖÐ¶Ï2±êÖ¾Î» */
-#define	INT1_Clear()	IE1 = 0					/* Çå³ýÍâÖÐ¶Ï1±êÖ¾Î» */
-#define	INT0_Clear()	IE0 = 0					/* Çå³ýÍâÖÐ¶Ï0±êÖ¾Î» */
+#define	INT4_Clear()	AUXINTIF &= ~INT4IF		/* æ¸…é™¤å¤–ä¸­æ–­4æ ‡å¿—ä½ */
+#define	INT3_Clear()	AUXINTIF &= ~INT3IF		/* æ¸…é™¤å¤–ä¸­æ–­3æ ‡å¿—ä½ */
+#define	INT2_Clear()	AUXINTIF &= ~INT2IF		/* æ¸…é™¤å¤–ä¸­æ–­2æ ‡å¿—ä½ */
+#define	INT1_Clear()	IE1 = 0					/* æ¸…é™¤å¤–ä¸­æ–­1æ ‡å¿—ä½ */
+#define	INT0_Clear()	IE0 = 0					/* æ¸…é™¤å¤–ä¸­æ–­0æ ‡å¿—ä½ */
 
-#define	INT0_Fall()		IT0 = 1		/* INT0 ÏÂ½µÑØÖÐ¶Ï           */
-#define	INT0_RiseFall()	IT0 = 0		/* INT0 ÏÂ½µÑØÉÏÉýÑØ¾ùÖÐ¶Ï   */
-#define	INT1_Fall()		IT1 = 1		/* INT1 ÏÂ½µÑØÖÐ¶Ï           */
-#define	INT1_RiseFall()	IT0 = 0		/* INT1 ÏÂ½µÑØÉÏÉýÑØ¾ùÖÐ¶Ï   */
+#define	INT0_Fall()		IT0 = 1		/* INT0 ä¸‹é™æ²¿ä¸­æ–­           */
+#define	INT0_RiseFall()	IT0 = 0		/* INT0 ä¸‹é™æ²¿ä¸Šå‡æ²¿å‡ä¸­æ–­   */
+#define	INT1_Fall()		IT1 = 1		/* INT1 ä¸‹é™æ²¿ä¸­æ–­           */
+#define	INT1_RiseFall()	IT0 = 0		/* INT1 ä¸‹é™æ²¿ä¸Šå‡æ²¿å‡ä¸­æ–­   */
 
 
 //===============================================================
-#define	EAXSFR()		P_SW2 |=  0x80		/* MOVX A,@DPTR/MOVX @DPTR,AÖ¸ÁîµÄ²Ù×÷¶ÔÏóÎªÀ©Õ¹SFR(XSFR) */
-#define	EAXRAM()		P_SW2 &= ~0x80		/* MOVX A,@DPTR/MOVX @DPTR,AÖ¸ÁîµÄ²Ù×÷¶ÔÏóÎªÀ©Õ¹RAM(XRAM) */
+#define	EAXSFR()		P_SW2 |=  0x80		/* MOVX A,@DPTR/MOVX @DPTR,AæŒ‡ä»¤çš„æ“ä½œå¯¹è±¡ä¸ºæ‰©å±•SFR(XSFR) */
+#define	EAXRAM()		P_SW2 &= ~0x80		/* MOVX A,@DPTR/MOVX @DPTR,AæŒ‡ä»¤çš„æ“ä½œå¯¹è±¡ä¸ºæ‰©å±•RAM(XRAM) */
 
 #define CLKSEL      (*(unsigned char volatile xdata *)0xfe00)
-#define	CKSEL		(*(unsigned char volatile xdata *)0xfe00)	/* Ö÷Ê±ÖÓÔ´Ñ¡Ôñ    */
-#define	CLKDIV		(*(unsigned char volatile xdata *)0xfe01)	/* Ö÷Ê±ÖÓ·ÖÆµ      */
-#define	IRC24MCR	(*(unsigned char volatile xdata *)0xfe02)	/* IRC 24MHZ¿ØÖÆ   */
-#define	XOSCCR		(*(unsigned char volatile xdata *)0xfe03)	/* XOSC¿ØÖÆ        */
-#define	IRC32KCR	(*(unsigned char volatile xdata *)0xfe04)	/* IRC 32KHZ¿ØÖÆ   */
+#define	CKSEL		(*(unsigned char volatile xdata *)0xfe00)	/* ä¸»æ—¶é’Ÿæºé€‰æ‹©    */
+#define	CLKDIV		(*(unsigned char volatile xdata *)0xfe01)	/* ä¸»æ—¶é’Ÿåˆ†é¢‘      */
+#define	IRC24MCR	(*(unsigned char volatile xdata *)0xfe02)	/* IRC 24MHZæŽ§åˆ¶   */
+#define	XOSCCR		(*(unsigned char volatile xdata *)0xfe03)	/* XOSCæŽ§åˆ¶        */
+#define	IRC32KCR	(*(unsigned char volatile xdata *)0xfe04)	/* IRC 32KHZæŽ§åˆ¶   */
 
-#define	MainFosc_IRC24M()	CKSEL = (CKSEL & ~0x03)			/* Ñ¡ÔñÄÚ²¿24MHZÊ±ÖÓ */
-#define	MainFosc_XTAL()		CKSEL = (CKSEL & ~0x03) | 0x01	/* Ñ¡ÔñÍâ²¿¾§Õñ»òÊ±ÖÓ */
-#define	EXT_CLOCK()			XOSCCR = 0x80					/* Ñ¡ÔñÍâ²¿Ê±ÖÓ */
-#define	EXT_CRYSTAL()		XOSCCR = 0xC0					/* Ñ¡ÔñÍâ²¿¾§Õñ */
-#define	MainFosc_IRC32K()	CKSEL =  CKSEL | 0x03			/* Ñ¡ÔñÄÚ²¿32KÊ±ÖÓ */
-#define	MainFosc_OutP54()	CKSEL = (CKSEL & ~0x08)			/* ´ÓP5.4Êä³öÖ÷Ê±ÖÓ·ÖÆµ */
-#define	MainFosc_OutP16()	CKSEL = (CKSEL |  0x08)			/* ´ÓP1.6Êä³öÖ÷Ê±ÖÓ·ÖÆµ */
-#define	MCLKO_None()		CKSEL = (CKSEL &  0x0f)			/* Ö÷Ê±ÖÓ²»Êä³ö 	*/
-#define	MCLKO_DIV1()		CKSEL = (CKSEL &  0x0f) | 0x10	/* Ö÷Ê±ÖÓ1·ÖÆµÊä³ö */
-#define	MCLKO_DIV2()		CKSEL = (CKSEL &  0x0f) | 0x20	/* Ö÷Ê±ÖÓ2·ÖÆµÊä³ö  */
-#define	MCLKO_DIV4()		CKSEL = (CKSEL &  0x0f) | 0x40	/* Ö÷Ê±ÖÓ4·ÖÆµÊä³ö  */
-#define	MCLKO_DIV8()		CKSEL = (CKSEL &  0x0f) | 0x60	/* Ö÷Ê±ÖÓ8·ÖÆµÊä³ö  */
-#define	MCLKO_DIV16()		CKSEL = (CKSEL &  0x0f) | 0x80	/* Ö÷Ê±ÖÓ16·ÖÆµÊä³ö  */
-#define	MCLKO_DIV32()		CKSEL = (CKSEL &  0x0f) | 0xa0	/* Ö÷Ê±ÖÓ32·ÖÆµÊä³ö  */
-#define	MCLKO_DIV64()		CKSEL = (CKSEL &  0x0f) | 0xc0	/* Ö÷Ê±ÖÓ64·ÖÆµÊä³ö  */
-#define	MCLKO_DIV128()		CKSEL = (CKSEL &  0x0f) | 0xe0	/* Ö÷Ê±ÖÓ128·ÖÆµÊä³ö  */
+#define	MainFosc_IRC24M()	CKSEL = (CKSEL & ~0x03)			/* é€‰æ‹©å†…éƒ¨24MHZæ—¶é’Ÿ */
+#define	MainFosc_XTAL()		CKSEL = (CKSEL & ~0x03) | 0x01	/* é€‰æ‹©å¤–éƒ¨æ™¶æŒ¯æˆ–æ—¶é’Ÿ */
+#define	EXT_CLOCK()			XOSCCR = 0x80					/* é€‰æ‹©å¤–éƒ¨æ—¶é’Ÿ */
+#define	EXT_CRYSTAL()		XOSCCR = 0xC0					/* é€‰æ‹©å¤–éƒ¨æ™¶æŒ¯ */
+#define	MainFosc_IRC32K()	CKSEL =  CKSEL | 0x03			/* é€‰æ‹©å†…éƒ¨32Kæ—¶é’Ÿ */
+#define	MainFosc_OutP54()	CKSEL = (CKSEL & ~0x08)			/* ä»ŽP5.4è¾“å‡ºä¸»æ—¶é’Ÿåˆ†é¢‘ */
+#define	MainFosc_OutP16()	CKSEL = (CKSEL |  0x08)			/* ä»ŽP1.6è¾“å‡ºä¸»æ—¶é’Ÿåˆ†é¢‘ */
+#define	MCLKO_None()		CKSEL = (CKSEL &  0x0f)			/* ä¸»æ—¶é’Ÿä¸è¾“å‡º 	*/
+#define	MCLKO_DIV1()		CKSEL = (CKSEL &  0x0f) | 0x10	/* ä¸»æ—¶é’Ÿ1åˆ†é¢‘è¾“å‡º */
+#define	MCLKO_DIV2()		CKSEL = (CKSEL &  0x0f) | 0x20	/* ä¸»æ—¶é’Ÿ2åˆ†é¢‘è¾“å‡º  */
+#define	MCLKO_DIV4()		CKSEL = (CKSEL &  0x0f) | 0x40	/* ä¸»æ—¶é’Ÿ4åˆ†é¢‘è¾“å‡º  */
+#define	MCLKO_DIV8()		CKSEL = (CKSEL &  0x0f) | 0x60	/* ä¸»æ—¶é’Ÿ8åˆ†é¢‘è¾“å‡º  */
+#define	MCLKO_DIV16()		CKSEL = (CKSEL &  0x0f) | 0x80	/* ä¸»æ—¶é’Ÿ16åˆ†é¢‘è¾“å‡º  */
+#define	MCLKO_DIV32()		CKSEL = (CKSEL &  0x0f) | 0xa0	/* ä¸»æ—¶é’Ÿ32åˆ†é¢‘è¾“å‡º  */
+#define	MCLKO_DIV64()		CKSEL = (CKSEL &  0x0f) | 0xc0	/* ä¸»æ—¶é’Ÿ64åˆ†é¢‘è¾“å‡º  */
+#define	MCLKO_DIV128()		CKSEL = (CKSEL &  0x0f) | 0xe0	/* ä¸»æ—¶é’Ÿ128åˆ†é¢‘è¾“å‡º  */
 
-#define	MCLKO_P54	0x00	/* ´ÓP5.4Êä³öÖ÷Ê±ÖÓ·ÖÆµ */
-#define	MCLKO_P16	0x08	/* ´ÓP1.6Êä³öÖ÷Ê±ÖÓ·ÖÆµ */
-#define	MCLKO_0		0x00	/* Ö÷Ê±ÖÓ²»Êä³ö 	*/
-#define	MCLKO_1		0x10	/* Ö÷Ê±ÖÓ1·ÖÆµÊä³ö */
-#define	MCLKO_2		0x20	/* Ö÷Ê±ÖÓ2·ÖÆµÊä³ö  */
-#define	MCLKO_4		0x40	/* Ö÷Ê±ÖÓ4·ÖÆµÊä³ö  */
-#define	MCLKO_8		0x60	/* Ö÷Ê±ÖÓ8·ÖÆµÊä³ö  */
-#define	MCLKO_16	0x80	/* Ö÷Ê±ÖÓ16·ÖÆµÊä³ö  */
-#define	MCLKO_32	0xa0	/* Ö÷Ê±ÖÓ32·ÖÆµÊä³ö  */
-#define	MCLKO_64	0xc0	/* Ö÷Ê±ÖÓ64·ÖÆµÊä³ö  */
-#define	MCLKO_128	0xe0	/* Ö÷Ê±ÖÓ128·ÖÆµÊä³ö  */
+#define	MCLKO_P54	0x00	/* ä»ŽP5.4è¾“å‡ºä¸»æ—¶é’Ÿåˆ†é¢‘ */
+#define	MCLKO_P16	0x08	/* ä»ŽP1.6è¾“å‡ºä¸»æ—¶é’Ÿåˆ†é¢‘ */
+#define	MCLKO_0		0x00	/* ä¸»æ—¶é’Ÿä¸è¾“å‡º 	*/
+#define	MCLKO_1		0x10	/* ä¸»æ—¶é’Ÿ1åˆ†é¢‘è¾“å‡º */
+#define	MCLKO_2		0x20	/* ä¸»æ—¶é’Ÿ2åˆ†é¢‘è¾“å‡º  */
+#define	MCLKO_4		0x40	/* ä¸»æ—¶é’Ÿ4åˆ†é¢‘è¾“å‡º  */
+#define	MCLKO_8		0x60	/* ä¸»æ—¶é’Ÿ8åˆ†é¢‘è¾“å‡º  */
+#define	MCLKO_16	0x80	/* ä¸»æ—¶é’Ÿ16åˆ†é¢‘è¾“å‡º  */
+#define	MCLKO_32	0xa0	/* ä¸»æ—¶é’Ÿ32åˆ†é¢‘è¾“å‡º  */
+#define	MCLKO_64	0xc0	/* ä¸»æ—¶é’Ÿ64åˆ†é¢‘è¾“å‡º  */
+#define	MCLKO_128	0xe0	/* ä¸»æ—¶é’Ÿ128åˆ†é¢‘è¾“å‡º  */
 
 
 #define	P0PU		(*(unsigned char volatile xdata *)0xfe10)	/* P0 1.5K Pull Up Enable  */
@@ -289,69 +289,69 @@ sfr	RSTCFG = 0xFF;		//
 #define PWM7T1      (*(unsigned int  volatile xdata *)0xff70)        
 #define PWM7T2      (*(unsigned int  volatile xdata *)0xff72)
 #define PWMC        (*(unsigned int  volatile xdata *)0xfff0)
-#define TADCP      	(*(unsigned int  volatile xdata *)0xfff3)	/* ÔÚ ETADC==1 µÄÇé¿öÏÂ,  Ã¿Ò»¸öÖÜÆÚÖÐ, µ±Counter¼ÆÊýµ½ TADCP[15:0] Ê±,×Ô¶¯Æô¶¯ ADC */
+#define TADCP      	(*(unsigned int  volatile xdata *)0xfff3)	/* åœ¨ ETADC==1 çš„æƒ…å†µä¸‹,  æ¯ä¸€ä¸ªå‘¨æœŸä¸­, å½“Counterè®¡æ•°åˆ° TADCP[15:0] æ—¶,è‡ªåŠ¨å¯åŠ¨ ADC */
 
-#define PWM0T1H     (*(unsigned char volatile xdata *)0xff00)	/* PWM0T1¼ÆÊý¸ß×Ö½Ú */
-#define PWM0T1L     (*(unsigned char volatile xdata *)0xff01)	/* PWM0T1¼ÆÊýµÍ×Ö½Ú */
-#define PWM0T2H     (*(unsigned char volatile xdata *)0xff02)	/* PWM0T2¼ÆÊý¸ß×Ö½Ú */
-#define PWM0T2L     (*(unsigned char volatile xdata *)0xff03)	/* PWM0T2¼ÆÊýµÍ×Ö½Ú */
-#define PWM0CR      (*(unsigned char volatile xdata *)0xff04)	/* PWM0¿ØÖÆ         */
+#define PWM0T1H     (*(unsigned char volatile xdata *)0xff00)	/* PWM0T1è®¡æ•°é«˜å­—èŠ‚ */
+#define PWM0T1L     (*(unsigned char volatile xdata *)0xff01)	/* PWM0T1è®¡æ•°ä½Žå­—èŠ‚ */
+#define PWM0T2H     (*(unsigned char volatile xdata *)0xff02)	/* PWM0T2è®¡æ•°é«˜å­—èŠ‚ */
+#define PWM0T2L     (*(unsigned char volatile xdata *)0xff03)	/* PWM0T2è®¡æ•°ä½Žå­—èŠ‚ */
+#define PWM0CR      (*(unsigned char volatile xdata *)0xff04)	/* PWM0æŽ§åˆ¶         */
 #define PWM0HLD     (*(unsigned char volatile xdata *)0xff05)	/*          */
 
-#define PWM1T1H     (*(unsigned char volatile xdata *)0xff10)	/* PWM1T1¼ÆÊý¸ß×Ö½Ú */
-#define PWM1T1L     (*(unsigned char volatile xdata *)0xff11)	/* PWM1T1¼ÆÊýµÍ×Ö½Ú */
-#define PWM1T2H     (*(unsigned char volatile xdata *)0xff12)	/* PWM1T2¼ÆÊý¸ß×Ö½Ú */
-#define PWM1T2L     (*(unsigned char volatile xdata *)0xff13)	/* PWM1T2¼ÆÊýµÍ×Ö½Ú */
-#define PWM1CR      (*(unsigned char volatile xdata *)0xff14)	/* PWM1¿ØÖÆ         */
+#define PWM1T1H     (*(unsigned char volatile xdata *)0xff10)	/* PWM1T1è®¡æ•°é«˜å­—èŠ‚ */
+#define PWM1T1L     (*(unsigned char volatile xdata *)0xff11)	/* PWM1T1è®¡æ•°ä½Žå­—èŠ‚ */
+#define PWM1T2H     (*(unsigned char volatile xdata *)0xff12)	/* PWM1T2è®¡æ•°é«˜å­—èŠ‚ */
+#define PWM1T2L     (*(unsigned char volatile xdata *)0xff13)	/* PWM1T2è®¡æ•°ä½Žå­—èŠ‚ */
+#define PWM1CR      (*(unsigned char volatile xdata *)0xff14)	/* PWM1æŽ§åˆ¶         */
 #define PWM1HLD     (*(unsigned char volatile xdata *)0xff15)	/*          */
 
-#define PWM2T1H     (*(unsigned char volatile xdata *)0xff20)	/* PWM2T1¼ÆÊý¸ß×Ö½Ú */
-#define PWM2T1L     (*(unsigned char volatile xdata *)0xff21)	/* PWM2T1¼ÆÊýµÍ×Ö½Ú */
-#define PWM2T2H     (*(unsigned char volatile xdata *)0xff22)	/* PWM2T2¼ÆÊý¸ß×Ö½Ú */
-#define PWM2T2L     (*(unsigned char volatile xdata *)0xff23)	/* PWM2T2¼ÆÊýµÍ×Ö½Ú */
-#define PWM2CR      (*(unsigned char volatile xdata *)0xff24)	/* PWM2¿ØÖÆ         */
+#define PWM2T1H     (*(unsigned char volatile xdata *)0xff20)	/* PWM2T1è®¡æ•°é«˜å­—èŠ‚ */
+#define PWM2T1L     (*(unsigned char volatile xdata *)0xff21)	/* PWM2T1è®¡æ•°ä½Žå­—èŠ‚ */
+#define PWM2T2H     (*(unsigned char volatile xdata *)0xff22)	/* PWM2T2è®¡æ•°é«˜å­—èŠ‚ */
+#define PWM2T2L     (*(unsigned char volatile xdata *)0xff23)	/* PWM2T2è®¡æ•°ä½Žå­—èŠ‚ */
+#define PWM2CR      (*(unsigned char volatile xdata *)0xff24)	/* PWM2æŽ§åˆ¶         */
 #define PWM2HLD     (*(unsigned char volatile xdata *)0xff25)	/*          */
 
-#define PWM3T1H     (*(unsigned char volatile xdata *)0xff30)	/* PWM3T1¼ÆÊý¸ß×Ö½Ú */
-#define PWM3T1L     (*(unsigned char volatile xdata *)0xff31)	/* PWM3T1¼ÆÊýµÍ×Ö½Ú */
-#define PWM3T2H     (*(unsigned char volatile xdata *)0xff32)	/* PWM3T2¼ÆÊý¸ß×Ö½Ú */
-#define PWM3T2L     (*(unsigned char volatile xdata *)0xff33)	/* PWM3T2¼ÆÊýµÍ×Ö½Ú */
-#define PWM3CR      (*(unsigned char volatile xdata *)0xff34)	/* PWM3¿ØÖÆ         */
+#define PWM3T1H     (*(unsigned char volatile xdata *)0xff30)	/* PWM3T1è®¡æ•°é«˜å­—èŠ‚ */
+#define PWM3T1L     (*(unsigned char volatile xdata *)0xff31)	/* PWM3T1è®¡æ•°ä½Žå­—èŠ‚ */
+#define PWM3T2H     (*(unsigned char volatile xdata *)0xff32)	/* PWM3T2è®¡æ•°é«˜å­—èŠ‚ */
+#define PWM3T2L     (*(unsigned char volatile xdata *)0xff33)	/* PWM3T2è®¡æ•°ä½Žå­—èŠ‚ */
+#define PWM3CR      (*(unsigned char volatile xdata *)0xff34)	/* PWM3æŽ§åˆ¶         */
 #define PWM3HLD     (*(unsigned char volatile xdata *)0xff35)	/*          */
 
-#define PWM4T1H     (*(unsigned char volatile xdata *)0xff40)	/* PWM4T1¼ÆÊý¸ß×Ö½Ú */
-#define PWM4T1L     (*(unsigned char volatile xdata *)0xff41)	/* PWM4T1¼ÆÊýµÍ×Ö½Ú */
-#define PWM4T2H     (*(unsigned char volatile xdata *)0xff42)	/* PWM4T2¼ÆÊý¸ß×Ö½Ú */
-#define PWM4T2L     (*(unsigned char volatile xdata *)0xff43)	/* PWM4T2¼ÆÊýµÍ×Ö½Ú */
-#define PWM4CR      (*(unsigned char volatile xdata *)0xff44)	/* PWM4¿ØÖÆ         */
+#define PWM4T1H     (*(unsigned char volatile xdata *)0xff40)	/* PWM4T1è®¡æ•°é«˜å­—èŠ‚ */
+#define PWM4T1L     (*(unsigned char volatile xdata *)0xff41)	/* PWM4T1è®¡æ•°ä½Žå­—èŠ‚ */
+#define PWM4T2H     (*(unsigned char volatile xdata *)0xff42)	/* PWM4T2è®¡æ•°é«˜å­—èŠ‚ */
+#define PWM4T2L     (*(unsigned char volatile xdata *)0xff43)	/* PWM4T2è®¡æ•°ä½Žå­—èŠ‚ */
+#define PWM4CR      (*(unsigned char volatile xdata *)0xff44)	/* PWM4æŽ§åˆ¶         */
 #define PWM4HLD     (*(unsigned char volatile xdata *)0xff45)	/*          */
 
-#define PWM5T1H     (*(unsigned char volatile xdata *)0xff50)	/* PWM5T1¼ÆÊý¸ß×Ö½Ú */
-#define PWM5T1L     (*(unsigned char volatile xdata *)0xff51)	/* PWM5T1¼ÆÊýµÍ×Ö½Ú */
-#define PWM5T2H     (*(unsigned char volatile xdata *)0xff52)	/* PWM5T2¼ÆÊý¸ß×Ö½Ú */
-#define PWM5T2L     (*(unsigned char volatile xdata *)0xff53)	/* PWM5T2¼ÆÊýµÍ×Ö½Ú */
-#define PWM5CR      (*(unsigned char volatile xdata *)0xff54)	/* PWM5¿ØÖÆ         */
+#define PWM5T1H     (*(unsigned char volatile xdata *)0xff50)	/* PWM5T1è®¡æ•°é«˜å­—èŠ‚ */
+#define PWM5T1L     (*(unsigned char volatile xdata *)0xff51)	/* PWM5T1è®¡æ•°ä½Žå­—èŠ‚ */
+#define PWM5T2H     (*(unsigned char volatile xdata *)0xff52)	/* PWM5T2è®¡æ•°é«˜å­—èŠ‚ */
+#define PWM5T2L     (*(unsigned char volatile xdata *)0xff53)	/* PWM5T2è®¡æ•°ä½Žå­—èŠ‚ */
+#define PWM5CR      (*(unsigned char volatile xdata *)0xff54)	/* PWM5æŽ§åˆ¶         */
 #define PWM5HLD     (*(unsigned char volatile xdata *)0xff15)	/*          */
 
-#define PWM6T1H     (*(unsigned char volatile xdata *)0xff60)	/* PWM6T1¼ÆÊý¸ß×Ö½Ú */
-#define PWM6T1L     (*(unsigned char volatile xdata *)0xff61)	/* PWM6T1¼ÆÊýµÍ×Ö½Ú */
-#define PWM6T2H     (*(unsigned char volatile xdata *)0xff62)	/* PWM6T2¼ÆÊý¸ß×Ö½Ú */
-#define PWM6T2L     (*(unsigned char volatile xdata *)0xff63)	/* PWM6T2¼ÆÊýµÍ×Ö½Ú */
-#define PWM6CR      (*(unsigned char volatile xdata *)0xff64)	/* PWM6¿ØÖÆ         */
+#define PWM6T1H     (*(unsigned char volatile xdata *)0xff60)	/* PWM6T1è®¡æ•°é«˜å­—èŠ‚ */
+#define PWM6T1L     (*(unsigned char volatile xdata *)0xff61)	/* PWM6T1è®¡æ•°ä½Žå­—èŠ‚ */
+#define PWM6T2H     (*(unsigned char volatile xdata *)0xff62)	/* PWM6T2è®¡æ•°é«˜å­—èŠ‚ */
+#define PWM6T2L     (*(unsigned char volatile xdata *)0xff63)	/* PWM6T2è®¡æ•°ä½Žå­—èŠ‚ */
+#define PWM6CR      (*(unsigned char volatile xdata *)0xff64)	/* PWM6æŽ§åˆ¶         */
 #define PWM6HLD     (*(unsigned char volatile xdata *)0xff65)	/*          */
 
-#define PWM7T1H     (*(unsigned char volatile xdata *)0xff70)	/* PWM7T1¼ÆÊý¸ß×Ö½Ú */        
-#define PWM7T1L     (*(unsigned char volatile xdata *)0xff71)	/* PWM7T1¼ÆÊýµÍ×Ö½Ú */
-#define PWM7T2H     (*(unsigned char volatile xdata *)0xff72)	/* PWM7T2¼ÆÊý¸ß×Ö½Ú */
-#define PWM7T2L     (*(unsigned char volatile xdata *)0xff73)	/* PWM7T2¼ÆÊýµÍ×Ö½Ú */
-#define PWM7CR      (*(unsigned char volatile xdata *)0xff74)	/* PWM7¿ØÖÆ         */
+#define PWM7T1H     (*(unsigned char volatile xdata *)0xff70)	/* PWM7T1è®¡æ•°é«˜å­—èŠ‚ */        
+#define PWM7T1L     (*(unsigned char volatile xdata *)0xff71)	/* PWM7T1è®¡æ•°ä½Žå­—èŠ‚ */
+#define PWM7T2H     (*(unsigned char volatile xdata *)0xff72)	/* PWM7T2è®¡æ•°é«˜å­—èŠ‚ */
+#define PWM7T2L     (*(unsigned char volatile xdata *)0xff73)	/* PWM7T2è®¡æ•°ä½Žå­—èŠ‚ */
+#define PWM7CR      (*(unsigned char volatile xdata *)0xff74)	/* PWM7æŽ§åˆ¶         */
 #define PWM7HLD     (*(unsigned char volatile xdata *)0xff75)	/*          */
 
-#define PWMCH       (*(unsigned char volatile xdata *)0xfff0)	/* PWM¼ÆÊýÆ÷¸ß×Ö½Ú  */
-#define PWMCL       (*(unsigned char volatile xdata *)0xfff1)	/* PWM¼ÆÊýÆ÷µÍ×Ö½Ú  */
-#define PWMCKS      (*(unsigned char volatile xdata *)0xfff2)	/* PWMÊ±ÖÓÑ¡Ôñ      */
-#define TADCPH      (*(unsigned char volatile xdata *)0xfff3)	/* ÔÚ ETADC==1 µÄÇé¿öÏÂ,  Ã¿Ò»¸öÖÜÆÚÖÐ, µ±Counter¼ÆÊýµ½ TADCP[15:0] Ê±,×Ô¶¯Æô¶¯ ADC*/
-#define TADCPL      (*(unsigned char volatile xdata *)0xfff4)	/* ´¥·¢ADCÑ¡ÔñµÍ×Ö½Ú*/
+#define PWMCH       (*(unsigned char volatile xdata *)0xfff0)	/* PWMè®¡æ•°å™¨é«˜å­—èŠ‚  */
+#define PWMCL       (*(unsigned char volatile xdata *)0xfff1)	/* PWMè®¡æ•°å™¨ä½Žå­—èŠ‚  */
+#define PWMCKS      (*(unsigned char volatile xdata *)0xfff2)	/* PWMæ—¶é’Ÿé€‰æ‹©      */
+#define TADCPH      (*(unsigned char volatile xdata *)0xfff3)	/* åœ¨ ETADC==1 çš„æƒ…å†µä¸‹,  æ¯ä¸€ä¸ªå‘¨æœŸä¸­, å½“Counterè®¡æ•°åˆ° TADCP[15:0] æ—¶,è‡ªåŠ¨å¯åŠ¨ ADC*/
+#define TADCPL      (*(unsigned char volatile xdata *)0xfff4)	/* è§¦å‘ADCé€‰æ‹©ä½Žå­—èŠ‚*/
 
 
 #define	PWM0_ID		0
@@ -366,15 +366,15 @@ sfr	RSTCFG = 0xFF;		//
 #define	PwmClk_T2	0
 
 //                    7   6   5   4     3        2       1        0      Reset Value
-//PWMnCR:  PWMn¿ØÖÆ   ENCnO   -   -   -   PWMn_PS  EPWMnI  ECnT2SI  ECnT1SI   0000,0000
-#define	PWM_ENCnO		0x80	/* PWM¹Ü½ÅÑ¡ÔñÎ» */
-#define	PWM_CnINI		0x40	/* PWM¹Ü½ÅÑ¡ÔñÎ» */
-#define	PWMn_PS_0		0x00	/* PWM¹Ü½ÅÑ¡ÔñÎ» */
-#define	PWMn_PS_1		0x08	/* PWM¹Ü½ÅÑ¡ÔñÎ» */
-#define	PWMn_PS_2		0x10	/* PWM¹Ü½ÅÑ¡ÔñÎ» */
-#define	PWM_ECnI		0x04	/* ÔÊÐíPWMÖÐ¶Ï   */
-#define	PWM_ECnT2SI		0x02	/* ÔÊÐíT2·­×ªÊ±ÖÐ¶Ï */
-#define	PWM_ECnT1SI		0x01	/* ÔÊÐíT1·­×ªÊ±ÖÐ¶Ï */
+//PWMnCR:  PWMnæŽ§åˆ¶   ENCnO   -   -   -   PWMn_PS  EPWMnI  ECnT2SI  ECnT1SI   0000,0000
+#define	PWM_ENCnO		0x80	/* PWMç®¡è„šé€‰æ‹©ä½ */
+#define	PWM_CnINI		0x40	/* PWMç®¡è„šé€‰æ‹©ä½ */
+#define	PWMn_PS_0		0x00	/* PWMç®¡è„šé€‰æ‹©ä½ */
+#define	PWMn_PS_1		0x08	/* PWMç®¡è„šé€‰æ‹©ä½ */
+#define	PWMn_PS_2		0x10	/* PWMç®¡è„šé€‰æ‹©ä½ */
+#define	PWM_ECnI		0x04	/* å…è®¸PWMä¸­æ–­   */
+#define	PWM_ECnT2SI		0x02	/* å…è®¸T2ç¿»è½¬æ—¶ä¸­æ–­ */
+#define	PWM_ECnT1SI		0x01	/* å…è®¸T1ç¿»è½¬æ—¶ä¸­æ–­ */
 
 #define	PWM0_P20	0x00
 #define	PWM0_P10	0x08
@@ -402,14 +402,14 @@ sfr	RSTCFG = 0xFF;		//
 #define	PWM7_P67	0x10
 
 //                      7      6    5   4   3  2  1  0   Reset Value
-//PWMCFG:  ÅäÖÃ¼Ä´æÆ÷  CBIF  ETADC  -   -   -  -  -  -    0000,0000
-#define	CBIF	0x80	/* PWM¼ÆÊýÆ÷¹éÁãÖÐ¶Ï±êÖ¾Î» */
-#define	ETADC	0x40	/* PWMÓëADC¹ØÁª, ÓÉTADCPÉèÖÃ´¥·¢Ê±¿Ì. */
+//PWMCFG:  é…ç½®å¯„å­˜å™¨  CBIF  ETADC  -   -   -  -  -  -    0000,0000
+#define	CBIF	0x80	/* PWMè®¡æ•°å™¨å½’é›¶ä¸­æ–­æ ‡å¿—ä½ */
+#define	ETADC	0x40	/* PWMä¸ŽADCå…³è”, ç”±TADCPè®¾ç½®è§¦å‘æ—¶åˆ». */
 
 //                        7     6     5     4     3     2     1     0     Reset Value
-//PWMIF: ÖÐ¶Ï±êÖ¾¼Ä´æÆ÷  C7IF  C6IF  C5IF  C4IF  C3IF  C2IF  C1IF  C0IF    0000,0000
+//PWMIF: ä¸­æ–­æ ‡å¿—å¯„å­˜å™¨  C7IF  C6IF  C5IF  C4IF  C3IF  C2IF  C1IF  C0IF    0000,0000
 #define	C7IF	0x80
-#define	C6IF	0x40	/* µÚnÍ¨µÀµÄPWMÖÐ¶Ï±êÖ¾Î» */
+#define	C6IF	0x40	/* ç¬¬né€šé“çš„PWMä¸­æ–­æ ‡å¿—ä½ */
 #define	C5IF	0x20
 #define	C4IF	0x10
 #define	C3IF	0x08
@@ -418,25 +418,25 @@ sfr	RSTCFG = 0xFF;		//
 #define	C0IF	0x01
 
 //                        7     6     5     4     3     2     1     0     Reset Value
-//PWMFDCR: Òì³£¼ì²â¿ØÖÆ¼Ä´æÆ÷  C7IF  C6IF  C5IF  C4IF  C3IF  C2IF  C1IF  C0IF    0000,0000
-#define	INVCMP		0x80	/* 0: ±È½ÏÆ÷½á¹ûÓÉµÍ±ä¸ßÎªÒì³£ÐÅºÅ, 1: ±È½ÏÆ÷½á¹ûÓÉ¸ß±äµÍÎªÒì³£ÐÅºÅ */
-#define	INVIO		0x40	/* 0: P3.5ÓÉµÍ±ä¸ßÎªÒì³£ÐÅºÅ, 1: P3.5ÓÉ¸ß±äµÍÎªÒì³£ÐÅºÅ*/
-#define	INVP35		0x40	/* 0: P3.5ÓÉµÍ±ä¸ßÎªÒì³£ÐÅºÅ, 1: P3.5ÓÉ¸ß±äµÍÎªÒì³£ÐÅºÅ*/
-#define	ENFD		0x20	/* 0: ¹Ø±ÕPWMÍâ²¿Òì³£¼ì²â¹¦, 1: ÔÊÐíPWMÍâ²¿Òì³£¼ì²â¹¦ */
-#define	FLTFLIO		0x10	/* 0: ·¢ÉúWMÍâ²¿Òì³£Ê±£¬PWMµÄÊä³ö¿Ú²»±ä,  1: ·¢ÉúWMÍâ²¿Òì³£Ê±£¬PWMµÄÊä³ö¿ÚÁ¢¼´±»ÉèÖÃÎª¸ß×èÊäÈëÄ£Ê½¡££¨×¢£ºÖ»ÓÐENCnO==1Ëù¶ÔÓ¦µÄ¶Ë¿Ú²Å»á±»Ç¿ÖÆÐü¿Õ£© */
-#define	EFDI		0x08	/* 1: Ê¹ÄÜPWMÒì³£¼ì²âÖÐ¶Ï, 0: ¹Ø±ÕPWMÒì³£¼ì²âÖÐ¶Ï(FDIFÒÀÈ»»á±»Ó²¼þÖÃÎ») */
-#define	FDCMP		0x04	/* 1: Éè¶¨PWMÒì³£¼ì²âÔ´Îª±È½ÏÆ÷Êä³ö(Òì³£ÀàÐÍÓÉINVCMPÉè¶¨), 0: ±È½ÏÆ÷ÓëPWMÎÞ¹Ø */
-#define	FDIO		0x02	/* 1: P3.5ÉèÖÃÎªPWMÒì³£¼ì²â, Òì³£ÀàÐÍÓÉINVIOÉè¶¨, 0: P3.5ÓëPWMÎÞ¹Ø */
-#define	FDIF		0x01	/* Òì³£ÖÐ¶Ï±êÖ¾Î», µ±·¢ÉúPWMÒì³££¨±È½ÏÆ÷µÄÊä³öÓÉµÍ±ä¸ß»òÕßP3.5µÄµçÆ½ÓÉµÍ±ä¸ß£©Ê±£¬Ó²¼þ×Ô¶¯½«´ËÎ»ÖÃ1, ²¢ÖÃÎ»ÖÐ¶Ï±êÖ¾.ÐèÒªÈí¼þÇåÁã */
-#define	PWM_FaultDetect_Enable()	PWMFDCR |=  0x20		/* Ê¹ÄÜPWMµÄÍâ²¿Òì³£¼ì²â¹¦ÄÜ */
-#define	PWM_FaultDetect_Disable()	PWMFDCR &= ~0x20		/* ½ûÖ¹PWMµÄÍâ²¿Òì³£¼ì²â¹¦ÄÜ */
+//PWMFDCR: å¼‚å¸¸æ£€æµ‹æŽ§åˆ¶å¯„å­˜å™¨  C7IF  C6IF  C5IF  C4IF  C3IF  C2IF  C1IF  C0IF    0000,0000
+#define	INVCMP		0x80	/* 0: æ¯”è¾ƒå™¨ç»“æžœç”±ä½Žå˜é«˜ä¸ºå¼‚å¸¸ä¿¡å·, 1: æ¯”è¾ƒå™¨ç»“æžœç”±é«˜å˜ä½Žä¸ºå¼‚å¸¸ä¿¡å· */
+#define	INVIO		0x40	/* 0: P3.5ç”±ä½Žå˜é«˜ä¸ºå¼‚å¸¸ä¿¡å·, 1: P3.5ç”±é«˜å˜ä½Žä¸ºå¼‚å¸¸ä¿¡å·*/
+#define	INVP35		0x40	/* 0: P3.5ç”±ä½Žå˜é«˜ä¸ºå¼‚å¸¸ä¿¡å·, 1: P3.5ç”±é«˜å˜ä½Žä¸ºå¼‚å¸¸ä¿¡å·*/
+#define	ENFD		0x20	/* 0: å…³é—­PWMå¤–éƒ¨å¼‚å¸¸æ£€æµ‹åŠŸ, 1: å…è®¸PWMå¤–éƒ¨å¼‚å¸¸æ£€æµ‹åŠŸ */
+#define	FLTFLIO		0x10	/* 0: å‘ç”ŸWMå¤–éƒ¨å¼‚å¸¸æ—¶ï¼ŒPWMçš„è¾“å‡ºå£ä¸å˜,  1: å‘ç”ŸWMå¤–éƒ¨å¼‚å¸¸æ—¶ï¼ŒPWMçš„è¾“å‡ºå£ç«‹å³è¢«è®¾ç½®ä¸ºé«˜é˜»è¾“å…¥æ¨¡å¼ã€‚ï¼ˆæ³¨ï¼šåªæœ‰ENCnO==1æ‰€å¯¹åº”çš„ç«¯å£æ‰ä¼šè¢«å¼ºåˆ¶æ‚¬ç©ºï¼‰ */
+#define	EFDI		0x08	/* 1: ä½¿èƒ½PWMå¼‚å¸¸æ£€æµ‹ä¸­æ–­, 0: å…³é—­PWMå¼‚å¸¸æ£€æµ‹ä¸­æ–­(FDIFä¾ç„¶ä¼šè¢«ç¡¬ä»¶ç½®ä½) */
+#define	FDCMP		0x04	/* 1: è®¾å®šPWMå¼‚å¸¸æ£€æµ‹æºä¸ºæ¯”è¾ƒå™¨è¾“å‡º(å¼‚å¸¸ç±»åž‹ç”±INVCMPè®¾å®š), 0: æ¯”è¾ƒå™¨ä¸ŽPWMæ— å…³ */
+#define	FDIO		0x02	/* 1: P3.5è®¾ç½®ä¸ºPWMå¼‚å¸¸æ£€æµ‹, å¼‚å¸¸ç±»åž‹ç”±INVIOè®¾å®š, 0: P3.5ä¸ŽPWMæ— å…³ */
+#define	FDIF		0x01	/* å¼‚å¸¸ä¸­æ–­æ ‡å¿—ä½, å½“å‘ç”ŸPWMå¼‚å¸¸ï¼ˆæ¯”è¾ƒå™¨çš„è¾“å‡ºç”±ä½Žå˜é«˜æˆ–è€…P3.5çš„ç”µå¹³ç”±ä½Žå˜é«˜ï¼‰æ—¶ï¼Œç¡¬ä»¶è‡ªåŠ¨å°†æ­¤ä½ç½®1, å¹¶ç½®ä½ä¸­æ–­æ ‡å¿—.éœ€è¦è½¯ä»¶æ¸…é›¶ */
+#define	PWM_FaultDetect_Enable()	PWMFDCR |=  0x20		/* ä½¿èƒ½PWMçš„å¤–éƒ¨å¼‚å¸¸æ£€æµ‹åŠŸèƒ½ */
+#define	PWM_FaultDetect_Disable()	PWMFDCR &= ~0x20		/* ç¦æ­¢PWMçš„å¤–éƒ¨å¼‚å¸¸æ£€æµ‹åŠŸèƒ½ */
 
 //                        7     6    5  4  3  2  1  0   Reset Value
-//PWMCR: PWM¿ØÖÆ¼Ä´æÆ÷  ENPWM  ECBI  -  -  -  -  -  -   0000,0000
-#define	ENPWM	0x80	/* Ê¹ÄÜPWM²¨ÐÎ·¢ÉúÆ÷£¬PWM¼ÆÊýÆ÷¿ªÊ¼¼ÆÊý */
-#define	ECBI	0x40	/* Ê¹ÄÜPWM¼ÆÊýÆ÷¹éÁãÖÐ¶Ï */
-#define	PWM_Enable()	PWMCR |=  0x80	/* Ê¹ÄÜPWM²¨ÐÎ·¢ÉúÆ÷£¬PWM¼ÆÊýÆ÷¿ªÊ¼¼ÆÊý */
-#define	PWM_Disable()	PWMCR &= ~0x80	/* ¹Ø±ÕPWM²¨ÐÎ·¢ÉúÆ÷ */
+//PWMCR: PWMæŽ§åˆ¶å¯„å­˜å™¨  ENPWM  ECBI  -  -  -  -  -  -   0000,0000
+#define	ENPWM	0x80	/* ä½¿èƒ½PWMæ³¢å½¢å‘ç”Ÿå™¨ï¼ŒPWMè®¡æ•°å™¨å¼€å§‹è®¡æ•° */
+#define	ECBI	0x40	/* ä½¿èƒ½PWMè®¡æ•°å™¨å½’é›¶ä¸­æ–­ */
+#define	PWM_Enable()	PWMCR |=  0x80	/* ä½¿èƒ½PWMæ³¢å½¢å‘ç”Ÿå™¨ï¼ŒPWMè®¡æ•°å™¨å¼€å§‹è®¡æ•° */
+#define	PWM_Disable()	PWMCR &= ~0x80	/* å…³é—­PWMæ³¢å½¢å‘ç”Ÿå™¨ */
 
 
 
@@ -452,14 +452,14 @@ sbit F1   = PSW^1;
 sbit P    = PSW^0;
 
 /*  TCON  */
-sbit TF1  = TCON^7;	//¶¨Ê±Æ÷1Òç³öÖÐ¶Ï±êÖ¾Î»
-sbit TR1  = TCON^6;	//¶¨Ê±Æ÷1ÔËÐÐ¿ØÖÆÎ»
-sbit TF0  = TCON^5;	//¶¨Ê±Æ÷0Òç³öÖÐ¶Ï±êÖ¾Î»
-sbit TR0  = TCON^4;	//¶¨Ê±Æ÷0ÔËÐÐ¿ØÖÆÎ»
-sbit IE1  = TCON^3;	//ÍâÖÐ¶Ï1±êÖ¾Î»
-sbit IT1  = TCON^2;	//ÍâÖÐ¶Ï1ÐÅºÅ·½Ê½¿ØÖÆÎ»£¬1£ºÏÂ½µÑØÖÐ¶Ï£¬0£ºÉÏÉýÏÂ½µ¾ùÖÐ¶Ï¡£
-sbit IE0  = TCON^1;	//ÍâÖÐ¶Ï0±êÖ¾Î»
-sbit IT0  = TCON^0;	//ÍâÖÐ¶Ï0ÐÅºÅ·½Ê½¿ØÖÆÎ»£¬1£ºÏÂ½µÑØÖÐ¶Ï£¬0£ºÉÏÉýÏÂ½µ¾ùÖÐ¶Ï¡£
+sbit TF1  = TCON^7;	//å®šæ—¶å™¨1æº¢å‡ºä¸­æ–­æ ‡å¿—ä½
+sbit TR1  = TCON^6;	//å®šæ—¶å™¨1è¿è¡ŒæŽ§åˆ¶ä½
+sbit TF0  = TCON^5;	//å®šæ—¶å™¨0æº¢å‡ºä¸­æ–­æ ‡å¿—ä½
+sbit TR0  = TCON^4;	//å®šæ—¶å™¨0è¿è¡ŒæŽ§åˆ¶ä½
+sbit IE1  = TCON^3;	//å¤–ä¸­æ–­1æ ‡å¿—ä½
+sbit IT1  = TCON^2;	//å¤–ä¸­æ–­1ä¿¡å·æ–¹å¼æŽ§åˆ¶ä½ï¼Œ1ï¼šä¸‹é™æ²¿ä¸­æ–­ï¼Œ0ï¼šä¸Šå‡ä¸‹é™å‡ä¸­æ–­ã€‚
+sbit IE0  = TCON^1;	//å¤–ä¸­æ–­0æ ‡å¿—ä½
+sbit IT0  = TCON^0;	//å¤–ä¸­æ–­0ä¿¡å·æ–¹å¼æŽ§åˆ¶ä½ï¼Œ1ï¼šä¸‹é™æ²¿ä¸­æ–­ï¼Œ0ï¼šä¸Šå‡ä¸‹é™å‡ä¸­æ–­ã€‚
 
 /*  P0  */
 sbit  P00 = P0^0;
@@ -575,24 +575,24 @@ sbit  P77 = P7^7;
 
 
 /*  SCON  */
-sbit SM0  = SCON^7;	//SM0/FE		SM0 SM1 = 00 ~ 11: ·½Ê½0~3
+sbit SM0  = SCON^7;	//SM0/FE		SM0 SM1 = 00 ~ 11: æ–¹å¼0~3
 sbit SM1  = SCON^6;	//
-sbit SM2  = SCON^5;	//¶à»úÍ¨Ñ¶
-sbit REN  = SCON^4;	//½ÓÊÕÔÊÐí
-sbit TB8  = SCON^3;	//·¢ËÍÊý¾ÝµÚ8Î»
-sbit RB8  = SCON^2;	//½ÓÊÕÊý¾ÝµÚ8Î»
-sbit TI   = SCON^1;	//·¢ËÍÖÐ¶Ï±êÖ¾Î»
-sbit RI   = SCON^0;	//½ÓÊÕÖÐ¶Ï±êÖ¾Î»
+sbit SM2  = SCON^5;	//å¤šæœºé€šè®¯
+sbit REN  = SCON^4;	//æŽ¥æ”¶å…è®¸
+sbit TB8  = SCON^3;	//å‘é€æ•°æ®ç¬¬8ä½
+sbit RB8  = SCON^2;	//æŽ¥æ”¶æ•°æ®ç¬¬8ä½
+sbit TI   = SCON^1;	//å‘é€ä¸­æ–­æ ‡å¿—ä½
+sbit RI   = SCON^0;	//æŽ¥æ”¶ä¸­æ–­æ ‡å¿—ä½
 
 /*  IE   */
-sbit EA   = IE^7;	//ÖÐ¶ÏÔÊÐí×Ü¿ØÖÆÎ»
-sbit ELVD = IE^6;	//µÍÑ¹¼à²âÖÐ¶ÏÔÊÐíÎ»
-sbit EADC = IE^5;	//ADC ÖÐ¶Ï ÔÊÐíÎ»
-sbit ES   = IE^4;	//´®ÐÐÖÐ¶Ï ÔÊÐí¿ØÖÆÎ»
-sbit ET1  = IE^3;	//¶¨Ê±ÖÐ¶Ï1ÔÊÐí¿ØÖÆÎ»
-sbit EX1  = IE^2;	//Íâ²¿ÖÐ¶Ï1ÔÊÐí¿ØÖÆÎ»
-sbit ET0  = IE^1;	//¶¨Ê±ÖÐ¶Ï0ÔÊÐí¿ØÖÆÎ»
-sbit EX0  = IE^0;	//Íâ²¿ÖÐ¶Ï0ÔÊÐí¿ØÖÆÎ»
+sbit EA   = IE^7;	//ä¸­æ–­å…è®¸æ€»æŽ§åˆ¶ä½
+sbit ELVD = IE^6;	//ä½ŽåŽ‹ç›‘æµ‹ä¸­æ–­å…è®¸ä½
+sbit EADC = IE^5;	//ADC ä¸­æ–­ å…è®¸ä½
+sbit ES   = IE^4;	//ä¸²è¡Œä¸­æ–­ å…è®¸æŽ§åˆ¶ä½
+sbit ET1  = IE^3;	//å®šæ—¶ä¸­æ–­1å…è®¸æŽ§åˆ¶ä½
+sbit EX1  = IE^2;	//å¤–éƒ¨ä¸­æ–­1å…è®¸æŽ§åˆ¶ä½
+sbit ET0  = IE^1;	//å®šæ—¶ä¸­æ–­0å…è®¸æŽ§åˆ¶ä½
+sbit EX0  = IE^0;	//å¤–éƒ¨ä¸­æ–­0å…è®¸æŽ§åˆ¶ä½
 
 sbit ACC0 = ACC^0;
 sbit ACC1 = ACC^1;
@@ -615,25 +615,25 @@ sbit B7 = B^7;
 
 //							7     6     5    4    3    2    1     0    Reset Value
 //sfr IE2       = 0xAF;		-     -     -    -    -    -   ESPI  ES2   0000,0000B	//Auxiliary Interrupt   
-#define		SPI_INT_ENABLE()		IE2 |=  2	/* ÔÊÐíSPIÖÐ¶Ï		*/
-#define		SPI_INT_DISABLE()		IE2 &= ~2	/* ÔÊÐíSPIÖÐ¶Ï		*/
-#define		UART2_INT_ENABLE()		IE2 |=  1	/* ÔÊÐí´®¿Ú2ÖÐ¶Ï	*/
-#define		UART2_INT_DISABLE()		IE2 &= ~1	/* ÔÊÐí´®¿Ú2ÖÐ¶Ï	*/
+#define		SPI_INT_ENABLE()		IE2 |=  2	/* å…è®¸SPIä¸­æ–­		*/
+#define		SPI_INT_DISABLE()		IE2 &= ~2	/* å…è®¸SPIä¸­æ–­		*/
+#define		UART2_INT_ENABLE()		IE2 |=  1	/* å…è®¸ä¸²å£2ä¸­æ–­	*/
+#define		UART2_INT_DISABLE()		IE2 &= ~1	/* å…è®¸ä¸²å£2ä¸­æ–­	*/
 
 //                                          7     6     5    4    3    2    1    0    Reset Value
-//sfr IP      = 0xB8; //ÖÐ¶ÏÓÅÏÈ¼¶µÍÎ»      PPCA  PLVD  PADC  PS   PT1  PX1  PT0  PX0   0000,0000
+//sfr IP      = 0xB8; //ä¸­æ–­ä¼˜å…ˆçº§ä½Žä½      PPCA  PLVD  PADC  PS   PT1  PX1  PT0  PX0   0000,0000
 //--------
-sbit PPCA	= IP^7;	//PCA Ä£¿éÖÐ¶ÏÓÅÏÈ¼¶
-sbit PLVD	= IP^6;	//µÍÑ¹¼à²âÖÐ¶ÏÓÅÏÈ¼¶
-sbit PADC	= IP^5;	//ADC ÖÐ¶ÏÓÅÏÈ¼¶
-sbit PS   	= IP^4;	//´®ÐÐÖÐ¶Ï0ÓÅÏÈ¼¶Éè¶¨Î»
-sbit PT1	= IP^3;	//¶¨Ê±ÖÐ¶Ï1ÓÅÏÈ¼¶Éè¶¨Î»
-sbit PX1	= IP^2;	//Íâ²¿ÖÐ¶Ï1ÓÅÏÈ¼¶Éè¶¨Î»
-sbit PT0	= IP^1;	//¶¨Ê±ÖÐ¶Ï0ÓÅÏÈ¼¶Éè¶¨Î»
-sbit PX0	= IP^0;	//Íâ²¿ÖÐ¶Ï0ÓÅÏÈ¼¶Éè¶¨Î»
+sbit PPCA	= IP^7;	//PCA æ¨¡å—ä¸­æ–­ä¼˜å…ˆçº§
+sbit PLVD	= IP^6;	//ä½ŽåŽ‹ç›‘æµ‹ä¸­æ–­ä¼˜å…ˆçº§
+sbit PADC	= IP^5;	//ADC ä¸­æ–­ä¼˜å…ˆçº§
+sbit PS   	= IP^4;	//ä¸²è¡Œä¸­æ–­0ä¼˜å…ˆçº§è®¾å®šä½
+sbit PT1	= IP^3;	//å®šæ—¶ä¸­æ–­1ä¼˜å…ˆçº§è®¾å®šä½
+sbit PX1	= IP^2;	//å¤–éƒ¨ä¸­æ–­1ä¼˜å…ˆçº§è®¾å®šä½
+sbit PT0	= IP^1;	//å®šæ—¶ä¸­æ–­0ä¼˜å…ˆçº§è®¾å®šä½
+sbit PX0	= IP^0;	//å¤–éƒ¨ä¸­æ–­0ä¼˜å…ˆçº§è®¾å®šä½
 
 //                                           7      6      5     4     3     2    1     0        Reset Value
-//sfr IPH   = 0xB7; //ÖÐ¶ÏÓÅÏÈ¼¶¸ßÎ»       PPCAH  PLVDH  PADCH  PSH  PT1H  PX1H  PT0H  PX0H   0000,0000
+//sfr IPH   = 0xB7; //ä¸­æ–­ä¼˜å…ˆçº§é«˜ä½       PPCAH  PLVDH  PADCH  PSH  PT1H  PX1H  PT0H  PX0H   0000,0000
 //sfr IP2   = 0xB5; //                       -      -      -     -     -     -   PSPI   PS2   xxxx,xx00
 //sfr IP2H  = 0xB6; //                       -      -      -     -     -     -   PSPIH  PS2H  xxxx,xx00
 #define		PPCAH	0x80
@@ -660,20 +660,20 @@ sbit PX0	= IP^0;	//Íâ²¿ÖÐ¶Ï0ÓÅÏÈ¼¶Éè¶¨Î»
 
 //                       7      6     5    4    3    2     1      0        Reset Value
 //sfr CMPCR1 = 0xE6;   CMPEN  CMPIF  PIE  NIE  PIS  NIS  CMPOE  CMPRES      00000000B
-#define	CMPEN	0x80	//1: ÔÊÐí±È½ÏÆ÷, 0: ½ûÖ¹,¹Ø±Õ±È½ÏÆ÷µçÔ´
-#define	CMPIF	0x40	//±È½ÏÆ÷ÖÐ¶Ï±êÖ¾, °üÀ¨ÉÏÉýÑØ»òÏÂ½µÑØÖÐ¶Ï, Èí¼þÇå0
-#define	PIE		0x20	//1: ±È½Ï½á¹ûÓÉ0±ä1, ²úÉúÉÏÉýÑØÖÐ¶Ï
-#define	NIE		0x10	//1: ±È½Ï½á¹ûÓÉ1±ä0, ²úÉúÏÂ½µÑØÖÐ¶Ï
-#define	PIS		0x08	//ÊäÈëÕý¼«ÐÔÑ¡Ôñ, 0: Ñ¡ÔñÄÚ²¿P5.5×öÕýÊäÈë,           1: ÓÉADCIS[2:0]ËùÑ¡ÔñµÄADCÊäÈë¶Ë×öÕýÊäÈë.
-#define	NIS		0x04	//ÊäÈë¸º¼«ÐÔÑ¡Ôñ, 0: Ñ¡ÔñÄÚ²¿BandGapµçÑ¹BGv×ö¸ºÊäÈë, 1: Ñ¡ÔñÍâ²¿P5.4×öÊäÈë.
-#define	CMPOE	0x02	//1: ÔÊÐí±È½Ï½á¹ûÊä³öµ½P1.2, 0: ½ûÖ¹.
-#define	CMPRES	0x01	//±È½Ï½á¹û, 1: CMP+µçÆ½¸ßÓÚCMP-,  0: CMP+µçÆ½µÍÓÚCMP-,  Ö»¶Á
+#define	CMPEN	0x80	//1: å…è®¸æ¯”è¾ƒå™¨, 0: ç¦æ­¢,å…³é—­æ¯”è¾ƒå™¨ç”µæº
+#define	CMPIF	0x40	//æ¯”è¾ƒå™¨ä¸­æ–­æ ‡å¿—, åŒ…æ‹¬ä¸Šå‡æ²¿æˆ–ä¸‹é™æ²¿ä¸­æ–­, è½¯ä»¶æ¸…0
+#define	PIE		0x20	//1: æ¯”è¾ƒç»“æžœç”±0å˜1, äº§ç”Ÿä¸Šå‡æ²¿ä¸­æ–­
+#define	NIE		0x10	//1: æ¯”è¾ƒç»“æžœç”±1å˜0, äº§ç”Ÿä¸‹é™æ²¿ä¸­æ–­
+#define	PIS		0x08	//è¾“å…¥æ­£æžæ€§é€‰æ‹©, 0: é€‰æ‹©å†…éƒ¨P5.5åšæ­£è¾“å…¥,           1: ç”±ADCIS[2:0]æ‰€é€‰æ‹©çš„ADCè¾“å…¥ç«¯åšæ­£è¾“å…¥.
+#define	NIS		0x04	//è¾“å…¥è´Ÿæžæ€§é€‰æ‹©, 0: é€‰æ‹©å†…éƒ¨BandGapç”µåŽ‹BGvåšè´Ÿè¾“å…¥, 1: é€‰æ‹©å¤–éƒ¨P5.4åšè¾“å…¥.
+#define	CMPOE	0x02	//1: å…è®¸æ¯”è¾ƒç»“æžœè¾“å‡ºåˆ°P1.2, 0: ç¦æ­¢.
+#define	CMPRES	0x01	//æ¯”è¾ƒç»“æžœ, 1: CMP+ç”µå¹³é«˜äºŽCMP-,  0: CMP+ç”µå¹³ä½ŽäºŽCMP-,  åªè¯»
 
 //                       7        6       5  4  3  2  1  0    Reset Value
 //sfr CMPCR2 = 0xE7;   INVCMPO  DISFLT       LCDTY[5:0]       00001001B
-#define	INVCMPO	0x80	//1: ±È½ÏÆ÷Êä³öÈ¡·´,  0: ²»È¡·´
-#define	DISFLT	0x40	//1: ¹Ø±Õ0.1uFÂË²¨,   0: ÔÊÐí
-#define	LCDTY	0x00	//0~63, ±È½Ï½á¹û±ä»¯ÑÓÊ±ÖÜÆÚÊý
+#define	INVCMPO	0x80	//1: æ¯”è¾ƒå™¨è¾“å‡ºå–å,  0: ä¸å–å
+#define	DISFLT	0x40	//1: å…³é—­0.1uFæ»¤æ³¢,   0: å…è®¸
+#define	LCDTY	0x00	//0~63, æ¯”è¾ƒç»“æžœå˜åŒ–å»¶æ—¶å‘¨æœŸæ•°
 
 
 /*************************************************************************************************/
@@ -687,89 +687,89 @@ sbit PX0	= IP^0;	//Íâ²¿ÖÐ¶Ï0ÓÅÏÈ¼¶Éè¶¨Î»
 #define		S1_9bit()			SCON   =  (SCON & 0x3f) | 0xc0
 #define		S1_RX_Enable()		SCON  |=  0x10
 #define		S1_RX_Disable()		SCON  &= ~0x10
-#define		TI1					TI					/* ÅÐ¶ÏTI1ÊÇ·ñ·¢ËÍÍê³É								 */
-#define		RI1					RI					/* ÅÐ¶ÏRI1ÊÇ·ñ½ÓÊÕÍê³É								 */
-#define		SET_TI1()			TI = 1				/* ÉèÖÃTI1(ÒýÆðÖÐ¶Ï)								 */
-#define		CLR_TI1()			TI = 0				/* Çå³ýTI1											 */
-#define		CLR_RI1()			RI = 0				/* Çå³ýRI1											 */
-#define		S1TB8_SET()			TB8 = 1				/* ÉèÖÃTB8											 */
-#define		S1TB8_CLR()			TB8 = 0				/* Çå³ýTB8											 */
-#define		S1_Int_Enable()		ES     =  1			/* ´®¿Ú1ÔÊÐíÖÐ¶Ï									 */
-#define		S1_Int_Disable()	ES     =  0			/* ´®¿Ú1½ûÖ¹ÖÐ¶Ï									 */
+#define		TI1					TI					/* åˆ¤æ–­TI1æ˜¯å¦å‘é€å®Œæˆ								 */
+#define		RI1					RI					/* åˆ¤æ–­RI1æ˜¯å¦æŽ¥æ”¶å®Œæˆ								 */
+#define		SET_TI1()			TI = 1				/* è®¾ç½®TI1(å¼•èµ·ä¸­æ–­)								 */
+#define		CLR_TI1()			TI = 0				/* æ¸…é™¤TI1											 */
+#define		CLR_RI1()			RI = 0				/* æ¸…é™¤RI1											 */
+#define		S1TB8_SET()			TB8 = 1				/* è®¾ç½®TB8											 */
+#define		S1TB8_CLR()			TB8 = 0				/* æ¸…é™¤TB8											 */
+#define		S1_Int_Enable()		ES     =  1			/* ä¸²å£1å…è®¸ä¸­æ–­									 */
+#define		S1_Int_Disable()	ES     =  0			/* ä¸²å£1ç¦æ­¢ä¸­æ–­									 */
 #define 	S1_BRT_UseTimer1()	AUXR  &= ~1
 #define 	S1_BRT_UseTimer2()	AUXR  |=  1
-#define		S1_USE_P30P31()		P_SW1 &= ~0xc0						//UART1 Ê¹ÓÃP30 P31¿Ú	Ä¬ÈÏ
-#define		S1_USE_P36P37()		P_SW1  =  (P_SW1 & ~0xc0) | 0x40	//UART1 Ê¹ÓÃP36 P37¿Ú
-#define		S1_USE_P16P17()		P_SW1  =  (P_SW1 & ~0xc0) | 0x80	//UART1 Ê¹ÓÃP16 P17¿Ú
-#define		S1_TXD_RXD_SHORT()	PCON2 |=  (1<<4)	//½«TXDÓëRXDÁ¬½ÓÖÐ¼ÌÊä³ö
-#define		S1_TXD_RXD_OPEN()	PCON2 &= ~(1<<4)	//½«TXDÓëRXDÁ¬½ÓÖÐ¼Ì¶Ï¿ª	Ä¬ÈÏ
+#define		S1_USE_P30P31()		P_SW1 &= ~0xc0						//UART1 ä½¿ç”¨P30 P31å£	é»˜è®¤
+#define		S1_USE_P36P37()		P_SW1  =  (P_SW1 & ~0xc0) | 0x40	//UART1 ä½¿ç”¨P36 P37å£
+#define		S1_USE_P16P17()		P_SW1  =  (P_SW1 & ~0xc0) | 0x80	//UART1 ä½¿ç”¨P16 P17å£
+#define		S1_TXD_RXD_SHORT()	PCON2 |=  (1<<4)	//å°†TXDä¸ŽRXDè¿žæŽ¥ä¸­ç»§è¾“å‡º
+#define		S1_TXD_RXD_OPEN()	PCON2 &= ~(1<<4)	//å°†TXDä¸ŽRXDè¿žæŽ¥ä¸­ç»§æ–­å¼€	é»˜è®¤
 
 //						  7      6      5      4      3      2     1     0        Reset Value
 //sfr S2CON = 0x9A;		S2SM0    -    S2SM2  S2REN  S2TB8  S2RB8  S2TI  S2RI      00000000B		 //S2 Control
 
-#define		S2_MODE0()			S2CON &= ~(1<<7)	/* ´®¿Ú2Ä£Ê½0£¬8Î»UART£¬²¨ÌØÂÊ = ¶¨Ê±Æ÷2µÄÒç³öÂÊ / 4 */
-#define		S2_MODE1()			S2CON |=  (1<<7)	/* ´®¿Ú2Ä£Ê½1£¬9Î»UART£¬²¨ÌØÂÊ = ¶¨Ê±Æ÷2µÄÒç³öÂÊ / 4 */
-#define		S2_8bit()			S2CON &= ~(1<<7)	/* ´®¿Ú2Ä£Ê½0£¬8Î»UART£¬²¨ÌØÂÊ = ¶¨Ê±Æ÷2µÄÒç³öÂÊ / 4 */
-#define		S2_9bit()			S2CON |=  (1<<7)	/* ´®¿Ú2Ä£Ê½1£¬9Î»UART£¬²¨ÌØÂÊ = ¶¨Ê±Æ÷2µÄÒç³öÂÊ / 4 */
-#define		S2_RX_Enable()		S2CON |=  (1<<4)	/* ÔÊÐí´®2½ÓÊÕ										 */
-#define		S2_RX_Disable()		S2CON &= ~(1<<4)	/* ½ûÖ¹´®2½ÓÊÕ										 */
-#define		TI2					(S2CON & 2) != 0	/* ÅÐ¶ÏTI2ÊÇ·ñ·¢ËÍÍê³É								 */
-#define		RI2					(S2CON & 1) != 0	/* ÅÐ¶ÏRI2ÊÇ·ñ½ÓÊÕÍê³É								 */
-#define		SET_TI2()			S2CON |=  (1<<1)	/* ÉèÖÃTI2(ÒýÆðÖÐ¶Ï)								 */
-#define		CLR_TI2()			S2CON &= ~(1<<1)	/* Çå³ýTI2											 */
-#define		CLR_RI2()			S2CON &= ~1			/* Çå³ýRI2											 */
-#define		S2TB8_SET()			S2CON |=  (1<<3)	/* ÉèÖÃTB8											 */
-#define		S2TB8_CLR()			S2CON &= ~(1<<3)	/* Çå³ýTB8											 */
-#define		S2_Int_Enable()		IE2   |=  1			/* ´®¿Ú2ÔÊÐíÖÐ¶Ï									 */
-#define		S2_Int_Disable()	IE2   &= ~1			/* ´®¿Ú2½ûÖ¹ÖÐ¶Ï									 */
-#define		S2_USE_P10P11()		P_SW2 &= ~1			/* UART2 Ê¹ÓÃP1¿Ú	Ä¬ÈÏ							 */
-#define		S2_USE_P46P47()		P_SW2 |=  1			/* UART2 Ê¹ÓÃP4¿Ú									 */
+#define		S2_MODE0()			S2CON &= ~(1<<7)	/* ä¸²å£2æ¨¡å¼0ï¼Œ8ä½UARTï¼Œæ³¢ç‰¹çŽ‡ = å®šæ—¶å™¨2çš„æº¢å‡ºçŽ‡ / 4 */
+#define		S2_MODE1()			S2CON |=  (1<<7)	/* ä¸²å£2æ¨¡å¼1ï¼Œ9ä½UARTï¼Œæ³¢ç‰¹çŽ‡ = å®šæ—¶å™¨2çš„æº¢å‡ºçŽ‡ / 4 */
+#define		S2_8bit()			S2CON &= ~(1<<7)	/* ä¸²å£2æ¨¡å¼0ï¼Œ8ä½UARTï¼Œæ³¢ç‰¹çŽ‡ = å®šæ—¶å™¨2çš„æº¢å‡ºçŽ‡ / 4 */
+#define		S2_9bit()			S2CON |=  (1<<7)	/* ä¸²å£2æ¨¡å¼1ï¼Œ9ä½UARTï¼Œæ³¢ç‰¹çŽ‡ = å®šæ—¶å™¨2çš„æº¢å‡ºçŽ‡ / 4 */
+#define		S2_RX_Enable()		S2CON |=  (1<<4)	/* å…è®¸ä¸²2æŽ¥æ”¶										 */
+#define		S2_RX_Disable()		S2CON &= ~(1<<4)	/* ç¦æ­¢ä¸²2æŽ¥æ”¶										 */
+#define		TI2					(S2CON & 2) != 0	/* åˆ¤æ–­TI2æ˜¯å¦å‘é€å®Œæˆ								 */
+#define		RI2					(S2CON & 1) != 0	/* åˆ¤æ–­RI2æ˜¯å¦æŽ¥æ”¶å®Œæˆ								 */
+#define		SET_TI2()			S2CON |=  (1<<1)	/* è®¾ç½®TI2(å¼•èµ·ä¸­æ–­)								 */
+#define		CLR_TI2()			S2CON &= ~(1<<1)	/* æ¸…é™¤TI2											 */
+#define		CLR_RI2()			S2CON &= ~1			/* æ¸…é™¤RI2											 */
+#define		S2TB8_SET()			S2CON |=  (1<<3)	/* è®¾ç½®TB8											 */
+#define		S2TB8_CLR()			S2CON &= ~(1<<3)	/* æ¸…é™¤TB8											 */
+#define		S2_Int_Enable()		IE2   |=  1			/* ä¸²å£2å…è®¸ä¸­æ–­									 */
+#define		S2_Int_Disable()	IE2   &= ~1			/* ä¸²å£2ç¦æ­¢ä¸­æ–­									 */
+#define		S2_USE_P10P11()		P_SW2 &= ~1			/* UART2 ä½¿ç”¨P1å£	é»˜è®¤							 */
+#define		S2_USE_P46P47()		P_SW2 |=  1			/* UART2 ä½¿ç”¨P4å£									 */
 
 //						  7      6      5      4      3      2     1     0        Reset Value
 //sfr S3CON = 0xAC;		S3SM0  S3ST3  S3SM2  S3REN  S3TB8  S3RB8  S3TI  S3RI      00000000B		 //S3 Control
 
-#define		S3_MODE0()			S3CON &= ~(1<<7)	/* ´®¿Ú3Ä£Ê½0£¬8Î»UART£¬²¨ÌØÂÊ = ¶¨Ê±Æ÷µÄÒç³öÂÊ / 4  */
-#define		S3_MODE1()			S3CON |=  (1<<7)	/* ´®¿Ú3Ä£Ê½1£¬9Î»UART£¬²¨ÌØÂÊ = ¶¨Ê±Æ÷µÄÒç³öÂÊ / 4  */
-#define		S3_8bit()			S3CON &= ~(1<<7)	/* ´®¿Ú3Ä£Ê½0£¬8Î»UART£¬²¨ÌØÂÊ = ¶¨Ê±Æ÷µÄÒç³öÂÊ / 4  */
-#define		S3_9bit()			S3CON |=  (1<<7)	/* ´®¿Ú3Ä£Ê½1£¬9Î»UART£¬²¨ÌØÂÊ = ¶¨Ê±Æ÷µÄÒç³öÂÊ / 4  */
-#define		S3_RX_Enable()		S3CON |=  (1<<4)	/* ÔÊÐí´®3½ÓÊÕ									     */
-#define		S3_RX_Disable()		S3CON &= ~(1<<4)	/* ½ûÖ¹´®3½ÓÊÕ									     */
-#define		TI3					(S3CON & 2) != 0	/* ÅÐ¶ÏTI3ÊÇ·ñ·¢ËÍÍê³É								 */
-#define		RI3					(S3CON & 1) != 0	/* ÅÐ¶ÏRI3ÊÇ·ñ½ÓÊÕÍê³É								 */
-#define		SET_TI3()			S3CON |=  (1<<1)	/* ÉèÖÃTI3(ÒýÆðÖÐ¶Ï)								 */
-#define		CLR_TI3()			S3CON &= ~(1<<1)	/* Çå³ýTI3											 */
-#define		CLR_RI3()			S3CON &= ~1			/* Çå³ýRI3											 */
-#define		S3TB8_SET()			S3CON |=  (1<<3)	/* ÉèÖÃTB8											 */
-#define		S3TB8_CLR()			S3CON &= ~(1<<3)	/* Çå³ýTB8											 */
-#define		S3_Int_Enable()		IE2   |=  (1<<3)	/* ´®¿Ú3ÔÊÐíÖÐ¶Ï								     */
-#define		S3_Int_Disable()	IE2   &= ~(1<<3)	/* ´®¿Ú3½ûÖ¹ÖÐ¶Ï								     */
+#define		S3_MODE0()			S3CON &= ~(1<<7)	/* ä¸²å£3æ¨¡å¼0ï¼Œ8ä½UARTï¼Œæ³¢ç‰¹çŽ‡ = å®šæ—¶å™¨çš„æº¢å‡ºçŽ‡ / 4  */
+#define		S3_MODE1()			S3CON |=  (1<<7)	/* ä¸²å£3æ¨¡å¼1ï¼Œ9ä½UARTï¼Œæ³¢ç‰¹çŽ‡ = å®šæ—¶å™¨çš„æº¢å‡ºçŽ‡ / 4  */
+#define		S3_8bit()			S3CON &= ~(1<<7)	/* ä¸²å£3æ¨¡å¼0ï¼Œ8ä½UARTï¼Œæ³¢ç‰¹çŽ‡ = å®šæ—¶å™¨çš„æº¢å‡ºçŽ‡ / 4  */
+#define		S3_9bit()			S3CON |=  (1<<7)	/* ä¸²å£3æ¨¡å¼1ï¼Œ9ä½UARTï¼Œæ³¢ç‰¹çŽ‡ = å®šæ—¶å™¨çš„æº¢å‡ºçŽ‡ / 4  */
+#define		S3_RX_Enable()		S3CON |=  (1<<4)	/* å…è®¸ä¸²3æŽ¥æ”¶									     */
+#define		S3_RX_Disable()		S3CON &= ~(1<<4)	/* ç¦æ­¢ä¸²3æŽ¥æ”¶									     */
+#define		TI3					(S3CON & 2) != 0	/* åˆ¤æ–­TI3æ˜¯å¦å‘é€å®Œæˆ								 */
+#define		RI3					(S3CON & 1) != 0	/* åˆ¤æ–­RI3æ˜¯å¦æŽ¥æ”¶å®Œæˆ								 */
+#define		SET_TI3()			S3CON |=  (1<<1)	/* è®¾ç½®TI3(å¼•èµ·ä¸­æ–­)								 */
+#define		CLR_TI3()			S3CON &= ~(1<<1)	/* æ¸…é™¤TI3											 */
+#define		CLR_RI3()			S3CON &= ~1			/* æ¸…é™¤RI3											 */
+#define		S3TB8_SET()			S3CON |=  (1<<3)	/* è®¾ç½®TB8											 */
+#define		S3TB8_CLR()			S3CON &= ~(1<<3)	/* æ¸…é™¤TB8											 */
+#define		S3_Int_Enable()		IE2   |=  (1<<3)	/* ä¸²å£3å…è®¸ä¸­æ–­								     */
+#define		S3_Int_Disable()	IE2   &= ~(1<<3)	/* ä¸²å£3ç¦æ­¢ä¸­æ–­								     */
 #define 	S3_BRT_UseTimer3()	S3CON |=  (1<<6)	/* BRT select Timer3								 */
 #define 	S3_BRT_UseTimer2()	S3CON &= ~(1<<6)	/* BRT select Timer2								 */
-#define		S3_USE_P00P01()		P_SW2 &= ~2			/* UART3 Ê¹ÓÃP0¿Ú	Ä¬ÈÏ						     */
-#define		S3_USE_P50P51()		P_SW2 |=  2			/* UART3 Ê¹ÓÃP5¿Ú								     */
+#define		S3_USE_P00P01()		P_SW2 &= ~2			/* UART3 ä½¿ç”¨P0å£	é»˜è®¤						     */
+#define		S3_USE_P50P51()		P_SW2 |=  2			/* UART3 ä½¿ç”¨P5å£								     */
 
 //						  7      6      5      4      3      2     1     0        Reset Value
 //sfr S4CON = 0x84;		S4SM0  S4ST4  S4SM2  S4REN  S4TB8  S4RB8  S4TI  S4RI      00000000B		 //S4 Control
 
-#define		S4_MODE0()			S4CON &= ~(1<<7)	/* ´®¿Ú4Ä£Ê½0£¬8Î»UART£¬²¨ÌØÂÊ = ¶¨Ê±Æ÷µÄÒç³öÂÊ / 4  */
-#define		S4_MODE1()			S4CON |=  (1<<7)	/* ´®¿Ú4Ä£Ê½1£¬9Î»UART£¬²¨ÌØÂÊ = ¶¨Ê±Æ÷µÄÒç³öÂÊ / 4  */
-#define		S4_8bit()			S4CON &= ~(1<<7)	/* ´®¿Ú4Ä£Ê½0£¬8Î»UART£¬²¨ÌØÂÊ = ¶¨Ê±Æ÷µÄÒç³öÂÊ / 4  */
-#define		S4_9bit()			S4CON |=  (1<<7)	/* ´®¿Ú4Ä£Ê½1£¬9Î»UART£¬²¨ÌØÂÊ = ¶¨Ê±Æ÷µÄÒç³öÂÊ / 4  */
-#define		S4_RX_Enable()		S4CON |=  (1<<4)	/* ÔÊÐí´®4½ÓÊÕ									     */
-#define		S4_RX_Disable()		S4CON &= ~(1<<4)	/* ½ûÖ¹´®4½ÓÊÕ									     */
-#define		TI4					(S4CON & 2) != 0	/* ÅÐ¶ÏTI3ÊÇ·ñ·¢ËÍÍê³É							     */
-#define		RI4					(S4CON & 1) != 0	/* ÅÐ¶ÏRI3ÊÇ·ñ½ÓÊÕÍê³É							     */
-#define		SET_TI4()			S4CON |=  2			/* ÉèÖÃTI3(ÒýÆðÖÐ¶Ï)							     */
-#define		CLR_TI4()			S4CON &= ~2			/* Çå³ýTI3										     */
-#define		CLR_RI4()			S4CON &= ~1			/* Çå³ýRI3										     */
-#define		S4TB8_SET()			S4CON |=  8			/* ÉèÖÃTB8										     */
-#define		S4TB8_CLR()			S4CON &= ~8			/* Çå³ýTB8										     */
-#define		S4_Int_Enable()		IE2   |=  (1<<4)	/* ´®¿Ú4ÔÊÐíÖÐ¶Ï								     */
-#define		S4_Int_Disable()	IE2   &= ~(1<<4)	/* ´®¿Ú4½ûÖ¹ÖÐ¶Ï								     */
+#define		S4_MODE0()			S4CON &= ~(1<<7)	/* ä¸²å£4æ¨¡å¼0ï¼Œ8ä½UARTï¼Œæ³¢ç‰¹çŽ‡ = å®šæ—¶å™¨çš„æº¢å‡ºçŽ‡ / 4  */
+#define		S4_MODE1()			S4CON |=  (1<<7)	/* ä¸²å£4æ¨¡å¼1ï¼Œ9ä½UARTï¼Œæ³¢ç‰¹çŽ‡ = å®šæ—¶å™¨çš„æº¢å‡ºçŽ‡ / 4  */
+#define		S4_8bit()			S4CON &= ~(1<<7)	/* ä¸²å£4æ¨¡å¼0ï¼Œ8ä½UARTï¼Œæ³¢ç‰¹çŽ‡ = å®šæ—¶å™¨çš„æº¢å‡ºçŽ‡ / 4  */
+#define		S4_9bit()			S4CON |=  (1<<7)	/* ä¸²å£4æ¨¡å¼1ï¼Œ9ä½UARTï¼Œæ³¢ç‰¹çŽ‡ = å®šæ—¶å™¨çš„æº¢å‡ºçŽ‡ / 4  */
+#define		S4_RX_Enable()		S4CON |=  (1<<4)	/* å…è®¸ä¸²4æŽ¥æ”¶									     */
+#define		S4_RX_Disable()		S4CON &= ~(1<<4)	/* ç¦æ­¢ä¸²4æŽ¥æ”¶									     */
+#define		TI4					(S4CON & 2) != 0	/* åˆ¤æ–­TI3æ˜¯å¦å‘é€å®Œæˆ							     */
+#define		RI4					(S4CON & 1) != 0	/* åˆ¤æ–­RI3æ˜¯å¦æŽ¥æ”¶å®Œæˆ							     */
+#define		SET_TI4()			S4CON |=  2			/* è®¾ç½®TI3(å¼•èµ·ä¸­æ–­)							     */
+#define		CLR_TI4()			S4CON &= ~2			/* æ¸…é™¤TI3										     */
+#define		CLR_RI4()			S4CON &= ~1			/* æ¸…é™¤RI3										     */
+#define		S4TB8_SET()			S4CON |=  8			/* è®¾ç½®TB8										     */
+#define		S4TB8_CLR()			S4CON &= ~8			/* æ¸…é™¤TB8										     */
+#define		S4_Int_Enable()		IE2   |=  (1<<4)	/* ä¸²å£4å…è®¸ä¸­æ–­								     */
+#define		S4_Int_Disable()	IE2   &= ~(1<<4)	/* ä¸²å£4ç¦æ­¢ä¸­æ–­								     */
 #define 	S4_BRT_UseTimer4()	S4CON |=  (1<<6)	/* BRT select Timer4								 */
 #define 	S4_BRT_UseTimer2()	S4CON &= ~(1<<6)	/* BRT select Timer2								 */
-#define		S4_USE_P02P03()		P_SW2 &= ~4			/* UART4 Ê¹ÓÃP0¿Ú	Ä¬ÈÏ						     */
-#define		S4_USE_P52P53()		P_SW2 |=  4			/* UART4 Ê¹ÓÃP5¿Ú								     */
+#define		S4_USE_P02P03()		P_SW2 &= ~4			/* UART4 ä½¿ç”¨P0å£	é»˜è®¤						     */
+#define		S4_USE_P52P53()		P_SW2 |=  4			/* UART4 ä½¿ç”¨P5å£								     */
 
 
 
@@ -778,30 +778,30 @@ sbit PX0	= IP^0;	//Íâ²¿ÖÐ¶Ï0ÓÅÏÈ¼¶Éè¶¨Î»
 //						   7     6       5      4     3      2      1      0    Reset Value
 //sfr AUXR  = 0x8E;		T0x12 T1x12 UART_M0x6  T2R  T2_C/T T2x12 EXTRAM  S1ST2  0000,0000	//Auxiliary Register 
 
-#define 	ExternalRAM_enable()		AUXR |=  2		/* ÔÊÐíÍâ²¿XRAM£¬½ûÖ¹Ê¹ÓÃÄÚ²¿1024RAM     */
-#define 	InternalRAM_enable()		AUXR &= ~2		/* ½ûÖ¹Íâ²¿XRAM£¬ÔÊÐíÊ¹ÓÃÄÚ²¿1024RAM     */
+#define 	ExternalRAM_enable()		AUXR |=  2		/* å…è®¸å¤–éƒ¨XRAMï¼Œç¦æ­¢ä½¿ç”¨å†…éƒ¨1024RAM     */
+#define 	InternalRAM_enable()		AUXR &= ~2		/* ç¦æ­¢å¤–éƒ¨XRAMï¼Œå…è®¸ä½¿ç”¨å†…éƒ¨1024RAM     */
 #define		S1_M0x6()					AUXR |=  (1<<5)	/* UART Mode0 Speed is 6x Standard       */
 #define		S1_M0x1()					AUXR &= ~(1<<5)	/* default,	UART Mode0 Speed is Standard */
 
 //====================================
-#define		Timer0_16bitAutoReload()	TMOD &= ~0x03					/* 16Î»×Ô¶¯ÖØ×°	*/
-#define		Timer0_16bit()				TMOD  = (TMOD & ~0x03) | 0x01	/* 16Î»         */
-#define		Timer0_8bitAutoReload()		TMOD  = (TMOD & ~0x03) | 0x02	/* 8Î»×Ô¶¯ÖØ×°	*/
-#define		Timer0_16bitAutoRL_NoMask()	TMOD |=  0x03		/* 16Î»×Ô¶¯ÖØ×°²»¿ÉÆÁ±ÎÖÐ¶Ï	*/
-#define 	Timer0_Run()	 			TR0 = 1				/* ÔÊÐí¶¨Ê±Æ÷0¼ÆÊý			*/
-#define 	Timer0_Stop()	 			TR0 = 0				/* ½ûÖ¹¶¨Ê±Æ÷0¼ÆÊý			*/
-#define		Timer0_Gate_INT0_P32()		TMOD |=  (1<<3)		/* Ê±Æ÷0ÓÉÍâ²¿INT0¸ßµçÆ½ÔÊÐí¶¨Ê±¼ÆÊý */
-#define		Timer0_AsTimer()			TMOD &= ~(1<<2)		/* Ê±Æ÷0ÓÃ×ö¶¨Ê±Æ÷	*/
-#define		Timer0_AsCounter()			TMOD |=  (1<<2)		/* Ê±Æ÷0ÓÃ×ö¼ÆÊýÆ÷	*/
-#define		Timer0_AsCounterP34()		TMOD |=  (1<<2)		/* Ê±Æ÷0ÓÃ×ö¼ÆÊýÆ÷	*/
+#define		Timer0_16bitAutoReload()	TMOD &= ~0x03					/* 16ä½è‡ªåŠ¨é‡è£…	*/
+#define		Timer0_16bit()				TMOD  = (TMOD & ~0x03) | 0x01	/* 16ä½         */
+#define		Timer0_8bitAutoReload()		TMOD  = (TMOD & ~0x03) | 0x02	/* 8ä½è‡ªåŠ¨é‡è£…	*/
+#define		Timer0_16bitAutoRL_NoMask()	TMOD |=  0x03		/* 16ä½è‡ªåŠ¨é‡è£…ä¸å¯å±è”½ä¸­æ–­	*/
+#define 	Timer0_Run()	 			TR0 = 1				/* å…è®¸å®šæ—¶å™¨0è®¡æ•°			*/
+#define 	Timer0_Stop()	 			TR0 = 0				/* ç¦æ­¢å®šæ—¶å™¨0è®¡æ•°			*/
+#define		Timer0_Gate_INT0_P32()		TMOD |=  (1<<3)		/* æ—¶å™¨0ç”±å¤–éƒ¨INT0é«˜ç”µå¹³å…è®¸å®šæ—¶è®¡æ•° */
+#define		Timer0_AsTimer()			TMOD &= ~(1<<2)		/* æ—¶å™¨0ç”¨åšå®šæ—¶å™¨	*/
+#define		Timer0_AsCounter()			TMOD |=  (1<<2)		/* æ—¶å™¨0ç”¨åšè®¡æ•°å™¨	*/
+#define		Timer0_AsCounterP34()		TMOD |=  (1<<2)		/* æ—¶å™¨0ç”¨åšè®¡æ•°å™¨	*/
 #define 	Timer0_1T()					AUXR |=  (1<<7)		/* Timer0 clodk = fo	*/
-#define 	Timer0_12T()				AUXR &= ~(1<<7)		/* Timer0 clodk = fo/12	12·ÖÆµ,	default	*/
-#define		Timer0_CLKO_Enable()		INT_CLKO |=  1			/* ÔÊÐí T0 Òç³öÂö³åÔÚT0(P3.5)½ÅÊä³ö£¬Fck0 = 1/2 T0 Òç³öÂÊ£¬T0¿ÉÒÔ1T»ò12T¡£	*/
+#define 	Timer0_12T()				AUXR &= ~(1<<7)		/* Timer0 clodk = fo/12	12åˆ†é¢‘,	default	*/
+#define		Timer0_CLKO_Enable()		INT_CLKO |=  1			/* å…è®¸ T0 æº¢å‡ºè„‰å†²åœ¨T0(P3.5)è„šè¾“å‡ºï¼ŒFck0 = 1/2 T0 æº¢å‡ºçŽ‡ï¼ŒT0å¯ä»¥1Tæˆ–12Tã€‚	*/
 #define		Timer0_CLKO_Disable()		INT_CLKO &= ~1
-#define		Timer0_CLKO_Enable_P34()	INT_CLKO |=  1			/* ÔÊÐí T0 Òç³öÂö³åÔÚT0(P3.5)½ÅÊä³ö£¬Fck0 = 1/2 T0 Òç³öÂÊ£¬T0¿ÉÒÔ1T»ò12T¡£	*/
+#define		Timer0_CLKO_Enable_P34()	INT_CLKO |=  1			/* å…è®¸ T0 æº¢å‡ºè„‰å†²åœ¨T0(P3.5)è„šè¾“å‡ºï¼ŒFck0 = 1/2 T0 æº¢å‡ºçŽ‡ï¼ŒT0å¯ä»¥1Tæˆ–12Tã€‚	*/
 #define		Timer0_CLKO_Disable_P34()	INT_CLKO &= ~1
-#define 	Timer0_InterruptEnable()	ET0 = 1				/* ÔÊÐíTimer1ÖÐ¶Ï.*/
-#define 	Timer0_InterruptDisable()	ET0 = 0				/* ½ûÖ¹Timer1ÖÐ¶Ï.*/
+#define 	Timer0_InterruptEnable()	ET0 = 1				/* å…è®¸Timer1ä¸­æ–­.*/
+#define 	Timer0_InterruptDisable()	ET0 = 0				/* ç¦æ­¢Timer1ä¸­æ–­.*/
 
 #define		T0_Load(n)					TH0 = (n) / 256,	TL0 = (n) % 256
 #define		T0_Load_us_1T(n)			Timer0_AsTimer(),Timer0_1T(), Timer0_16bitAutoReload(),TH0=(65536-((MAIN_Fosc/1000)*(n)+500)/1000)/256, TL0=(65536-((MAIN_Fosc/1000)*(n)+500)/1000)%256
@@ -810,23 +810,23 @@ sbit PX0	= IP^0;	//Íâ²¿ÖÐ¶Ï0ÓÅÏÈ¼¶Éè¶¨Î»
 #define		T0_Frequency_12T_P35(n)		ET0=0,Timer0_AsTimer(),Timer0_12T(),Timer0_16bitAutoReload(),TH0=(65536-(n/2+MAIN_Fosc/24)/(n))/256,TL0=(65536-(n/2+MAIN_Fosc/24)/(n))%256,INT_CLKO |= bit0,TR0=1	/* fx=fosc/(2*M)/n,  M=1 or M=12 */
 
 //====================================
-#define		Timer1_16bitAutoReload()	TMOD &= ~0x30					/* 16Î»×Ô¶¯ÖØ×°	*/
-#define		Timer1_16bit()				TMOD  = (TMOD & ~0x30) | 0x10	/* 16Î»			*/
-#define		Timer1_8bitAutoReload()		TMOD  = (TMOD & ~0x30) | 0x20	/* 8Î»×Ô¶¯ÖØ×°	*/
-#define 	Timer1_Run()	 			TR1 = 1				/* ÔÊÐí¶¨Ê±Æ÷1¼ÆÊý			*/
-#define 	Timer1_Stop()	 			TR1 = 0				/* ½ûÖ¹¶¨Ê±Æ÷1¼ÆÊý			*/
-#define		Timer1_Gate_INT1_P33()		TMOD |=  (1<<7)		/* Ê±Æ÷1ÓÉÍâ²¿INT1¸ßµçÆ½ÔÊÐí¶¨Ê±¼ÆÊý	*/
-#define		Timer1_AsTimer()			TMOD &= ~(1<<6)		/* Ê±Æ÷1ÓÃ×ö¶¨Ê±Æ÷			*/
-#define		Timer1_AsCounter()			TMOD |=  (1<<6)		/* Ê±Æ÷1ÓÃ×ö¼ÆÊýÆ÷			*/
-#define		Timer1_AsCounterP35()		TMOD |=  (1<<6)		/* Ê±Æ÷1ÓÃ×ö¼ÆÊýÆ÷			*/
+#define		Timer1_16bitAutoReload()	TMOD &= ~0x30					/* 16ä½è‡ªåŠ¨é‡è£…	*/
+#define		Timer1_16bit()				TMOD  = (TMOD & ~0x30) | 0x10	/* 16ä½			*/
+#define		Timer1_8bitAutoReload()		TMOD  = (TMOD & ~0x30) | 0x20	/* 8ä½è‡ªåŠ¨é‡è£…	*/
+#define 	Timer1_Run()	 			TR1 = 1				/* å…è®¸å®šæ—¶å™¨1è®¡æ•°			*/
+#define 	Timer1_Stop()	 			TR1 = 0				/* ç¦æ­¢å®šæ—¶å™¨1è®¡æ•°			*/
+#define		Timer1_Gate_INT1_P33()		TMOD |=  (1<<7)		/* æ—¶å™¨1ç”±å¤–éƒ¨INT1é«˜ç”µå¹³å…è®¸å®šæ—¶è®¡æ•°	*/
+#define		Timer1_AsTimer()			TMOD &= ~(1<<6)		/* æ—¶å™¨1ç”¨åšå®šæ—¶å™¨			*/
+#define		Timer1_AsCounter()			TMOD |=  (1<<6)		/* æ—¶å™¨1ç”¨åšè®¡æ•°å™¨			*/
+#define		Timer1_AsCounterP35()		TMOD |=  (1<<6)		/* æ—¶å™¨1ç”¨åšè®¡æ•°å™¨			*/
 #define 	Timer1_1T()					AUXR |=  (1<<6)		/* Timer1 clodk = fo		*/
-#define 	Timer1_12T()				AUXR &= ~(1<<6)		/* Timer1 clodk = fo/12	12·ÖÆµ,	default	*/
-#define		Timer1_CLKO_Enable()		INT_CLKO |=  2			/* ÔÊÐí T1 Òç³öÂö³åÔÚT1(P3.4)½ÅÊä³ö£¬Fck1 = 1/2 T1 Òç³öÂÊ£¬T1¿ÉÒÔ1T»ò12T¡£	*/
+#define 	Timer1_12T()				AUXR &= ~(1<<6)		/* Timer1 clodk = fo/12	12åˆ†é¢‘,	default	*/
+#define		Timer1_CLKO_Enable()		INT_CLKO |=  2			/* å…è®¸ T1 æº¢å‡ºè„‰å†²åœ¨T1(P3.4)è„šè¾“å‡ºï¼ŒFck1 = 1/2 T1 æº¢å‡ºçŽ‡ï¼ŒT1å¯ä»¥1Tæˆ–12Tã€‚	*/
 #define		Timer1_CLKO_Disable()		INT_CLKO &= ~2
-#define		Timer1_CLKO_Enable_P35()	INT_CLKO |=  2			/* ÔÊÐí T1 Òç³öÂö³åÔÚT1(P3.4)½ÅÊä³ö£¬Fck1 = 1/2 T1 Òç³öÂÊ£¬T1¿ÉÒÔ1T»ò12T¡£	*/
+#define		Timer1_CLKO_Enable_P35()	INT_CLKO |=  2			/* å…è®¸ T1 æº¢å‡ºè„‰å†²åœ¨T1(P3.4)è„šè¾“å‡ºï¼ŒFck1 = 1/2 T1 æº¢å‡ºçŽ‡ï¼ŒT1å¯ä»¥1Tæˆ–12Tã€‚	*/
 #define		Timer1_CLKO_Disable_P35()	INT_CLKO &= ~2
-#define 	Timer1_InterruptEnable()	ET1 = 1				/* ÔÊÐíTimer1ÖÐ¶Ï.	*/
-#define 	Timer1_InterruptDisable()	ET1 = 0				/* ½ûÖ¹Timer1ÖÐ¶Ï.	*/
+#define 	Timer1_InterruptEnable()	ET1 = 1				/* å…è®¸Timer1ä¸­æ–­.	*/
+#define 	Timer1_InterruptDisable()	ET1 = 0				/* ç¦æ­¢Timer1ä¸­æ–­.	*/
 
 #define		T1_Load(n)					TH1 = (n) / 256,	TL1 = (n) % 256
 #define		T1_Load_us_1T(n)			Timer1_AsTimer(),Timer1_1T(), Timer1_16bitAutoReload(),TH1=(65536-((MAIN_Fosc/1000)*(n)+500)/1000)/256, TL1=(65536-((MAIN_Fosc/1000)*(n)+500)/1000)%256
@@ -835,19 +835,19 @@ sbit PX0	= IP^0;	//Íâ²¿ÖÐ¶Ï0ÓÅÏÈ¼¶Éè¶¨Î»
 #define		T1_Frequency_12T_P34(n)		ET1=0,Timer1_AsTimer(),Timer1_12T(),Timer1_16bitAutoReload(),TH1=(65536-(n/2+MAIN_Fosc/24)/(n))/256,TL1=(65536-(n/2+MAIN_Fosc/24)/(n))%256,INT_CLKO |= bit1,TR1=1	/* fx=fosc/(2*M)/n,  M=1 or M=12 */
 
 //====================================
-#define 	Timer2_Run()	 			AUXR |=  (1<<4)	/* ÔÊÐí¶¨Ê±Æ÷2¼ÆÊý	*/
-#define 	Timer2_Stop()	 			AUXR &= ~(1<<4)	/* ½ûÖ¹¶¨Ê±Æ÷2¼ÆÊý	*/
-#define		Timer2_AsTimer()			AUXR &= ~(1<<3)	/* Ê±Æ÷2ÓÃ×ö¶¨Ê±Æ÷	*/
-#define		Timer2_AsCounter()			AUXR |=  (1<<3)	/* Ê±Æ÷2ÓÃ×ö¼ÆÊýÆ÷	*/
-#define		Timer2_AsCounterP31()		AUXR |=  (1<<3)	/* Ê±Æ÷2ÓÃ×ö¼ÆÊýÆ÷	*/
+#define 	Timer2_Run()	 			AUXR |=  (1<<4)	/* å…è®¸å®šæ—¶å™¨2è®¡æ•°	*/
+#define 	Timer2_Stop()	 			AUXR &= ~(1<<4)	/* ç¦æ­¢å®šæ—¶å™¨2è®¡æ•°	*/
+#define		Timer2_AsTimer()			AUXR &= ~(1<<3)	/* æ—¶å™¨2ç”¨åšå®šæ—¶å™¨	*/
+#define		Timer2_AsCounter()			AUXR |=  (1<<3)	/* æ—¶å™¨2ç”¨åšè®¡æ•°å™¨	*/
+#define		Timer2_AsCounterP31()		AUXR |=  (1<<3)	/* æ—¶å™¨2ç”¨åšè®¡æ•°å™¨	*/
 #define 	Timer2_1T()					AUXR |=  (1<<2)	/* Timer0 clock = fo	*/
-#define 	Timer2_12T()				AUXR &= ~(1<<2)	/* Timer0 clock = fo/12	12·ÖÆµ,	default	*/
-#define		Timer2_CLKO_Enable()		INT_CLKO |=  4		/* ÔÊÐí T2 Òç³öÂö³åÔÚT1(P3.0)½ÅÊä³ö£¬Fck2 = 1/2 T2 Òç³öÂÊ£¬T2¿ÉÒÔ1T»ò12T¡£	*/
+#define 	Timer2_12T()				AUXR &= ~(1<<2)	/* Timer0 clock = fo/12	12åˆ†é¢‘,	default	*/
+#define		Timer2_CLKO_Enable()		INT_CLKO |=  4		/* å…è®¸ T2 æº¢å‡ºè„‰å†²åœ¨T1(P3.0)è„šè¾“å‡ºï¼ŒFck2 = 1/2 T2 æº¢å‡ºçŽ‡ï¼ŒT2å¯ä»¥1Tæˆ–12Tã€‚	*/
 #define		Timer2_CLKO_Disable()		INT_CLKO &= ~4
-#define		Timer2_CLKO_Enable_P30()	INT_CLKO |=  4		/* ÔÊÐí T2 Òç³öÂö³åÔÚT1(P3.0)½ÅÊä³ö£¬Fck2 = 1/2 T2 Òç³öÂÊ£¬T2¿ÉÒÔ1T»ò12T¡£	*/
+#define		Timer2_CLKO_Enable_P30()	INT_CLKO |=  4		/* å…è®¸ T2 æº¢å‡ºè„‰å†²åœ¨T1(P3.0)è„šè¾“å‡ºï¼ŒFck2 = 1/2 T2 æº¢å‡ºçŽ‡ï¼ŒT2å¯ä»¥1Tæˆ–12Tã€‚	*/
 #define		Timer2_CLKO_Disable_P30()	INT_CLKO &= ~4
-#define 	Timer2_InterruptEnable()	IE2  |=  (1<<2)	/* ÔÊÐíTimer2ÖÐ¶Ï.	*/
-#define 	Timer2_InterruptDisable()	IE2  &= ~(1<<2)	/* ½ûÖ¹Timer2ÖÐ¶Ï.	*/
+#define 	Timer2_InterruptEnable()	IE2  |=  (1<<2)	/* å…è®¸Timer2ä¸­æ–­.	*/
+#define 	Timer2_InterruptDisable()	IE2  &= ~(1<<2)	/* ç¦æ­¢Timer2ä¸­æ–­.	*/
 
 #define		T2_Load(n)					TH2 = (n) / 256,	TL2 = (n) % 256
 #define		T2_Load_us_1T(n)			Timer2_AsTimer(),Timer2_1T(), TH2=(65536-((MAIN_Fosc/1000)*(n)+500)/1000)/256, TL2=(65536-((MAIN_Fosc/1000)*(n)+500)/1000)%256
@@ -856,19 +856,19 @@ sbit PX0	= IP^0;	//Íâ²¿ÖÐ¶Ï0ÓÅÏÈ¼¶Éè¶¨Î»
 #define		T2_Frequency_12T_P30(n)		Timer2_InterruptDisable(),Timer2_AsTimer(),Timer2_12T(),TH2=(65536-(n/2+MAIN_Fosc/24)/(n))/256,TL2=(65536-(n/2+MAIN_Fosc/24)/(n))%256,Timer2_CLKO_Enable_P30(),Timer2_Run()	/* fx=fosc/(2*M)/n,  M=1 or M=12 */
 
 //====================================
-#define 	Timer3_Run()	 			T4T3M |=  (1<<3)	/* ÔÊÐí¶¨Ê±Æ÷3¼ÆÊý	*/
-#define 	Timer3_Stop()	 			T4T3M &= ~(1<<3)	/* ½ûÖ¹¶¨Ê±Æ÷3¼ÆÊý	*/
-#define		Timer3_AsTimer()			T4T3M &= ~(1<<2)	/* Ê±Æ÷3ÓÃ×ö¶¨Ê±Æ÷	*/
-#define		Timer3_AsCounter()			T4T3M |=  (1<<2)	/* Ê±Æ÷3ÓÃ×ö¼ÆÊýÆ÷, P0.5ÎªÍâ²¿Âö³å	*/
-#define		Timer3_AsCounterP05()		T4T3M |=  (1<<2)	/* Ê±Æ÷3ÓÃ×ö¼ÆÊýÆ÷, P0.5ÎªÍâ²¿Âö³å	*/
-#define 	Timer3_1T()					T4T3M |=  (1<<1)	/* 1TÄ£Ê½	*/
-#define 	Timer3_12T()				T4T3M &= ~(1<<1)	/* 12TÄ£Ê½,	default	*/
-#define		Timer3_CLKO_Enable()		T4T3M |=  1			/* ÔÊÐíT3Òç³öÂö³åÔÚT3(P0.4)½ÅÊä³ö£¬Fck = 1/2 T2 Òç³öÂÊ£¬T2¿ÉÒÔ1T»ò12T¡£	*/
-#define		Timer3_CLKO_Disable()		T4T3M &= ~1			/* ½ûÖ¹T3Òç³öÂö³åÔÚT3(P0.4)½ÅÊä³ö	*/
-#define		Timer3_CLKO_Enable_P04()	T4T3M |=  1			/* ÔÊÐíT3Òç³öÂö³åÔÚT3(P0.4)½ÅÊä³ö£¬Fck = 1/2 T2 Òç³öÂÊ£¬T2¿ÉÒÔ1T»ò12T¡£	*/
-#define		Timer3_CLKO_Disable_P04()	T4T3M &= ~1			/* ½ûÖ¹T3Òç³öÂö³åÔÚT3(P0.4)½ÅÊä³ö	*/
-#define 	Timer3_InterruptEnable()	IE2  |=  (1<<5)		/* ÔÊÐíTimer3ÖÐ¶Ï.	*/
-#define 	Timer3_InterruptDisable()	IE2  &= ~(1<<5)		/* ½ûÖ¹Timer3ÖÐ¶Ï.	*/
+#define 	Timer3_Run()	 			T4T3M |=  (1<<3)	/* å…è®¸å®šæ—¶å™¨3è®¡æ•°	*/
+#define 	Timer3_Stop()	 			T4T3M &= ~(1<<3)	/* ç¦æ­¢å®šæ—¶å™¨3è®¡æ•°	*/
+#define		Timer3_AsTimer()			T4T3M &= ~(1<<2)	/* æ—¶å™¨3ç”¨åšå®šæ—¶å™¨	*/
+#define		Timer3_AsCounter()			T4T3M |=  (1<<2)	/* æ—¶å™¨3ç”¨åšè®¡æ•°å™¨, P0.5ä¸ºå¤–éƒ¨è„‰å†²	*/
+#define		Timer3_AsCounterP05()		T4T3M |=  (1<<2)	/* æ—¶å™¨3ç”¨åšè®¡æ•°å™¨, P0.5ä¸ºå¤–éƒ¨è„‰å†²	*/
+#define 	Timer3_1T()					T4T3M |=  (1<<1)	/* 1Tæ¨¡å¼	*/
+#define 	Timer3_12T()				T4T3M &= ~(1<<1)	/* 12Tæ¨¡å¼,	default	*/
+#define		Timer3_CLKO_Enable()		T4T3M |=  1			/* å…è®¸T3æº¢å‡ºè„‰å†²åœ¨T3(P0.4)è„šè¾“å‡ºï¼ŒFck = 1/2 T2 æº¢å‡ºçŽ‡ï¼ŒT2å¯ä»¥1Tæˆ–12Tã€‚	*/
+#define		Timer3_CLKO_Disable()		T4T3M &= ~1			/* ç¦æ­¢T3æº¢å‡ºè„‰å†²åœ¨T3(P0.4)è„šè¾“å‡º	*/
+#define		Timer3_CLKO_Enable_P04()	T4T3M |=  1			/* å…è®¸T3æº¢å‡ºè„‰å†²åœ¨T3(P0.4)è„šè¾“å‡ºï¼ŒFck = 1/2 T2 æº¢å‡ºçŽ‡ï¼ŒT2å¯ä»¥1Tæˆ–12Tã€‚	*/
+#define		Timer3_CLKO_Disable_P04()	T4T3M &= ~1			/* ç¦æ­¢T3æº¢å‡ºè„‰å†²åœ¨T3(P0.4)è„šè¾“å‡º	*/
+#define 	Timer3_InterruptEnable()	IE2  |=  (1<<5)		/* å…è®¸Timer3ä¸­æ–­.	*/
+#define 	Timer3_InterruptDisable()	IE2  &= ~(1<<5)		/* ç¦æ­¢Timer3ä¸­æ–­.	*/
 
 #define		T3_Load(n)					TH3 = (n) / 256,	TL3 = (n) % 256
 #define		T3_Load_us_1T(n)			Timer3_AsTimer(),Timer3_1T(), TH3=(65536-((MAIN_Fosc/1000)*(n)+500)/1000)/256, TL3=(65536-((MAIN_Fosc/1000)*(n)+500)/1000)%256
@@ -877,19 +877,19 @@ sbit PX0	= IP^0;	//Íâ²¿ÖÐ¶Ï0ÓÅÏÈ¼¶Éè¶¨Î»
 #define		T3_Frequency_12T_P04(n)		Timer3_InterruptDisable(),Timer3_AsTimer(),Timer3_12T(),TH3=(65536-(n/2+MAIN_Fosc/24)/(n))/256,TL3=(65536-(n/2+MAIN_Fosc/24)/(n))%256,Timer3_CLKO_P04_Enable,Timer3_Run()	/* fx=fosc/(2*M)/n,  M=1 or M=12 */
 
 //====================================
-#define 	Timer4_Run()	 			T4T3M |=  (1<<7)	/* ÔÊÐí¶¨Ê±Æ÷4¼ÆÊý	*/
-#define 	Timer4_Stop()	 			T4T3M &= ~(1<<7)	/* ½ûÖ¹¶¨Ê±Æ÷4¼ÆÊý	*/
-#define		Timer4_AsTimer()			T4T3M &= ~(1<<6)	/* Ê±Æ÷4ÓÃ×ö¶¨Ê±Æ÷  */
-#define		Timer4_AsCounter()			T4T3M |=  (1<<6)	/* Ê±Æ÷4ÓÃ×ö¼ÆÊýÆ÷, P0.7ÎªÍâ²¿Âö³å	*/
-#define		Timer4_AsCounterP07()		T4T3M |=  (1<<6)	/* Ê±Æ÷4ÓÃ×ö¼ÆÊýÆ÷, P0.7ÎªÍâ²¿Âö³å	*/
-#define 	Timer4_1T()					T4T3M |=  (1<<5)	/* 1TÄ£Ê½	*/
-#define 	Timer4_12T()				T4T3M &= ~(1<<5)	/* 12TÄ£Ê½,	default	*/
-#define		Timer4_CLKO_Enable()		T4T3M |=  (1<<4)	/* ÔÊÐíT4Òç³öÂö³åÔÚT4(P0.6)½ÅÊä³ö£¬Fck = 1/2 T2 Òç³öÂÊ£¬T2¿ÉÒÔ1T»ò12T¡£	*/
-#define		Timer4_CLKO_Disable()		T4T3M &= ~(1<<4)	/* ½ûÖ¹T4Òç³öÂö³åÔÚT4(P0.6)½ÅÊä³ö	*/
-#define		Timer4_CLKO_Enable_P06()	T4T3M |=  (1<<4)	/* ÔÊÐíT4Òç³öÂö³åÔÚT4(P0.6)½ÅÊä³ö£¬Fck = 1/2 T2 Òç³öÂÊ£¬T2¿ÉÒÔ1T»ò12T¡£	*/
-#define		Timer4_CLKO_Disable_P06()	T4T3M &= ~(1<<4)	/* ½ûÖ¹T4Òç³öÂö³åÔÚT4(P0.6)½ÅÊä³ö	*/
-#define 	Timer4_InterruptEnable()	IE2  |=  (1<<6)		/* ÔÊÐíTimer4ÖÐ¶Ï.	*/
-#define 	Timer4_InterruptDisable()	IE2  &= ~(1<<6)		/* ½ûÖ¹Timer4ÖÐ¶Ï.	*/
+#define 	Timer4_Run()	 			T4T3M |=  (1<<7)	/* å…è®¸å®šæ—¶å™¨4è®¡æ•°	*/
+#define 	Timer4_Stop()	 			T4T3M &= ~(1<<7)	/* ç¦æ­¢å®šæ—¶å™¨4è®¡æ•°	*/
+#define		Timer4_AsTimer()			T4T3M &= ~(1<<6)	/* æ—¶å™¨4ç”¨åšå®šæ—¶å™¨  */
+#define		Timer4_AsCounter()			T4T3M |=  (1<<6)	/* æ—¶å™¨4ç”¨åšè®¡æ•°å™¨, P0.7ä¸ºå¤–éƒ¨è„‰å†²	*/
+#define		Timer4_AsCounterP07()		T4T3M |=  (1<<6)	/* æ—¶å™¨4ç”¨åšè®¡æ•°å™¨, P0.7ä¸ºå¤–éƒ¨è„‰å†²	*/
+#define 	Timer4_1T()					T4T3M |=  (1<<5)	/* 1Tæ¨¡å¼	*/
+#define 	Timer4_12T()				T4T3M &= ~(1<<5)	/* 12Tæ¨¡å¼,	default	*/
+#define		Timer4_CLKO_Enable()		T4T3M |=  (1<<4)	/* å…è®¸T4æº¢å‡ºè„‰å†²åœ¨T4(P0.6)è„šè¾“å‡ºï¼ŒFck = 1/2 T2 æº¢å‡ºçŽ‡ï¼ŒT2å¯ä»¥1Tæˆ–12Tã€‚	*/
+#define		Timer4_CLKO_Disable()		T4T3M &= ~(1<<4)	/* ç¦æ­¢T4æº¢å‡ºè„‰å†²åœ¨T4(P0.6)è„šè¾“å‡º	*/
+#define		Timer4_CLKO_Enable_P06()	T4T3M |=  (1<<4)	/* å…è®¸T4æº¢å‡ºè„‰å†²åœ¨T4(P0.6)è„šè¾“å‡ºï¼ŒFck = 1/2 T2 æº¢å‡ºçŽ‡ï¼ŒT2å¯ä»¥1Tæˆ–12Tã€‚	*/
+#define		Timer4_CLKO_Disable_P06()	T4T3M &= ~(1<<4)	/* ç¦æ­¢T4æº¢å‡ºè„‰å†²åœ¨T4(P0.6)è„šè¾“å‡º	*/
+#define 	Timer4_InterruptEnable()	IE2  |=  (1<<6)		/* å…è®¸Timer4ä¸­æ–­.	*/
+#define 	Timer4_InterruptDisable()	IE2  &= ~(1<<6)		/* ç¦æ­¢Timer4ä¸­æ–­.	*/
 
 #define		T4_Load(n)					TH4 = (n) / 256,	TL4 = (n) % 256
 #define		T4_Load_us_1T(n)			Timer4_AsTimer(),Timer4_1T(), TH4=(65536-((MAIN_Fosc/1000)*(n)+500)/1000)/256, TL4=(65536-((MAIN_Fosc/1000)*(n)+500)/1000)%256
@@ -914,31 +914,31 @@ sbit PX0	= IP^0;	//Íâ²¿ÖÐ¶Ï0ÓÅÏÈ¼¶Éè¶¨Î»
 #define D_WDT_SCALE_128		6
 #define D_WDT_SCALE_256		7
 
-#define	WDT_reset(n)	WDT_CONTR = D_EN_WDT + D_CLR_WDT + D_IDLE_WDT + (n)		/* ³õÊ¼»¯WDT£¬Î¹¹· */
+#define	WDT_reset(n)	WDT_CONTR = D_EN_WDT + D_CLR_WDT + D_IDLE_WDT + (n)		/* åˆå§‹åŒ–WDTï¼Œå–‚ç‹— */
 
 
 //						  7     6      5    4     3      2    1     0     Reset Value
 //sfr PCON   = 0x87;	SMOD  SMOD0  LVDF  POF   GF1    GF0   PD   IDL    0001,0000	 //Power Control 
-//SMOD		//´®¿ÚË«±¶ËÙ
+//SMOD		//ä¸²å£åŒå€é€Ÿ
 //SMOD0
-#define		LVDF		(1<<5)	/* P4.6µÍÑ¹¼ì²â±êÖ¾ */
+#define		LVDF		(1<<5)	/* P4.6ä½ŽåŽ‹æ£€æµ‹æ ‡å¿— */
 //POF
 //GF1
 //GF0
 //#define 	D_PD		2		/* set 1, power down mode */
 //#define 	D_IDLE		1		/* set 1, idle mode */
-#define		MCU_IDLE()			PCON |= 1	/* MCU ½øÈë IDLE Ä£Ê½ */
-#define		MCU_POWER_DOWN()	PCON |= 2	/* MCU ½øÈë Ë¯Ãß Ä£Ê½ */
+#define		MCU_IDLE()			PCON |= 1	/* MCU è¿›å…¥ IDLE æ¨¡å¼ */
+#define		MCU_POWER_DOWN()	PCON |= 2	/* MCU è¿›å…¥ ç¡çœ  æ¨¡å¼ */
 
 
 //sfr ISP_CMD   = 0xC5;
-#define		ISP_STANDBY()	ISP_CMD = 0		/* ISP¿ÕÏÐÃüÁî£¨½ûÖ¹£©*/
-#define		ISP_READ()		ISP_CMD = 1		/* ISP¶Á³öÃüÁî		*/
-#define		ISP_WRITE()		ISP_CMD = 2		/* ISPÐ´ÈëÃüÁî		*/
-#define		ISP_ERASE()		ISP_CMD = 3		/* ISP²Á³ýÃüÁî		*/
+#define		ISP_STANDBY()	ISP_CMD = 0		/* ISPç©ºé—²å‘½ä»¤ï¼ˆç¦æ­¢ï¼‰*/
+#define		ISP_READ()		ISP_CMD = 1		/* ISPè¯»å‡ºå‘½ä»¤		*/
+#define		ISP_WRITE()		ISP_CMD = 2		/* ISPå†™å…¥å‘½ä»¤		*/
+#define		ISP_ERASE()		ISP_CMD = 3		/* ISPæ“¦é™¤å‘½ä»¤		*/
 
 //sfr ISP_TRIG  = 0xC6;
-#define 	ISP_TRIG()	ISP_TRIG = 0x5A,	ISP_TRIG = 0xA5		/* ISP´¥·¢ÃüÁî */
+#define 	ISP_TRIG()	ISP_TRIG = 0x5A,	ISP_TRIG = 0xA5		/* ISPè§¦å‘å‘½ä»¤ */
 
 //							  7    6    5      4    3    2    1     0    Reset Value
 //sfr IAP_CONTR = 0xC7;		IAPEN SWBS SWRST CFAIL  -   WT2  WT1   WT0   0000,x000	//IAP Control Register
@@ -977,125 +977,125 @@ sbit PX0	= IP^0;	//Íâ²¿ÖÐ¶Ï0ÓÅÏÈ¼¶Éè¶¨Î»
 
 /* ADC Register */
 //								7       6      5       4         3      2    1    0   Reset Value
-//sfr ADC_CONTR = 0xBC;		ADC_POWER SPEED1 SPEED0 ADC_FLAG ADC_START CHS2 CHS1 CHS0 0000,0000	/* AD ×ª»»¿ØÖÆ¼Ä´æÆ÷ */ 
-//sfr ADC_RES  = 0xBD;		ADCV.9 ADCV.8 ADCV.7 ADCV.6 ADCV.5 ADCV.4 ADCV.3 ADCV.2	  0000,0000	/* A/D ×ª»»½á¹û¸ß8Î» */ 
-//sfr ADC_RESL = 0xBE;												  ADCV.1 ADCV.0	  0000,0000	/* A/D ×ª»»½á¹ûµÍ2Î» */
-//sfr ADC_CONTR  = 0xBC;	//Ö±½ÓÓÃMOV²Ù×÷£¬²»ÒªÓÃÓë»ò
+//sfr ADC_CONTR = 0xBC;		ADC_POWER SPEED1 SPEED0 ADC_FLAG ADC_START CHS2 CHS1 CHS0 0000,0000	/* AD è½¬æ¢æŽ§åˆ¶å¯„å­˜å™¨ */ 
+//sfr ADC_RES  = 0xBD;		ADCV.9 ADCV.8 ADCV.7 ADCV.6 ADCV.5 ADCV.4 ADCV.3 ADCV.2	  0000,0000	/* A/D è½¬æ¢ç»“æžœé«˜8ä½ */ 
+//sfr ADC_RESL = 0xBE;												  ADCV.1 ADCV.0	  0000,0000	/* A/D è½¬æ¢ç»“æžœä½Ž2ä½ */
+//sfr ADC_CONTR  = 0xBC;	//ç›´æŽ¥ç”¨MOVæ“ä½œï¼Œä¸è¦ç”¨ä¸Žæˆ–
 
 
-//sfr SPCTL  = 0xCE;	SPI¿ØÖÆ¼Ä´æÆ÷
+//sfr SPCTL  = 0xCE;	SPIæŽ§åˆ¶å¯„å­˜å™¨
 //   7       6       5       4       3       2       1       0    	Reset Value
 //	SSIG	SPEN	DORD	MSTR	CPOL	CPHA	SPR1	SPR0		0x00
 
-#define	SPI_SSIG_None()		SPCTL |=  (1<<7)		/* 1: ºöÂÔSS½Å	*/
-#define	SPI_SSIG_Enable()	SPCTL &= ~(1<<7)		/* 0: SS½ÅÓÃÓÚ¾ö¶¨Ö÷´Ó»ú	*/
-#define	SPI_Enable()		SPCTL |=  (1<<6)		/* 1: ÔÊÐíSPI	*/
-#define	SPI_Disable()		SPCTL &= ~(1<<6)		/* 0: ½ûÖ¹SPI	*/
-#define	SPI_LSB_First()		SPCTL |=  (1<<5)		/* 1: LSBÏÈ·¢	*/
-#define	SPI_MSB_First()		SPCTL &= ~(1<<5)		/* 0: MSBÏÈ·¢	*/
-#define	SPI_Master()		SPCTL |=  (1<<4)		/* 1: ÉèÎªÖ÷»ú	*/
-#define	SPI_Slave()			SPCTL &= ~(1<<4)		/* 0: ÉèÎª´Ó»ú	*/
-#define	SPI_SCLK_NormalH()	SPCTL |=  (1<<3)		/* 1: ¿ÕÏÐÊ±SCLKÎª¸ßµçÆ½	*/
-#define	SPI_SCLK_NormalL()	SPCTL &= ~(1<<3)		/* 0: ¿ÕÏÐÊ±SCLKÎªµÍµçÆ½	*/
+#define	SPI_SSIG_None()		SPCTL |=  (1<<7)		/* 1: å¿½ç•¥SSè„š	*/
+#define	SPI_SSIG_Enable()	SPCTL &= ~(1<<7)		/* 0: SSè„šç”¨äºŽå†³å®šä¸»ä»Žæœº	*/
+#define	SPI_Enable()		SPCTL |=  (1<<6)		/* 1: å…è®¸SPI	*/
+#define	SPI_Disable()		SPCTL &= ~(1<<6)		/* 0: ç¦æ­¢SPI	*/
+#define	SPI_LSB_First()		SPCTL |=  (1<<5)		/* 1: LSBå…ˆå‘	*/
+#define	SPI_MSB_First()		SPCTL &= ~(1<<5)		/* 0: MSBå…ˆå‘	*/
+#define	SPI_Master()		SPCTL |=  (1<<4)		/* 1: è®¾ä¸ºä¸»æœº	*/
+#define	SPI_Slave()			SPCTL &= ~(1<<4)		/* 0: è®¾ä¸ºä»Žæœº	*/
+#define	SPI_SCLK_NormalH()	SPCTL |=  (1<<3)		/* 1: ç©ºé—²æ—¶SCLKä¸ºé«˜ç”µå¹³	*/
+#define	SPI_SCLK_NormalL()	SPCTL &= ~(1<<3)		/* 0: ç©ºé—²æ—¶SCLKä¸ºä½Žç”µå¹³	*/
 #define	SPI_PhaseH()		SPCTL |=  (1<<2)		/* 1: 	*/
 #define	SPI_PhaseL()		SPCTL &= ~(1<<2)		/* 0: 	*/
-#define	SPI_Speed(n)		SPCTL = (SPCTL & ~3) | (n)	/*ÉèÖÃËÙ¶È, 0 -- fosc/4, 1 -- fosc/16, 2 -- fosc/64, 3 -- fosc/128	*/
+#define	SPI_Speed(n)		SPCTL = (SPCTL & ~3) | (n)	/*è®¾ç½®é€Ÿåº¦, 0 -- fosc/4, 1 -- fosc/16, 2 -- fosc/64, 3 -- fosc/128	*/
 
 //sfr SPDAT  = 0xCF; //SPI Data Register                                                     0000,0000
-//sfr SPSTAT  = 0xCD;	//SPI×´Ì¬¼Ä´æÆ÷
+//sfr SPSTAT  = 0xCD;	//SPIçŠ¶æ€å¯„å­˜å™¨
 //   7       6      5   4   3   2   1   0    	Reset Value
 //	SPIF	WCOL	-	-	-	-	-	-
-#define	SPIF	0x80		/* SPI´«ÊäÍê³É±êÖ¾¡£Ð´Èë1Çå0¡£*/
-#define	WCOL	0x40		/* SPIÐ´³åÍ»±êÖ¾¡£Ð´Èë1Çå0¡£  */
+#define	SPIF	0x80		/* SPIä¼ è¾“å®Œæˆæ ‡å¿—ã€‚å†™å…¥1æ¸…0ã€‚*/
+#define	WCOL	0x40		/* SPIå†™å†²çªæ ‡å¿—ã€‚å†™å…¥1æ¸…0ã€‚  */
 
-#define		SPI_USE_P12P13P14P15()	AUXR1 &= ~0x0c					/* ½«SPIÇÐ»»µ½P12(SS) P13(MOSI) P14(MISO) P15(SCLK)(ÉÏµçÄ¬ÈÏ)¡£*/
-#define		SPI_USE_P24P23P22P21()	AUXR1 = (AUXR1 & ~0x0c) | 0x04	/* ½«SPIÇÐ»»µ½P24(SS) P23(MOSI) P22(MISO) P21(SCLK)¡£*/
-#define		SPI_USE_P54P40P41P43()	AUXR1 = (AUXR1 & ~0x0c) | 0x08	/* ½«SPIÇÐ»»µ½P54(SS) P40(MOSI) P41(MISO) P43(SCLK)¡£*/
+#define		SPI_USE_P12P13P14P15()	AUXR1 &= ~0x0c					/* å°†SPIåˆ‡æ¢åˆ°P12(SS) P13(MOSI) P14(MISO) P15(SCLK)(ä¸Šç”µé»˜è®¤)ã€‚*/
+#define		SPI_USE_P24P23P22P21()	AUXR1 = (AUXR1 & ~0x0c) | 0x04	/* å°†SPIåˆ‡æ¢åˆ°P24(SS) P23(MOSI) P22(MISO) P21(SCLK)ã€‚*/
+#define		SPI_USE_P54P40P41P43()	AUXR1 = (AUXR1 & ~0x0c) | 0x08	/* å°†SPIåˆ‡æ¢åˆ°P54(SS) P40(MOSI) P41(MISO) P43(SCLK)ã€‚*/
 
 
 /*
 ;PCA_PWMn:    7       6     5   4   3   2     1       0
 ;			EBSn_1	EBSn_0	-	-	-	-	EPCnH	EPCnL
-;B5-B2:		±£Áô
-;B1(EPCnH):	ÔÚPWMÄ£Ê½ÏÂ£¬ÓëCCAPnH×é³É9Î»Êý¡£
-;B0(EPCnL):	ÔÚPWMÄ£Ê½ÏÂ£¬ÓëCCAPnL×é³É9Î»Êý¡£
+;B5-B2:		ä¿ç•™
+;B1(EPCnH):	åœ¨PWMæ¨¡å¼ä¸‹ï¼Œä¸ŽCCAPnHç»„æˆ9ä½æ•°ã€‚
+;B0(EPCnL):	åœ¨PWMæ¨¡å¼ä¸‹ï¼Œä¸ŽCCAPnLç»„æˆ9ä½æ•°ã€‚
 */
-#define		PWM0_NORMAL()	PCA_PWM0 &= ~2					/* PWM0Õý³£Êä³ö(Ä¬ÈÏ)	*/
-#define		PWM0_OUT_0()	PCA_PWM0 |=  2, CCAP0H = 0xff	/* PWM0Ò»Ö±Êä³ö0		*/
-#define		PWM0_OUT_1()	PCA_PWM0 &= ~2, CCAP0H = 0		/* PWM0Ò»Ö±Êä³ö1		*/
+#define		PWM0_NORMAL()	PCA_PWM0 &= ~2					/* PWM0æ­£å¸¸è¾“å‡º(é»˜è®¤)	*/
+#define		PWM0_OUT_0()	PCA_PWM0 |=  2, CCAP0H = 0xff	/* PWM0ä¸€ç›´è¾“å‡º0		*/
+#define		PWM0_OUT_1()	PCA_PWM0 &= ~2, CCAP0H = 0		/* PWM0ä¸€ç›´è¾“å‡º1		*/
 
-#define		PWM1_NORMAL()	PCA_PWM1 &= ~2					/* PWM1Õý³£Êä³ö(Ä¬ÈÏ)	*/
-#define		PWM1_OUT_0()	PCA_PWM1 |=  2, CCAP1H = 0xff	/* PWM1Ò»Ö±Êä³ö0		*/
-#define		PWM1_OUT_1()	PCA_PWM1 &= ~2, CCAP1H = 0		/* PWM1Ò»Ö±Êä³ö1		*/
+#define		PWM1_NORMAL()	PCA_PWM1 &= ~2					/* PWM1æ­£å¸¸è¾“å‡º(é»˜è®¤)	*/
+#define		PWM1_OUT_0()	PCA_PWM1 |=  2, CCAP1H = 0xff	/* PWM1ä¸€ç›´è¾“å‡º0		*/
+#define		PWM1_OUT_1()	PCA_PWM1 &= ~2, CCAP1H = 0		/* PWM1ä¸€ç›´è¾“å‡º1		*/
 
-#define		PWM2_NORMAL()	PCA_PWM2 &= ~2					/* PWM2Õý³£Êä³ö(Ä¬ÈÏ)	*/
-#define		PWM2_OUT_0()	PCA_PWM2 |=  2, CCAP2H = 0xff	/* PWM2Ò»Ö±Êä³ö0		*/
-#define		PWM2_OUT_1()	PCA_PWM2 &= ~2, CCAP2H = 0		/* PWM2Ò»Ö±Êä³ö1		*/
+#define		PWM2_NORMAL()	PCA_PWM2 &= ~2					/* PWM2æ­£å¸¸è¾“å‡º(é»˜è®¤)	*/
+#define		PWM2_OUT_0()	PCA_PWM2 |=  2, CCAP2H = 0xff	/* PWM2ä¸€ç›´è¾“å‡º0		*/
+#define		PWM2_OUT_1()	PCA_PWM2 &= ~2, CCAP2H = 0		/* PWM2ä¸€ç›´è¾“å‡º1		*/
 
-#define		PWM3_NORMAL()	PCA_PWM3 &= ~2					/* PWM3Õý³£Êä³ö(Ä¬ÈÏ)	*/
-#define		PWM3_OUT_0()	PCA_PWM3 |=  2, CCAP3H = 0xff	/* PWM3Ò»Ö±Êä³ö0		*/
-#define		PWM3_OUT_1()	PCA_PWM3 &= ~2, CCAP3H = 0		/* PWM3Ò»Ö±Êä³ö1		*/
+#define		PWM3_NORMAL()	PCA_PWM3 &= ~2					/* PWM3æ­£å¸¸è¾“å‡º(é»˜è®¤)	*/
+#define		PWM3_OUT_0()	PCA_PWM3 |=  2, CCAP3H = 0xff	/* PWM3ä¸€ç›´è¾“å‡º0		*/
+#define		PWM3_OUT_1()	PCA_PWM3 &= ~2, CCAP3H = 0		/* PWM3ä¸€ç›´è¾“å‡º1		*/
 
 
 //						7     6     5     4     3     2     1     0     Reset Value
-//sfr CCON   = 0xD8;	CF    CR    -     -    CCF3  CCF2  CCF1  CCF0   00xx,xx00	//PCA ¿ØÖÆ¼Ä´æÆ÷¡£
-sbit CCF0  = CCON^0;	/* PCA Ä£¿é0ÖÐ¶Ï±êÖ¾£¬ÓÉÓ²¼þÖÃÎ»£¬±ØÐëÓÉÈí¼þÇå0¡£	*/
-sbit CCF1  = CCON^1;	/* PCA Ä£¿é1ÖÐ¶Ï±êÖ¾£¬ÓÉÓ²¼þÖÃÎ»£¬±ØÐëÓÉÈí¼þÇå0¡£	*/
-sbit CCF2  = CCON^2;	/* PCA Ä£¿é2ÖÐ¶Ï±êÖ¾£¬ÓÉÓ²¼þÖÃÎ»£¬±ØÐëÓÉÈí¼þÇå0¡£	*/
-sbit CCF3  = CCON^3;	/* PCA Ä£¿é3ÖÐ¶Ï±êÖ¾£¬ÓÉÓ²¼þÖÃÎ»£¬±ØÐëÓÉÈí¼þÇå0¡£	*/
-sbit CR    = CCON^6;	/* 1: ÔÊÐíPCA¼ÆÊýÆ÷¼ÆÊý£¬±ØÐëÓÉÈí¼þÇå0¡£*/
-sbit CF    = CCON^7;	/* PCA¼ÆÊýÆ÷Òç³ö£¨CH£¬CLÓÉFFFFH±äÎª0000H£©±êÖ¾¡£PCA¼ÆÊýÆ÷Òç³öºóÓÉÓ²¼þÖÃÎ»£¬±ØÐëÓÉÈí¼þÇå0¡£*/
+//sfr CCON   = 0xD8;	CF    CR    -     -    CCF3  CCF2  CCF1  CCF0   00xx,xx00	//PCA æŽ§åˆ¶å¯„å­˜å™¨ã€‚
+sbit CCF0  = CCON^0;	/* PCA æ¨¡å—0ä¸­æ–­æ ‡å¿—ï¼Œç”±ç¡¬ä»¶ç½®ä½ï¼Œå¿…é¡»ç”±è½¯ä»¶æ¸…0ã€‚	*/
+sbit CCF1  = CCON^1;	/* PCA æ¨¡å—1ä¸­æ–­æ ‡å¿—ï¼Œç”±ç¡¬ä»¶ç½®ä½ï¼Œå¿…é¡»ç”±è½¯ä»¶æ¸…0ã€‚	*/
+sbit CCF2  = CCON^2;	/* PCA æ¨¡å—2ä¸­æ–­æ ‡å¿—ï¼Œç”±ç¡¬ä»¶ç½®ä½ï¼Œå¿…é¡»ç”±è½¯ä»¶æ¸…0ã€‚	*/
+sbit CCF3  = CCON^3;	/* PCA æ¨¡å—3ä¸­æ–­æ ‡å¿—ï¼Œç”±ç¡¬ä»¶ç½®ä½ï¼Œå¿…é¡»ç”±è½¯ä»¶æ¸…0ã€‚	*/
+sbit CR    = CCON^6;	/* 1: å…è®¸PCAè®¡æ•°å™¨è®¡æ•°ï¼Œå¿…é¡»ç”±è½¯ä»¶æ¸…0ã€‚*/
+sbit CF    = CCON^7;	/* PCAè®¡æ•°å™¨æº¢å‡ºï¼ˆCHï¼ŒCLç”±FFFFHå˜ä¸º0000Hï¼‰æ ‡å¿—ã€‚PCAè®¡æ•°å™¨æº¢å‡ºåŽç”±ç¡¬ä»¶ç½®ä½ï¼Œå¿…é¡»ç”±è½¯ä»¶æ¸…0ã€‚*/
 
 //					 7     6     5     4     3     2     1     0    Reset Value
-//sfr CMOD  = 0xD9;	CIDL   -     -     -   CPS2   CPS1  CPS0  ECF   0xxx,0000	//PCA ¹¤×÷Ä£Ê½¼Ä´æÆ÷¡£
-#define PCA_IDLE_OFF()		CMOD |=  (1<<7)				/* IDLE×´Ì¬PCAÍ£Ö¹¼ÆÊý¡£	*/
-#define PCA_IDLE_ON()		CMOD &= ~(1<<7)				/* IDLE×´Ì¬PCA¼ÌÐø¼ÆÊý¡£	*/
-#define PCA_CLK_12T()		CMOD &= ~0x0E				/* PCA¼ÆÊýÂö³åÑ¡Ôñ fosc/12	*/
-#define PCA_CLK_2T()		CMOD = (CMOD & ~0x0E) + 2	/* PCA¼ÆÊýÂö³åÑ¡Ôñ fosc/2	*/
-#define PCA_CLK_T0()		CMOD = (CMOD & ~0x0E) + 4	/* PCA¼ÆÊýÂö³åÑ¡ÔñTimer0ÖÐ¶Ï£¬Timer0¿ÉÍ¨¹ýAUXR¼Ä´æÆ÷ÉèÖÃ³É¹¤×÷ÔÚ12T»ò1TÄ£Ê½¡£	*/
-#define PCA_CLK_ECI()		CMOD = (CMOD & ~0x0E) + 6	/* PCA¼ÆÊýÂö³åÑ¡Ôñ´ÓECI/P3.4½ÅÊäÈëµÄÍâ²¿Ê±ÖÓ£¬×î´ó fosc/2¡£	*/
-#define PCA_CLK_1T()		CMOD = (CMOD & ~0x0E) + 8	/* PCA¼ÆÊýÂö³åÑ¡Ôñ Fosc	*/
-#define PCA_CLK_4T()		CMOD = (CMOD & ~0x0E) + 10	/* PCA¼ÆÊýÂö³åÑ¡Ôñ Fosc/4	*/
-#define PCA_CLK_6T()		CMOD = (CMOD & ~0x0E) + 12	/* PCA¼ÆÊýÂö³åÑ¡Ôñ Fosc/6	*/
-#define PCA_CLK_8T()		CMOD = (CMOD & ~0x0E) + 14	/* PCA¼ÆÊýÂö³åÑ¡Ôñ Fosc/8	*/
-#define PCA_INT_ENABLE()	CMOD |=  1					/* PCA¼ÆÊýÆ÷Òç³öÖÐ¶ÏÔÊÐíÎ»£¬1---ÔÊÐíCF£¨CCON.7£©²úÉúÖÐ¶Ï¡£	*/
-#define PCA_INT_DISABLE()	CMOD &= ~1					/* PCA¼ÆÊýÆ÷Òç³öÖÐ¶Ï½ûÖ¹¡£	*/
+//sfr CMOD  = 0xD9;	CIDL   -     -     -   CPS2   CPS1  CPS0  ECF   0xxx,0000	//PCA å·¥ä½œæ¨¡å¼å¯„å­˜å™¨ã€‚
+#define PCA_IDLE_OFF()		CMOD |=  (1<<7)				/* IDLEçŠ¶æ€PCAåœæ­¢è®¡æ•°ã€‚	*/
+#define PCA_IDLE_ON()		CMOD &= ~(1<<7)				/* IDLEçŠ¶æ€PCAç»§ç»­è®¡æ•°ã€‚	*/
+#define PCA_CLK_12T()		CMOD &= ~0x0E				/* PCAè®¡æ•°è„‰å†²é€‰æ‹© fosc/12	*/
+#define PCA_CLK_2T()		CMOD = (CMOD & ~0x0E) + 2	/* PCAè®¡æ•°è„‰å†²é€‰æ‹© fosc/2	*/
+#define PCA_CLK_T0()		CMOD = (CMOD & ~0x0E) + 4	/* PCAè®¡æ•°è„‰å†²é€‰æ‹©Timer0ä¸­æ–­ï¼ŒTimer0å¯é€šè¿‡AUXRå¯„å­˜å™¨è®¾ç½®æˆå·¥ä½œåœ¨12Tæˆ–1Tæ¨¡å¼ã€‚	*/
+#define PCA_CLK_ECI()		CMOD = (CMOD & ~0x0E) + 6	/* PCAè®¡æ•°è„‰å†²é€‰æ‹©ä»ŽECI/P3.4è„šè¾“å…¥çš„å¤–éƒ¨æ—¶é’Ÿï¼Œæœ€å¤§ fosc/2ã€‚	*/
+#define PCA_CLK_1T()		CMOD = (CMOD & ~0x0E) + 8	/* PCAè®¡æ•°è„‰å†²é€‰æ‹© Fosc	*/
+#define PCA_CLK_4T()		CMOD = (CMOD & ~0x0E) + 10	/* PCAè®¡æ•°è„‰å†²é€‰æ‹© Fosc/4	*/
+#define PCA_CLK_6T()		CMOD = (CMOD & ~0x0E) + 12	/* PCAè®¡æ•°è„‰å†²é€‰æ‹© Fosc/6	*/
+#define PCA_CLK_8T()		CMOD = (CMOD & ~0x0E) + 14	/* PCAè®¡æ•°è„‰å†²é€‰æ‹© Fosc/8	*/
+#define PCA_INT_ENABLE()	CMOD |=  1					/* PCAè®¡æ•°å™¨æº¢å‡ºä¸­æ–­å…è®¸ä½ï¼Œ1---å…è®¸CFï¼ˆCCON.7ï¼‰äº§ç”Ÿä¸­æ–­ã€‚	*/
+#define PCA_INT_DISABLE()	CMOD &= ~1					/* PCAè®¡æ•°å™¨æº¢å‡ºä¸­æ–­ç¦æ­¢ã€‚	*/
 
 //					    7      6       5        4       3       2       1      0    Reset Value
 //sfr AUXR1 = 0xA2;	  S1_S1  S1_S0  CCP_S1   CCP_S0  SPI_S1   SPI_S0    -     DPS   0100,0000	//Auxiliary Register 1
 
-#define		PCA_USE_P12P17P16P15P14()	AUXR1 &= ~0x30					/* ½«PCA/PWMÇÐ»»µ½P12(ECI) P17(CCP0) P16(CCP1) P15(CCP2) P14(CCP3)(ÉÏµçÄ¬ÈÏ) */
-#define		PCA_USE_P22P23P24P25P26()	AUXR1 = (AUXR1 & ~0x30) | 0x10	/* ½«PCA/PWMÇÐ»»µ½P22(ECI) P23(CCP0) P24(CCP1) P25(CCP2) P26(CCP3) */
-#define		PCA_USE_P74P70P71P72P73()	AUXR1 = (AUXR1 & ~0x30) | 0x20	/* ½«PCA/PWMÇÐ»»µ½P74(ECI) P70(CCP0) P71(CCP1) P72(CCP2) P73(CCP3) */
-#define		PCA_USE_P35P33P32P31P30()	AUXR1 = (AUXR1 & ~0x30) | 0x30	/* ½«PCA/PWMÇÐ»»µ½P35(ECI) P33(CCP0) P32(CCP1) P31(CCP2) P30(CCP3) */
+#define		PCA_USE_P12P17P16P15P14()	AUXR1 &= ~0x30					/* å°†PCA/PWMåˆ‡æ¢åˆ°P12(ECI) P17(CCP0) P16(CCP1) P15(CCP2) P14(CCP3)(ä¸Šç”µé»˜è®¤) */
+#define		PCA_USE_P22P23P24P25P26()	AUXR1 = (AUXR1 & ~0x30) | 0x10	/* å°†PCA/PWMåˆ‡æ¢åˆ°P22(ECI) P23(CCP0) P24(CCP1) P25(CCP2) P26(CCP3) */
+#define		PCA_USE_P74P70P71P72P73()	AUXR1 = (AUXR1 & ~0x30) | 0x20	/* å°†PCA/PWMåˆ‡æ¢åˆ°P74(ECI) P70(CCP0) P71(CCP1) P72(CCP2) P73(CCP3) */
+#define		PCA_USE_P35P33P32P31P30()	AUXR1 = (AUXR1 & ~0x30) | 0x30	/* å°†PCA/PWMåˆ‡æ¢åˆ°P35(ECI) P33(CCP0) P32(CCP1) P31(CCP2) P30(CCP3) */
 
-#define		DPS_SEL1()		AUXR1 |=  1		/* 1£ºÑ¡ÔñDPTR1¡£	*/
-#define		DPS_SEL0()		AUXR1 &= ~1		/* 0£ºÑ¡ÔñDPTR0(ÉÏµçÄ¬ÈÏ)¡£	*/
+#define		DPS_SEL1()		AUXR1 |=  1		/* 1ï¼šé€‰æ‹©DPTR1ã€‚	*/
+#define		DPS_SEL0()		AUXR1 &= ~1		/* 0ï¼šé€‰æ‹©DPTR0(ä¸Šç”µé»˜è®¤)ã€‚	*/
 
 
 /*									7     6       5       4     3     2     1     0     Reset Value
-//sfr CCAPM0 = 0xDA;	PWM ¼Ä´æÆ÷  -   ECOM0  CCAPP0  CCAPN0  MAT0  TOG0  PWM0  ECCF0   x000,0000	//PCA Ä£¿é0
-//sfr CCAPM1 = 0xDB;	PWM ¼Ä´æÆ÷  -   ECOM1  CCAPP1  CCAPN1  MAT1  TOG1  PWM1  ECCF1   x000,0000	//PCA Ä£¿é1
-//sfr CCAPM2 = 0xDC;	PWM ¼Ä´æÆ÷  -   ECOM2  CCAPP2  CCAPN2  MAT2  TOG2  PWM2  ECCF2   x000,0000	//PCA Ä£¿é2
-//sfr CCAPM3 = 0xDD;	PWM ¼Ä´æÆ÷  -   ECOM3  CCAPP3  CCAPN3  MAT3  TOG3  PWM3  ECCF3   x000,0000	//PCA Ä£¿é3
-;ECOMn = 1:	ÔÊÐí±È½Ï¹¦ÄÜ¡£
-;CAPPn = 1:	ÔÊÐíÉÏÉýÑØ´¥·¢²¶×½¹¦ÄÜ¡£
-;CAPNn = 1:	ÔÊÐíÏÂ½µÑØ´¥·¢²¶×½¹¦ÄÜ¡£
-;MATn  = 1:	µ±Æ¥ÅäÇé¿ö·¢ÉúÊ±£¬ÔÊÐíCCONÖÐµÄCCFnÖÃÎ»¡£
-;TOGn  = 1:	µ±Æ¥ÅäÇé¿ö·¢ÉúÊ±£¬CEXn½«·­×ª¡£(CEX0/PCA0/PWM0/P3.7,CEX1/PCA1/PWM1/P3.5)
-;PWMn  = 1:	½«CEXnÉèÖÃÎªPWMÊä³ö¡£
-;ECCFn = 1:	ÔÊÐíCCONÖÐµÄCCFn´¥·¢ÖÐ¶Ï¡£
+//sfr CCAPM0 = 0xDA;	PWM å¯„å­˜å™¨  -   ECOM0  CCAPP0  CCAPN0  MAT0  TOG0  PWM0  ECCF0   x000,0000	//PCA æ¨¡å—0
+//sfr CCAPM1 = 0xDB;	PWM å¯„å­˜å™¨  -   ECOM1  CCAPP1  CCAPN1  MAT1  TOG1  PWM1  ECCF1   x000,0000	//PCA æ¨¡å—1
+//sfr CCAPM2 = 0xDC;	PWM å¯„å­˜å™¨  -   ECOM2  CCAPP2  CCAPN2  MAT2  TOG2  PWM2  ECCF2   x000,0000	//PCA æ¨¡å—2
+//sfr CCAPM3 = 0xDD;	PWM å¯„å­˜å™¨  -   ECOM3  CCAPP3  CCAPN3  MAT3  TOG3  PWM3  ECCF3   x000,0000	//PCA æ¨¡å—3
+;ECOMn = 1:	å…è®¸æ¯”è¾ƒåŠŸèƒ½ã€‚
+;CAPPn = 1:	å…è®¸ä¸Šå‡æ²¿è§¦å‘æ•æ‰åŠŸèƒ½ã€‚
+;CAPNn = 1:	å…è®¸ä¸‹é™æ²¿è§¦å‘æ•æ‰åŠŸèƒ½ã€‚
+;MATn  = 1:	å½“åŒ¹é…æƒ…å†µå‘ç”Ÿæ—¶ï¼Œå…è®¸CCONä¸­çš„CCFnç½®ä½ã€‚
+;TOGn  = 1:	å½“åŒ¹é…æƒ…å†µå‘ç”Ÿæ—¶ï¼ŒCEXnå°†ç¿»è½¬ã€‚(CEX0/PCA0/PWM0/P3.7,CEX1/PCA1/PWM1/P3.5)
+;PWMn  = 1:	å°†CEXnè®¾ç½®ä¸ºPWMè¾“å‡ºã€‚
+;ECCFn = 1:	å…è®¸CCONä¸­çš„CCFnè§¦å‘ä¸­æ–­ã€‚
 ;ECOMn CAPPn CAPNn MATn TOGn PWMn ECCFn
-;  0     0     0    0    0    0     0		00H	Î´ÆôÓÃÈÎºÎ¹¦ÄÜ¡£
-;  x     1     0    0    0    0     x	 	20H	16Î»CEXnÉÏÉýÑØ´¥·¢²¶×½¹¦ÄÜ¡£
-;  x     0     1    0    0    0     x	 	10H	16Î»CEXnÏÂ½µÑØ´¥·¢²¶×½¹¦ÄÜ¡£
-;  x     1     1    0    0    0     x	 	30H	16Î»CEXn/PCAn±ßÑØ£¨ÉÏ¡¢ÏÂÑØ£©´¥·¢²¶×½¹¦ÄÜ¡£
-;  1     0     0    1    0    0     x	 	48H	16Î»Èí¼þ¶¨Ê±Æ÷¡£
-;  1     0     0    1    1    0     x	 	4CH	16Î»¸ßËÙÂö³åÊä³ö¡£
-;  1     0     0    0    0    1     0		42H	8Î»PWM¡£ÎÞÖÐ¶Ï
-;  1     1     0    0    0    1     1		63H	8Î»PWM¡£µÍ±ä¸ß¿É²úÉúÖÐ¶Ï
-;  1     0     1    0    0    1     1		53H	8Î»PWM¡£¸ß±äµÍ¿É²úÉúÖÐ¶Ï
-;  1     1     1    0    0    1     1		73H	8Î»PWM¡£µÍ±ä¸ß»ò¸ß±äµÍ¾ù¿É²úÉúÖÐ¶Ï
+;  0     0     0    0    0    0     0		00H	æœªå¯ç”¨ä»»ä½•åŠŸèƒ½ã€‚
+;  x     1     0    0    0    0     x	 	20H	16ä½CEXnä¸Šå‡æ²¿è§¦å‘æ•æ‰åŠŸèƒ½ã€‚
+;  x     0     1    0    0    0     x	 	10H	16ä½CEXnä¸‹é™æ²¿è§¦å‘æ•æ‰åŠŸèƒ½ã€‚
+;  x     1     1    0    0    0     x	 	30H	16ä½CEXn/PCAnè¾¹æ²¿ï¼ˆä¸Šã€ä¸‹æ²¿ï¼‰è§¦å‘æ•æ‰åŠŸèƒ½ã€‚
+;  1     0     0    1    0    0     x	 	48H	16ä½è½¯ä»¶å®šæ—¶å™¨ã€‚
+;  1     0     0    1    1    0     x	 	4CH	16ä½é«˜é€Ÿè„‰å†²è¾“å‡ºã€‚
+;  1     0     0    0    0    1     0		42H	8ä½PWMã€‚æ— ä¸­æ–­
+;  1     1     0    0    0    1     1		63H	8ä½PWMã€‚ä½Žå˜é«˜å¯äº§ç”Ÿä¸­æ–­
+;  1     0     1    0    0    1     1		53H	8ä½PWMã€‚é«˜å˜ä½Žå¯äº§ç”Ÿä¸­æ–­
+;  1     1     1    0    0    1     1		73H	8ä½PWMã€‚ä½Žå˜é«˜æˆ–é«˜å˜ä½Žå‡å¯äº§ç”Ÿä¸­æ–­
 ;*******************************************************************
 ;*******************************************************************/
 #define		PCA0_none()				CCAPM0 = 0
@@ -1237,28 +1237,28 @@ typedef 	unsigned long	u32;
 /****************************************************************/
 
 
-//sfr INT_CLKO = 0x8F;	//¸½¼ÓµÄ SFR WAKE_CLKO (µØÖ·£º0x8F)
+//sfr INT_CLKO = 0x8F;	//é™„åŠ çš„ SFR WAKE_CLKO (åœ°å€ï¼š0x8F)
 /*
     7   6    5    4   3     2        1       0         Reset Value
     -  EX4  EX3  EX2  -   T2CLKO   T1CLKO  T0CLKO      0000,0000B
-b6 -  EX4      : ÍâÖÐ¶ÏINT4ÔÊÐí
-b5 -  EX3      : ÍâÖÐ¶ÏINT3ÔÊÐí
-b4 -  EX2      : ÍâÖÐ¶ÏINT2ÔÊÐí
-b2 - T1CLKO    : ÔÊÐí T2 Òç³öÂö³åÔÚP3.0½ÅÊä³ö£¬Fck1 = 1/2 T1 Òç³öÂÊ
-b1 - T1CLKO    : ÔÊÐí T1 Òç³öÂö³åÔÚP3.4½ÅÊä³ö£¬Fck1 = 1/2 T1 Òç³öÂÊ
-b0 - T0CLKO    : ÔÊÐí T0 Òç³öÂö³åÔÚP3.5½ÅÊä³ö£¬Fck0 = 1/2 T0 Òç³öÂÊ
+b6 -  EX4      : å¤–ä¸­æ–­INT4å…è®¸
+b5 -  EX3      : å¤–ä¸­æ–­INT3å…è®¸
+b4 -  EX2      : å¤–ä¸­æ–­INT2å…è®¸
+b2 - T1CLKO    : å…è®¸ T2 æº¢å‡ºè„‰å†²åœ¨P3.0è„šè¾“å‡ºï¼ŒFck1 = 1/2 T1 æº¢å‡ºçŽ‡
+b1 - T1CLKO    : å…è®¸ T1 æº¢å‡ºè„‰å†²åœ¨P3.4è„šè¾“å‡ºï¼ŒFck1 = 1/2 T1 æº¢å‡ºçŽ‡
+b0 - T0CLKO    : å…è®¸ T0 æº¢å‡ºè„‰å†²åœ¨P3.5è„šè¾“å‡ºï¼ŒFck0 = 1/2 T0 æº¢å‡ºçŽ‡
 */
 
 #define		LVD_InterruptEnable()		ELVD = 1
 #define		LVD_InterruptDisable()		ELVD = 0
 
 
-//sfr WKTCL = 0xAA;	//STC11F\10ºÍSTC15ÏµÁÐ »½ÐÑ¶¨Ê±Æ÷µÍ×Ö½Ú
-//sfr WKTCH = 0xAB;	//STC11F\10ºÍSTC15ÏµÁÐ »½ÐÑ¶¨Ê±Æ÷¸ß×Ö½Ú
+//sfr WKTCL = 0xAA;	//STC11F\10å’ŒSTC15ç³»åˆ— å”¤é†’å®šæ—¶å™¨ä½Žå­—èŠ‚
+//sfr WKTCH = 0xAB;	//STC11F\10å’ŒSTC15ç³»åˆ— å”¤é†’å®šæ—¶å™¨é«˜å­—èŠ‚
 //	B7		B6	B5	B4	B3	B2	B1	B0		B7	B6	B5	B4	B3	B2	B1	B0
 //	WKTEN				S11	S10	S9	S8		S7	S6	S5	S4	S3	S2	S1	S0	n * 560us
-#define		WakeTimerDisable()		WKTCH &= 0x7f	/* WKTEN = 0		½ûÖ¹Ë¯Ãß»½ÐÑ¶¨Ê±Æ÷ */
-#define		WakeTimerSet(scale)		WKTCL = (scale) % 256,WKTCH = (scale) / 256 | 0x80	/* WKTEN = 1	ÔÊÐíË¯Ãß»½ÐÑ¶¨Ê±Æ÷ */
+#define		WakeTimerDisable()		WKTCH &= 0x7f	/* WKTEN = 0		ç¦æ­¢ç¡çœ å”¤é†’å®šæ—¶å™¨ */
+#define		WakeTimerSet(scale)		WKTCL = (scale) % 256,WKTCH = (scale) / 256 | 0x80	/* WKTEN = 1	å…è®¸ç¡çœ å”¤é†’å®šæ—¶å™¨ */
 
 
 
@@ -1300,8 +1300,8 @@ b0 - T0CLKO    : ÔÊÐí T0 Òç³öÂö³åÔÚP3.5½ÅÊä³ö£¬Fck0 = 1/2 T0 Òç³öÂÊ
 
 //========================================
 
-#define	PolityLow			0	//µÍÓÅÏÈ¼¶ÖÐ¶Ï
-#define	PolityHigh			1	//¸ßÓÅÏÈ¼¶ÖÐ¶Ï
+#define	PolityLow			0	//ä½Žä¼˜å…ˆçº§ä¸­æ–­
+#define	PolityHigh			1	//é«˜ä¼˜å…ˆçº§ä¸­æ–­
 
 //========================================
 
