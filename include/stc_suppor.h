@@ -20,7 +20,7 @@ extern void IspWrite(unsigned char v,unsigned short addr);
 extern void IspWrites(char* buf,unsigned short len,unsigned short addr);
 extern void IspErase(unsigned short addr);
 ///GPIO
-extern void SetGPIO(unsigned char mio,ModeOP* mode);
+//extern void SetGPIO(unsigned char mio,ModeOP* mode);
 
 
 #ifdef STC8
