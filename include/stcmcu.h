@@ -9,12 +9,11 @@
  * 位操作
 */
 ///位操作
-#define BIT(_Sv)	(1ul << _Sv)
+#define BIT(_Sv)	(1ul << _Sv)							// 设置位
 
-
-#define CheckBIT(_addr,_bit) ((_addr & BIT(_bit))?1:0) 		// 检查位
-#define ClearBIT(_addr,_bit) (_addr &=~ BIT(_bit))			// 清除位
-#define SetBIT(_addr,_bit) (_addr |= BIT(_bit))				// 设置位
+#define CheckBIT(_v,_bit) ((_v & BIT(_bit))?1:0) 			// 检查位
+#define ClearBIT(_v,_bit) (_v &=~ BIT(_bit))				// 清除位
+#define SetBIT(_v,_bit) (_v |= BIT(_bit))					// 设置位
 #define PtrAddr(_v) 	((size_t)((void*)(_v)))				// 获取内存地址
 
 /**
