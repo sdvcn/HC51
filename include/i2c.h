@@ -154,12 +154,12 @@ void CreateIICM4Sfr(sI2c *mio);
 void IIC_sfr_Config(unsigned char op,unsigned char saddr);
 void IIC_sfr_Command(unsigned char cmd);
 unsigned char IIC_sfr_Read();
-unsigned char IIC_sfr_Reads(char * dst,unsigned char len);
-unsigned char IIC_sfr_ExReads(char * dst,unsigned char len);
+unsigned IIC_sfr_Reads(char * dst,unsigned len);
+unsigned IIC_sfr_ExReads(char * dst,unsigned len);
 void IIC_sfr_Write(unsigned char c);
-unsigned char IIC_sfr_Writes(const char* src,unsigned char len);
-unsigned char IIC_sfr_ExWrites(const char* src,unsigned char len);
-unsigned char IIC_sfr_ExAuxWrites(const char* src,unsigned char len);
+unsigned IIC_sfr_Writes(const char* src,unsigned len);
+unsigned IIC_sfr_ExWrites(const char* src,unsigned len);
+unsigned IIC_sfr_ExAuxWrites(const char* src,unsigned len);
 void IIC_sfr_Start(unsigned char addr);
 void IIC_sfr_ExStart(unsigned char addr);
 //-----------------------------------------------------------------------------
@@ -170,8 +170,8 @@ void IIC_sfr_ExStart(unsigned char addr);
 /**
  * 通用方法
 */
-unsigned char IIC_ReadMem(sI2c* h,unsigned char reg,char *dst,unsigned char len);
-unsigned char IIC_WriteMem(sI2c* h,unsigned char reg,const char *src,unsigned char len);
+unsigned IIC_ReadMem(sI2c* h,unsigned char reg,char *dst,unsigned len);
+unsigned IIC_WriteMem(sI2c* h,unsigned char reg,const char *src,unsigned len);
 
 unsigned char IIC_ReadMem8(sI2c* h,unsigned char reg);
 void IIC_WriteMem8(sI2c* h,unsigned char reg,unsigned char v);

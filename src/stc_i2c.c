@@ -155,12 +155,13 @@ unsigned char IIC_sfr_Read()
 /**
  * 读字符串
 */
-unsigned char IIC_sfr_Reads(char * dst,unsigned char len)
+unsigned IIC_sfr_Reads(char * dst,unsigned len)
 {
-    unsigned char r = len;
+    unsigned r = len;
     if(!(ExtSfrGet8(&I2CCFG) & IIC_ENI2C)) return 0;
 
-    while(!IIC_sfr_AckI()&&len--){
+    while(!IIC_sfr_AckI()&&len){
+        len--;
         *dst++ = IIC_sfr_Read();
         if(len == 0x00) {
             unsigned char to = (ExtSfrGet8(&I2CMSST) & 0xfe) | 0x01 ; 
@@ -174,12 +175,13 @@ unsigned char IIC_sfr_Reads(char * dst,unsigned char len)
 /**
  * 扩展方式读字符串
 */
-unsigned char IIC_sfr_ExReads(char * dst,unsigned char len)
+unsigned IIC_sfr_ExReads(char * dst,unsigned len)
 {
-    unsigned char r = len;
+    unsigned r = len;
     if(!(ExtSfrGet8(&I2CCFG) & IIC_ENI2C)) return 0;
 
-    while(!IIC_sfr_AckI()&&len--){
+    while(!IIC_sfr_AckI()&&len){
+        len--;
         (len)?IIC_sfr_Command(Ext_MSCMD_READACK):IIC_sfr_Command(Ext_MSCMD_READNACK);
         *dst++ = ExtSfrGet8(&I2CRxD);
     }
@@ -200,13 +202,14 @@ void IIC_sfr_Write(unsigned char c)
 /**
  * 写字符串
 */
-unsigned char IIC_sfr_Writes(const char* src,unsigned char len)
+unsigned IIC_sfr_Writes(const char* src,unsigned len)
 {
-    unsigned char r = len;
+    unsigned r = len;
     //if(!(ExtSfrGet8(&I2CCFG) & IIC_ENI2C)) return 0;
     DLOGINT(IIC_sfr_Writes,len);
 
-    while(!IIC_sfr_AckI()&&len--){
+    while(!IIC_sfr_AckI()&&len){
+        len--;
         IIC_sfr_Write(*src++);
     }
     return (r - len);
@@ -215,13 +218,14 @@ unsigned char IIC_sfr_Writes(const char* src,unsigned char len)
 /**
  * 扩展指令完成写
 */
-unsigned char IIC_sfr_ExWrites(const char* src,unsigned char len)
+unsigned IIC_sfr_ExWrites(const char* src,unsigned len)
 {
-    unsigned char r = len;
+    unsigned r = len;
     //if(!(ExtSfrGet8(&I2CCFG) & IIC_ENI2C)) return 0;
     DLOGINT(IIC_sfr_ExWrites,len);
 
-    while(!IIC_sfr_AckI()&&len--){
+    while(!IIC_sfr_AckI()&&len){
+        len--;
         ExtSfrSet8(&I2CTxD,*src++);
         IIC_sfr_Command(Ext_MSCMD_WRITE);
     }
@@ -231,14 +235,15 @@ unsigned char IIC_sfr_ExWrites(const char* src,unsigned char len)
 /**
  * 扩展:自动完成写入
 */
-unsigned char IIC_sfr_ExAuxWrites(const char* src,unsigned char len)
+unsigned IIC_sfr_ExAuxWrites(const char* src,unsigned len)
 {
-    unsigned char r = len;
+    unsigned r = len;
     if(!(ExtSfrGet8(&I2CCFG) & IIC_ENI2C)) return 0;
     
     ExtSfrSet8(&I2CMSAUX,0x01);                     // 扩展使能
 
-    while(!IIC_sfr_AckI()&&len--){
+    while(!IIC_sfr_AckI()&&len){
+        len--;
         ExtSfrSet8(&I2CTxD,*src++);
         IIC_sfr_Wait();                            // 无指令形式,需手动等待
     }
@@ -263,7 +268,7 @@ void IIC_sfr_ExStart(unsigned char addr)
 /**
  * 寄存器方式实现
 */
-unsigned char _IIC_sfr_Writes(sI2c* h,const char* src,unsigned char len)
+unsigned _IIC_sfr_Writes(sI2c* h,const char* src,unsigned len)
 {
     if(h->mFlag & SI2c_Flag_Ext){
         return IIC_sfr_ExWrites(src,len);
@@ -274,7 +279,7 @@ unsigned char _IIC_sfr_Writes(sI2c* h,const char* src,unsigned char len)
     
 }
 
-unsigned char _IIC_sfr_Reads(sI2c* h,char* dst,unsigned char len)
+unsigned _IIC_sfr_Reads(sI2c* h,char* dst,unsigned len)
 {
     if(h->mFlag & SI2c_Flag_Ext){
         return IIC_sfr_ExReads(dst,len);
@@ -380,9 +385,9 @@ void IIC_WriteMem8(sI2c* h,unsigned char reg,unsigned char v)
 /**
  * 连续写寄存器
 */
-unsigned char IIC_WriteMem(sI2c* h,unsigned char reg,const char *src,unsigned char len)
+unsigned IIC_WriteMem(sI2c* h,unsigned char reg,const char *src,unsigned len)
 {
-    unsigned char r = 0x00;
+    unsigned r = 0x00;
     //wbuf[0] = reg;
     //wbuf[1] = 
     h->pEnable(h);
@@ -396,9 +401,9 @@ unsigned char IIC_WriteMem(sI2c* h,unsigned char reg,const char *src,unsigned ch
 /**
  * 连续读取寄存器
 */
-unsigned char IIC_ReadMem(sI2c* h,unsigned char reg,char *dst,unsigned char len)
+unsigned IIC_ReadMem(sI2c* h,unsigned char reg,char *dst,unsigned len)
 {
-    unsigned char r = 0x00;
+    unsigned r = 0x00;
     h->pEnable(h);
     h->pStart(h,0x00);
     h->mIOs.pWrites(h,&reg,1);
