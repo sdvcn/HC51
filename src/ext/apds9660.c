@@ -92,6 +92,68 @@
 // 通用
 
 /**
+ * 数据结构
+*/
+typedef struct _R9960Data
+{
+    unsigned char mDeviceID;
+    unsigned char mStatus;
+    union 
+    {
+        struct 
+        {
+            unsigned char mClearL;
+            unsigned char mClearH;
+        };
+        unsigned short mClear;
+    };
+    union 
+    {
+        struct 
+        {
+            unsigned char mRedL;
+            unsigned char mRedH;
+        };
+        unsigned short mRed;
+    };
+    union 
+    {
+        struct 
+        {
+            unsigned char mGreenL;
+            unsigned char mGreenH;
+        };
+        unsigned short mGreen;
+    };
+    union 
+    {
+        struct 
+        {
+            unsigned char mBlueL;
+            unsigned char mBlueH;
+        };
+        unsigned short mBlue;
+    };
+    unsigned char mProximity;
+    //unsigned short 
+}R9960Data;
+
+typedef struct _R9960FIFO
+{
+    unsigned char   mUp;
+    unsigned char   mDown;
+    unsigned char   mLeft;
+    unsigned char   mRight;
+}R9960FIFO;
+
+
+void ApdsGetFifo(sI2c* h)
+{
+    unsigned fifolen = APDS9960_GetGFLVL(h);
+
+}
+
+/**
  * 验证器件
 */
 unsigned char ApdsCheckID(sI2c* h)
@@ -106,8 +168,8 @@ unsigned char ApdsCheckID(sI2c* h)
 
 unsigned char Apds9960_Init(sI2c* h)
 {
-    APDS9960_SetENABLE(h,0x00);                   //关闭所有
-    APDS9960_SetATIME(h,DEFAULT_ATIME);
+
+    //APDS9960_SetATIME(h,DEFAULT_ATIME);
     
 
 }
@@ -126,7 +188,7 @@ unsigned char Apds9960_Init(sI2c* h)
 */
 void Apds_irs()
 {
-    
+    //if(APDS9960_GetPINT())
 }
 
 //-----------------------------------------------------------------------------
