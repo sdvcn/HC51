@@ -21,8 +21,7 @@
 /**
  * 9960基础定义
 */
-/* APDS-9960 register addresses */
-#define APDS9960_ENABLE         0x80
+#define APDS9960_ENABLE         0x80                    // 使能控制寄存器
 #define BIT_PON            (1ul << 0)                   // 主电源
 #define BIT_AEN            (1ul << 1)                   // 环境光线
 #define BIT_PEN            (1ul << 2)                   // 接近判定
@@ -32,6 +31,13 @@
 #define BIT_GEN            (1ul << 6)                   // 手势
 /**
  * 通用供电使能
+ * 7: 保留,默认写0
+ * 6:
+ * 5:
+ * 4:
+ * 3:
+ * 2:ALS使能
+ * 1:Adc/内部始终使能
 */
 #define APDS9960_GetENABLE(_h)          IIC_ReadMem8(_h,APDS9960_ENABLE)        // 获取供电状态
 #define APDS9960_SetENABLE(_h,_v)       IIC_WriteMem8(_h,APDS9960_ENABLE,_v)    // 设定供电状态
@@ -43,16 +49,28 @@
 #define APDS9960_SetPEN(_h,_v)          IIC_WriteMem8(_h,APDS9960_ENABLE,(APDS9960_GetENABLE() & 0x7b) | (_v & 0x01) << 2 );    // 接近模式使能
 #define APDS9960_SetAEN(_h,_v)          IIC_WriteMem8(_h,APDS9960_ENABLE,(APDS9960_GetENABLE() & 0x7d) | (_v & 0x01) << 1 );    // ALS 模式使能
 #define APDS9960_SetPON(_h,_v)          IIC_WriteMem8(_h,APDS9960_ENABLE,(APDS9960_GetENABLE() & 0x7e) | (_v & 0x01) << 0 );    // 主电源使能
-/// 环境光 adc 中断时间
-#define APDS9960_ATIME          0x81
+#define APDS9960_ATIME          0x81                                            // 环境光 adc 中断时间
+#define APDS9960_GetATIME(_h)           IIC_ReadMem8(_h,APDS9960_ATIME)
+#define APDS9960_SetATIME(_h,_v)        IIC_WriteMem8(_h,APDS9960_ATIME,_v)
 /// 延时
 #define APDS9960_WTIME          0x83
-/// 环境光阀值 L
-#define APDS9960_AILTL          0x84
-#define APDS9960_AILTH          0x85
-/// 环境光阀值 H
-#define APDS9960_AIHTL          0x86
-#define APDS9960_AIHTH          0x87
+
+#define APDS9960_AILTL          0x84    // 环境光低阀值 L
+#define APDS9960_AILTH          0x85    // 环境光低阀值 H
+#define APDS9960_SetAILTL(_h,_v)        IIC_WriteMem8(_h,APDS9960_AILTL,_v);    // 设定环境光低阀值 L
+#define APDS9960_SetAILTH(_h,_v)        IIC_WriteMem8(_h,APDS9960_AILTH,_v);    // 设定环境光低阀值 H
+#define APDS9960_SetAILT(_h,_v)         do{APDS9960_SetAILTL(_h,(_v & 0xff));APDS9960_SetAILTH(_h,(_v >> 8));}while(0)      // 设定环境光低阀值 
+#define APDS9960_GetAILTL(_h)           IIC_ReadMem8(_h,APDS9960_AILTL)         // 获取设定环境光低阀值 L
+#define APDS9960_GetAILTH(_h)           IIC_ReadMem8(_h,APDS9960_AILTH)         // 获取设定环境光低阀值 H
+#define APDS9960_GetAILT(_h)            ((APDS9960_GetAILTH(_h)<<8) | APDS9960_GetAILTL(_h))    // 获取设定环境光低阀值
+#define APDS9960_AIHTL          0x86        // 环境光高阀值 L
+#define APDS9960_AIHTH          0x87        // 环境光高阀值 H
+#define APDS9960_SetAIHTL(_h,_v)        IIC_WriteMem8(_h,APDS9960_AIHTL,_v);    // 设定环境光高阀值 L
+#define APDS9960_SetAIHTH(_h,_v)        IIC_WriteMem8(_h,APDS9960_AIHTH,_v);    // 设定环境光高阀值 H
+#define APDS9960_SetAIHT(_h,_v)         do{APDS9960_SetAIHTL(_h,(_v & 0xff));APDS9960_SetAIHTH(_h,(_v >> 8));}while(0)      // 设定环境光高阀值 
+#define APDS9960_GetAIHTL(_h)           IIC_ReadMem8(_h,APDS9960_AIHTL)         // 获取设定环境光高阀值 L
+#define APDS9960_GetAIHTH(_h)           IIC_ReadMem8(_h,APDS9960_AIHTH)         // 获取设定环境光高阀值 H
+#define APDS9960_GetAIHT(_h)            ((APDS9960_GetAIHTH(_h)<<8) | APDS9960_GetAIHTL(_h))    // 获取设定环境光高阀值
 /// 接近中断阀值
 #define APDS9960_PILT           0x89        // 接近中断阀值 低
 #define APDS9960_GetPILT(_h)            IIC_ReadMem8(_h,APDS9960_PILT)
@@ -61,16 +79,30 @@
 #define APDS9960_GetPIHT(_h)            IIC_ReadMem8(_h,APDS9960_PIHT)
 #define APDS9960_SetPIHT(_h,_v)         IIC_WriteMem8(_h,APDS9960_PIHT,_v)
 
-
 /// 循环测试设置 光线传感器&接近传感器
 #define APDS9960_PERS           0x8C                
+#define APDS9960_GetPERS(_h)      IIC_ReadMem8(_h,APDS9960_PERS)
+#define APDS9960_GetPPERS(_h)     (APDS9960_GetPERS() >> 4)
+#define APDS9960_GetAPRES(_h)     (APDS9960_GetPERS() & 0x0f)
+/// 取值范围不大于 0x0f
+#define APDS9960_SetPPERS(_h,_v)   IIC_WriteMem8(_h,APDS9960_PERS,(APDS9960_GetPERS(_h) & 0x0f) | (_v << 4))
+/// ALS 传感器循环设置
+/// 取值范围不大于 0x0f
+#define APDS9960_SetAPRES(_h,_v)   IIC_WriteMem8(_h,APDS9960_PERS,(APDS9960_GetPERS(_h) & 0xf0) | (_v & 0x0f))
+
 #define APDS9960_CONFIG1        0x8D
+#define APDS9960_SetWLONG(_h,_v)        IIC_WriteMem8(_h,APDS9960_CONFIG1,(_v & 0x01)?0x62:0x60)      // 设置wlong,x12
+#define APDS9960_GetWLONG(_h)           ((IIC_ReadMem8(_h,APDS9960_CONFIG1) & 0x02)?1ul:0ul)
 /// 接近脉冲寄存器
 #define APDS9960_PPULSE         0x8E
 
-#define APDS9960_CONTROL        0x8F
-#define APDS9960_CONFIG2        0x90
+#define APDS9960_CONTROL        0x8F                // 控制寄存器
+#define APDS9960_GetCONTROL(_h)         IIC_ReadMem8(_h,APDS9960_CONTROL)
+#define APDS9960_SetLDRIVE(_h,_v)       IIC_WriteMem8(_h,APDS9960_CONTROL,((APDS9960_GetCONTROL(_h) & 0x3F) | ((_v & 0x03) << 5)))              // LED 驱动电流控制
+#define APDS9960_SetPGAIN(_h,_v)        IIC_WriteMem8(_h,APDS9960_CONTROL,((APDS9960_GetCONTROL(_h) & 0xF3) | ((_v & 0x03) << 2)))              // 接近增益控制
+#define APDS9960_SetAGAIN(_h,_v)        IIC_WriteMem8(_h,APDS9960_CONTROL,((APDS9960_GetCONTROL(_h) & 0xFC) | ((_v & 0x03) << 0)))               // 颜色增益控制
 
+#define APDS9960_CONFIG2        0x90
 #define APDS9960_GetCONFIG2(_h)         IIC_ReadMem8(_h,APDS9960_CONFIG2)
 #define APDS9960_SetCONFIG2(_h,_v)      IIC_WriteMem8(_h,APDS9960_CONFIG2,_v)
 #define APDS9960_GetPSIEN(_h)           CheckBIT(APDS9960_GetCONFIG2(_h),7)
@@ -81,7 +113,6 @@
 #define APDS9960_SetLedBoost(_h,_v)     APDS9960_SetCONFIG2(_h,(APDS9960_GetCONFIG2(_h)&0xC0)|((_v&0x02)<<4)|0x01)    // Led Boost 设置 
 
 #define APDS9960_ID             0x92                //[*R] 器件编号
-#define APDS9960_STATUS         0x93                //[*R] 器件状态
 /**
  * 获取器件状态
  * (1ul << 7) CPSAT 光线传感器 清除寄存器 0xe6
@@ -93,6 +124,7 @@
  * (1ul << 1) PVALID PDATA 中数据读取后重置
  * (1ul << 0) AVALID 0x94~0x9b 中数据被读取后重置
 */
+#define APDS9960_STATUS         0x93                //[*R] 器件状态
 #define APDS9960_GetSTATUS(_h)  IIC_ReadMem8(_h,APDS9960_STATUS)
 #define APDS9960_GetCPSAT(_h)   CheckBIT(APDS9960_GetSTATUS(_h),7)      // 可见光传感器
 #define APDS9960_GetPGSAT(_h)   CheckBIT(APDS9960_GetSTATUS(_h),6)      // 距离传感器
@@ -101,20 +133,33 @@
 #define APDS9960_GetGINT(_h)    CheckBIT(APDS9960_GetSTATUS(_h),2)      // 手势传感器中断
 #define APDS9960_GetPVALID(_h)  CheckBIT(APDS9960_GetSTATUS(_h),1)      // PVDATA数据中断位
 #define APDS9960_GetAVALID(_h)  CheckBIT(APDS9960_GetSTATUS(_h),0)      // AVALID数据中断位
-
 /**
  * 环境光寄存器
 */
-#define APDS9960_CDATAL         0x94                //[*R] 环境光L
-#define APDS9960_CDATAH         0x95                //[*R] 环境光H
-#define APDS9960_RDATAL         0x96                //[*R] 红色数据L
-#define APDS9960_RDATAH         0x97                //[*R] 红色数据H
-#define APDS9960_GDATAL         0x98                //[*R] 绿色数据L
-#define APDS9960_GDATAH         0x99                //[*R] 绿色数据H
-#define APDS9960_BDATAL         0x9A                //[*R] 蓝色数据L
-#define APDS9960_BDATAH         0x9B                //[*R] 蓝色数据H
-#define APDS9960_PDATA          0x9C                //[*R] 距离数据
-#define APDS9960_GetPData(_h)   IIC_ReadMem8(_h,APDS9960_PDATA)
+#define APDS9960_CDATAL         0x94                                    //[*R] 环境光L
+#define APDS9960_GetCDATAL(_h)  IIC_ReadMem8(_h,APDS9960_CDATAL)        // 读取环境光低
+#define APDS9960_CDATAH         0x95                                    //[*R] 环境光H
+#define APDS9960_GetCDATAH(_h)  IIC_ReadMem8(_h,APDS9960_CDATAH)        // 读取环境光高
+#define APDS9960_GetCDATA(_h)   IIC_ReadShort(_h,APDS9960_CDATAL)       // 读取环境光
+#define APDS9960_RDATAL         0x96                                    //[*R] 红色数据L
+#define APDS9960_GetRDATAL(_h)  IIC_ReadMem8(_h,APDS9960_RDATAL)        // 读取红色低
+#define APDS9960_RDATAH         0x97                                    //[*R] 红色数据H
+#define APDS9960_GetRDATAH(_h)  IIC_ReadMem8(_h,APDS9960_RDATAH)        // 读取红色高
+#define APDS9960_GetRDATA(_h)   IIC_ReadShort(_h,APDS9960_RDATAL)       // 读取红色
+#define APDS9960_GDATAL         0x98                                    //[*R] 绿色数据L
+#define APDS9960_GetGDATAL(_h)  IIC_ReadMem8(_h,APDS9960_GDATAL)        // 读取绿色低
+#define APDS9960_GDATAH         0x99                                    //[*R] 绿色数据H
+#define APDS9960_GetGDATAH(_h)  IIC_ReadMem8(_h,APDS9960_GDATAH)        // 读取绿色高
+#define APDS9960_GetGDATA(_h)   IIC_ReadShort(_h,APDS9960_GDATAL)       // 读取绿色
+#define APDS9960_BDATAL         0x9A                                    //[*R] 蓝色数据L
+#define APDS9960_GetBDATAL(_h)  IIC_ReadMem8(_h,APDS9960_BDATAL)        // 读取蓝色低
+#define APDS9960_BDATAH         0x9B                                    //[*R] 蓝色数据H
+#define APDS9960_GetBDATAH(_h)  IIC_ReadMem8(_h,APDS9960_BDATAH)        // 读取蓝色高
+#define APDS9960_GetBDATA(_h)   IIC_ReadShort(_h,APDS9960_BDATAL)       // 读取蓝色
+#define APDS9960_PDATA          0x9C                                    //[*R] 距离数据
+#define APDS9960_GetPData(_h)   IIC_ReadMem8(_h,APDS9960_PDATA)         // 读取距离寄存器
+
+
 
 
 #define APDS9960_POFFSET_UR     0x9D
@@ -138,10 +183,8 @@
 #define APDS9960_SetGIEN(_h,_v)         IIC_WriteMem8(_h,APDS9960_GCONF4,(APDS9960_GetGCONF4(_h) & 0x05) | (_v & 0x01) << 1)        // 手势模式 中断开关
 #define APDS9960_SetGMODE(_h,_v)        IIC_WriteMem8(_h,APDS9960_GCONF4,(APDS9960_GetGCONF4(_h) & 0x06) | (_v & 0x01) << 0)        // 手势模式 ALS 与 手势 切换.       
 
-
-/// 手势寄存器缓冲数量
-#define APDS9960_GFLVL          0xAE                //[*R] 
-#define APDS9960_GetGFLVL(_h)       IIC_ReadMem8(_h,APDS9960_GFLVL)
+#define APDS9960_GFLVL          0xAE                //[*R] 手势寄存器缓冲数量
+#define APDS9960_GetGFLVL(_h)       IIC_ReadMem8(_h,APDS9960_GFLVL)     // 获取手势FIFO寄存器量
 /// 手势状态
 #define APDS9960_GSTATUS        0xAF                //[*R] 
 #define APDS9960_GetGFOV(_h)        CheckBIT(IIC_ReadMem8(_h,APDS9960_GSTATUS),1)       // 手势FIFO寄存器溢出
@@ -176,16 +219,12 @@
 //-----------------------------------------------------------------------------
 /// 环境光线
 
-#define APDS9960_Light_Ambient(_h)        IIC_ReadShort(_h,APDS9960_CDATAL)     // 获取环境光线值
-#define APDS9960_Light_Red(_h)            IIC_ReadShort(_h,APDS9960_RDATAL)     // 获取红色环境光线值
-#define APDS9960_Light_Green(_h)          IIC_ReadShort(_h,APDS9960_GDATAL)     // 获取绿色环境光线值
-#define APDS9960_Light_blue(_h)           IIC_ReadShort(_h,APDS9960_BDATAL)     //获取蓝色环境光线值
 
 
 
 
-#define APDS9960_SetWLONG(_h,_v)        IIC_WriteMem8(_h,APDS9960_CONFIG1,(_v & 0x01)?0x62:0x60)      // 设置wlong,x12
-#define APDS9960_GetWLONG(_h)           ((IIC_ReadMem8(_h,APDS9960_CONFIG1) & 0x02)?1ul:0ul)
+
+
 //-----------------------------------------------------------------------------
 /**
  * 距离相关
@@ -194,35 +233,12 @@
 #define APDS9960_SetPPLEN(_h,_v)        IIC_WriteMem8(_h,APDS9960_PPULSE,IIC_ReadMem8(_h,APDS9960_PPULSE) & 0x3f | ((_v & 0x03) << 6))
 #define APDS9960_SetPPULSE(_h,_v)       IIC_WriteMem8(_h,APDS9960_PPULSE,IIC_ReadMem8(_h,APDS9960_PPULSE) & 0xc0 | (_v & 0x3f))
 //-----------------------------------------------------------------------------
-#define APDS9960_GetCONTROL()       IIC_ReadMem8(_h,APDS9960_CONTROL)
+
 //-----------------------------------------------------------------------------
 
-/// LED 驱动电流控制
-#define APDS9960_LedDrive(_v)       IIC_WriteMem8(_h,APDS9960_CONTROL,((APDS9960_GetCONTROL() & 0x3F) | ((_v & 0x03) << 5)))
-/// 接近增益控制
-#define APDS9960_SetProximityGain(_v)   IIC_WriteMem8(_h,APDS9960_CONTROL,((APDS9960_GetCONTROL() & 0xF3) | ((_v & 0x03) << 2)))
-/// 颜色增益控制
-#define APDS9960_SetAmbientLightGain(_v)   IIC_WriteMem8(_h,APDS9960_CONTROL,((APDS9960_GetCONTROL() & 0xFC) | ((_v & 0x03) << 0)))
 
 
-/// 光线传感器阀值 低
-#define APDS9960_SetLightIntLowThreshold(_v)    APDS9960_WriteReg16(APDS9960_AILTL,_v);
-#define APDS9960_GetLightIntLowThreshold()      IIC_ReadShort(_h,APDS9960_AILTL)
 
-/// 光线传感器阀值 高
-#define APDS9960_SetLightIntHighThreshold(_v)    APDS9960_WriteReg16(APDS9960_AIHTL,_v);
-#define APDS9960_GetLightIntHighThreshold()      IIC_ReadShort(_h,APDS9960_AIHTL)
-
-
-#define APDS9960_GetPERS()      IIC_ReadMem8(_h,APDS9960_PERS)
-#define APDS9960_GetPPERS()     (APDS9960_GetPERS() >> 4)
-#define APDS9960_GetAPRES()     (APDS9960_GetPERS() & 0x0f)
-/// 接近传感器循环设置
-/// 取值范围不大于 0x0f
-#define APDS9960_SetPPERS(_v)   IIC_WriteMem8(_h,APDS9960_PERS,(APDS9960_GetPERS() & 0x0f) | (_v << 4))
-/// ALS 传感器循环设置
-/// 取值范围不大于 0x0f
-#define APDS9960_SetAPRES(_v)   IIC_WriteMem8(_h,APDS9960_PERS,(APDS9960_GetPERS() & 0xf0) | (_v & 0x0f))
 
 /// 手势进入
 #define APDS9960_SetGestureEnterThresh(_v)  IIC_WriteMem8(_h,APDS9960_GPENTH,_v)
@@ -263,7 +279,7 @@
  * 2 = 25 mA
  * 3 = 12.5 mA
 */
-#define APDS9960_SetGLDRIVE(_v) IIC_WriteMem8(_h,APDS9960_GCONF2, (APDS9960_GetGCONF2() & 0x73) | (_v & 0xfc) << 3 )
+#define APDS9960_SetGLDRIVE(_h,_v) IIC_WriteMem8(_h,APDS9960_GCONF2, (APDS9960_GetGCONF2() & 0x73) | (_v & 0xfc) << 3 )
 /**
  * 手势模式 检测时间间隔
  * 0 = 0 ms
@@ -299,8 +315,7 @@
 */
 #define APDS9960_SetGDIMS(_v)   IIC_WriteMem8(_h,APDS9960_GCONF3,(_v & 0x03));
 
-#define APDS9960_GetATIME(_h) IIC_ReadMem8(_h,APDS9960_ATIME)
-#define APDS9960_SetATIME(_h,_v) IIC_WriteMem8(_h,APDS9960_ATIME,_v)
+
 
 //-----------------------------------------------------------------------------
 /// 初始化APDS-9960
@@ -312,37 +327,6 @@ void APDS9960_EnableGestureSensor(unsigned char itr);
 /// 关闭手势模式
 void APDS9960_DisableGestureSensor();
 
-//-------------
-//void APDS9960_GestureSensor();
-//void APDS9960_ReadGesture();
-//--------------
-/*
-#define Get_APDS9960_ENABLE() IIC_ReadMem8(_h,APDS9960_ENABLE)
-#define Put_APDS9960_ENABLE(_v) IIC_WriteMem8(_h,APDS9960_ENABLE,_v)
-
-///
-
-
-#define Get_APDS9960_WTIME() IIC_ReadMem8(_h,APDS9960_WTIME)
-#define Get_APDS9960_AILT() IIC_ReadShort(_h,APDS9960_AILTL)
-#define Get_APDS9960_AIHT() IIC_ReadShort(_h,APDS9960_AIHTL)
-
-#define Get_APDS9960_PILT() IIC_ReadMem8(_h,APDS9960_PILT)
-#define Get_APDS9960_PIHT() IIC_ReadMem8(_h,APDS9960_PIHT)
-
-#define Get_APDS9960_PERS() IIC_ReadMem8(_h,APDS9960_PERS)
-
-*/
-
-//----------------------------------------
-/// 开启APDS-9960 I2c访问
-//unsigned char ADPS9960_I2c_En();
-
-/// 停止APDS-9960 I2c访问
-//unsigned char ADPS9960_I2c_Di();
-
-
-//#include <obj.h>
 //-----------------------------------------------------------------------------
 
 

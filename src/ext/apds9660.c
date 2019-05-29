@@ -166,7 +166,7 @@ unsigned char ApdsCheckID(sI2c* h)
     return 0ul;
 }
 
-unsigned char Apds9960_Init(sI2c* h)
+void Apds9960_Init(sI2c* h)
 {
 
     //APDS9960_SetATIME(h,DEFAULT_ATIME);
@@ -199,16 +199,24 @@ void Apds_irs()
 /**
  * 颜色传感器
 */
-void Apds_InitAls(sI2c *h)
-{
-
-    APDS9960_SetENABLE(h,BIT_PON|BIT_AEN|BIT_WEN);
-}
-
 
 /**
  * 环境光传感器
 */
+void Apds_InitALS(sI2c *h)
+{
+    APDS9960_ClearENABLE(h);
+
+    APDS9960_SetATIME(h,182);
+
+    //DLOGINT(InitALS,APDS9960_GetAILT(h));
+    //DLOGINT(InitALS,APDS9960_GetAIHT(h));
+
+    APDS9960_SetAPRES(h,0x05);
+    //APDS9960_SetAILT(h,1234568);
+
+    APDS9960_SetENABLE(h,BIT_AIEN|BIT_WEN|BIT_AEN|BIT_PON);
+}
 
 //-----------------------------------------------------------------------------
 /**
