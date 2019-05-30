@@ -12,8 +12,8 @@
 /**
  * 内置宏
 */
-#ifdef DEBUG
-#define DumpReg(_f,_r,_v) (printf("[%s:%d]\tTracert:%s[0x%2.2X:0x%2.2X]\n",__FILE__,__LINE__,_f,_r,_v))
+#ifndef NDEBUG
+#define DumpReg(_f,_v) (printf("[%s:%d]\tTracert:%s[%s:0x%2.2X|%u]\n",__FILE__,__LINE__,_f,#_v,_v,_v))
 #else
 #define DumpReg(_f,_r,_v)
 #endif
@@ -146,6 +146,32 @@ typedef struct _R9960FIFO
     unsigned char   mRight;
 }R9960FIFO;
 
+void Apds_Dump(sI2c* h)
+{
+    R9960Data rd;
+    IIC_ReadMem(h,0x92,(void*)&rd,sizeof(R9960Data));
+    //DumpReg("DUMP",rd.mDeviceID);
+    DumpReg("DUMP",rd.mStatus);
+
+    //DumpReg("DUMP",rd.mClearL);
+    //DumpReg("DUMP",rd.mClearH);
+    DumpReg("DUMP",rd.mClear);
+
+    //DumpReg("DUMP",rd.mRedL);
+    //DumpReg("DUMP",rd.mRedH);
+    DumpReg("DUMP",rd.mRed);
+
+    //DumpReg("DUMP",rd.mGreenL);
+    //DumpReg("DUMP",rd.mGreenH);
+    DumpReg("DUMP",rd.mGreen);
+
+    //DumpReg("DUMP",rd.mBlueL);
+    //DumpReg("DUMP",rd.mBlueH);
+    DumpReg("DUMP",rd.mBlue);
+
+    DumpReg("DUMP",rd.mProximity);
+    //DLOGINT()
+}
 
 void ApdsGetFifo(sI2c* h)
 {
@@ -186,9 +212,35 @@ void Apds9960_Init(sI2c* h)
 /**
  * 中断向量
 */
-void Apds_irs()
+void Apds_irsSW(sI2c* h)
 {
-    //if(APDS9960_GetPINT())
+    DLOGINT(GetSTATUS,APDS9960_GetSTATUS(h));
+
+    if(APDS9960_GetCPSAT(h))
+    {
+        assert(0);
+        APDS9960_ClearCI(h);
+        while(!APDS9960_GetAVALID(h));
+        Apds_Dump(h);
+    }
+
+    if(APDS9960_GetPINT(h)){
+        assert(0);
+        APDS9960_ClearPI(&h);
+        DLOGINT(GetSTATUS,APDS9960_GetCONFIG2(h));
+        DLOGINT(GetSTATUS,APDS9960_GetSTATUS(h));
+    }
+    if(APDS9960_GetAINT(h))
+    {
+        assert(0);
+        APDS9960_ClearAI(h);
+        
+        while(!APDS9960_GetAVALID(h));
+        Apds_Dump(h);
+
+        DLOGINT(GetSTATUS,APDS9960_GetSTATUS(h));
+    }
+    APDS9960_ClearGFIFO(h);
 }
 
 //-----------------------------------------------------------------------------
@@ -209,15 +261,27 @@ void Apds_InitALS(sI2c *h)
 
     APDS9960_SetATIME(h,182);
 
-    //DLOGINT(InitALS,APDS9960_GetAILT(h));
-    //DLOGINT(InitALS,APDS9960_GetAIHT(h));
+    DumpReg("DUMP",APDS9960_GetAILT(h));
+    DumpReg("DUMP",APDS9960_GetAIHT(h));
 
-    APDS9960_SetAPRES(h,0x05);
-    //APDS9960_SetAILT(h,1234568);
+    APDS9960_SetAILT(h,1000);
+    APDS9960_SetAIHT(h,20000);
+
+    APDS9960_SetAPRES(h,0x0f);
+    
+    //APDS9960_SetAGAIN(h,0x01);
+    APDS9960_SetCPSIEN(h,0x01);
 
     APDS9960_SetENABLE(h,BIT_AIEN|BIT_WEN|BIT_AEN|BIT_PON);
 }
 
+void Apds_ReadD(sI2c *h)
+{
+    R9960Data rd;
+    IIC_ReadMem(h,0x92,&rd,sizeof(R9960Data));
+
+    Console_DumpHex(sizeof(R9960Data),&rd);
+}
 //-----------------------------------------------------------------------------
 /**
  * 距离传感器
