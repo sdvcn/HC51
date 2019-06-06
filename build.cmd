@@ -11,7 +11,7 @@ set LIB=.\src\*.c .\src\ext\*.c
 set HTC_WARN_FORMAT=WARNING: file %f; line %l; column %c; %s
 set HTC_ERR_FORMAT=ERROR: file %f; line %l; column %c; %s
 set DEFINE=-DDEBUG
-set ARGS=%DEFINE% -Bs  -I%INC% --chip=%CHIP% --outdir=%OUTDIR% --objdir=%OBJ% %LIB% -O%OUTFILE%
+set ARGS=--OPT=all %DEFINE% -Bs  -I%INC% --chip=%CHIP% --outdir=%OUTDIR% --objdir=%OBJ% %LIB% -O%OUTFILE%
 
 echo //////////////////////////////////////////////////////////////////////
 echo ChipInfo = %CHIP%
