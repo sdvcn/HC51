@@ -36,6 +36,10 @@ void w281writes( volatile const char* src,unsigned char len)
         //asm("MOV    A,#0fh");
         asm("MOVX    A,@DPTR");
         asm("MOV    R2,#8");
+        unsigned char i = 8;
+        do{
+
+        }while(--i);
 
         asm("WLOOP2:");
             asm("JC     WLOOP3");
@@ -70,5 +74,35 @@ void w281writes( volatile const char* src,unsigned char len)
 
     //asm("DJNZ R5,WLOOP1");
     }while(--len);
+    asm("POP    _IE");
+}
+
+void  wwa(const char* src,unsigned char len)
+{
+    asm("PUSH   _IE");
+    asm("CLR    _EA");
+    
+    //asm("MOV    DPL1,R6");
+    //asm("MOV    DPH1,R7");
+
+    DPH1 = ((size_t)src >> 8);
+    DPL1 = (size_t)src;
+    asm("MOV     _DPS,#00011001B");
+
+    do{
+        unsigned char i=8;
+        //asm("MOVX    A,@DPTR");
+        asm("CLR    A");
+        asm("movc	a,@a+dptr")
+        do{
+            ASM_W281xIOH();
+            asm("RLC    A");
+            ASM_W281xIOC();
+            asm("NOP");
+
+            ASM_W281xIOL();
+        }while(--i);
+    }while(--len);
+    asm("MOV     _DPS,#00000000B");
     asm("POP    _IE");
 }
