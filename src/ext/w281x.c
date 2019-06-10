@@ -61,7 +61,6 @@ void  w281xWrites(const char* src,unsigned char len)
         unsigned char i=8;
         c = *src++;
         do{
-            //ASM_W281xIOH();
             c <<= 1;
             W281xIOC(1);
             _delay(3);
@@ -75,7 +74,5 @@ void  w281xWrites(const char* src,unsigned char len)
             //_delay(1);
         }while(--i);
     }while(--len);
-
     asm("POP    _IE");
-
 }
