@@ -5,58 +5,77 @@
 #define	___mkstr1(x)	#x
 #define	___mkstr(x)	___mkstr1(x)
 
-#define ASM_W281xIO _P7.6
-#define ASM_W281xIOH()  asm("SETB   " ___mkstr(ASM_W281xIO) )
-#define ASM_W281xIOL()  asm("CLR    " ___mkstr(ASM_W281xIO) )
-#define ASM_W281xIOC()  asm("MOV    " ___mkstr(ASM_W281xIO) ",C")
+//#define ASM_W281xIO _P7.6
+//#define ASM_W281xIOH()  asm("SETB   " ___mkstr(ASM_W281xIO) )
+//#define ASM_W281xIOL()  asm("CLR    " ___mkstr(ASM_W281xIO) )
+//#define ASM_W281xIOC()  asm("MOV    " ___mkstr(ASM_W281xIO) ",C")
+#define W281xIO         P76
+#define W281xIOC(_v)    W281xIO=_v
 
-/**
- * 使用STC8扩展指针完成
- * 工作时全局关闭中断
-*/
-void  w281xwrites(const char* src,unsigned char len)
+void w281xClear(unsigned char len)
 {
     asm("PUSH   _IE");
-    asm("CLR    _EA");
+    EA = 0;
+    //volatile unsigned char c;
     
-    //asm("MOV    DPL1,R6");
-    //asm("MOV    DPH1,R7");
-    //reset    
-    unsigned char l = 0xe0;
+     unsigned char l = 0xe0;
     do{
-        ASM_W281xIOL();
-        asm("NOP2");
-        asm("NOP2");
+        W281xIOC(0);
+        _delay(4);
     }while(--l);
 
-    DPH1 = ((size_t)src >> 8);
-    DPL1 = (size_t)src;
+    while(--len){
+        unsigned char i = 0x08;
+        do{
+            W281xIOC(1);
+            _delay(3);
+            _delay(3);
+            W281xIOC(0);
+            _delay(4);
+            _delay(4);
+            _delay(4);
+            _delay(3);
+        }while(--i);
 
-    asm("MOV     _DPS,#00011001B");
+    }
+
+    asm("POP    _IE");
+}
+/**
+ * 工作时全局关闭中断
+*/
+void  w281xWrites(const char* src,unsigned char len)
+{
+    asm("PUSH   _IE");
+    EA = 0;
+    volatile unsigned char c;
+    
+     unsigned char l = 0xe0;
+    do{
+        W281xIOC(0);
+        _delay(4);
+    }while(--l);
+
 
     do{
         unsigned char i=8;
-        //asm("MOVX    A,@DPTR");
-        asm("CLR    A");
-        asm("movc	a,@a+dptr");
+        c = *src++;
         do{
-            ASM_W281xIOH();
-            asm("RLC    A");
-            asm("NOP2");
-            asm("NOP2");
-            asm("NOP");
-            //asm("JC ")
-            ASM_W281xIOC();
-            asm("CLR    C");
-            asm("NOP2");
-            asm("NOP2");
-            asm("NOP2");
-            asm("NOP2");
-            asm("NOP");
-            ASM_W281xIOL();
-            asm("NOP");
+            //ASM_W281xIOH();
+            c <<= 1;
+            W281xIOC(1);
+            _delay(3);
+            _delay(3);
+            W281xIOC(CY);
+            _delay(4);
+            _delay(4);
+            _delay(4);
+            _delay(1);
+            W281xIOC(0);
+            //_delay(1);
         }while(--i);
     }while(--len);
-    asm("MOV     _DPS,#00000000B");
+
     asm("POP    _IE");
+
 }
