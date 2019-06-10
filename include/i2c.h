@@ -118,8 +118,6 @@ enum {
  * I2c扩展指令部分
 */
 #define pI2c(_v)      ((sI2c*)_v)
-//#define m2_I2c_Start(_h)    pI2c(_h)->pCommand(_h,MSCMD_START)
-//#define m2_I2c_Stop(_h)     pI2c(_h)->pCommand(_h,MSCMD_STOP)
 
 /**
  * 使用寄存器
@@ -151,6 +149,7 @@ void CreateIICM4Sfr(sI2c *mio);
 /**
  * 寄存器方法
 */
+
 void IIC_sfr_Config(unsigned char op,unsigned char saddr);
 void IIC_sfr_Command(unsigned char cmd);
 unsigned char IIC_sfr_Read();
