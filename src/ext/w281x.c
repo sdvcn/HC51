@@ -1,14 +1,10 @@
 #include <stcmcu.h>
-#include <i2c.h>
 
 
 #define	___mkstr1(x)	#x
 #define	___mkstr(x)	___mkstr1(x)
 
-//#define ASM_W281xIO _P7.6
-//#define ASM_W281xIOH()  asm("SETB   " ___mkstr(ASM_W281xIO) )
-//#define ASM_W281xIOL()  asm("CLR    " ___mkstr(ASM_W281xIO) )
-//#define ASM_W281xIOC()  asm("MOV    " ___mkstr(ASM_W281xIO) ",C")
+// 端口定义
 #define W281xIO         P76
 #define W281xIOC(_v)    W281xIO=_v
 
