@@ -53,7 +53,10 @@ void free(void * p)
 #define SelectIrc24M    0x00;
 #define SelectIrc32K    0x03;
 
-
+near void HC51_Init() @ 0xff
+{
+    asm("NOP");
+}
 
 
 void _SelectIrc24m()
@@ -76,6 +79,10 @@ void _SelectIrc32k()
 void SetSystemClock(unsigned char op,unsigned char cdiv)
 {
     unsigned char cksel = 0x00;
+#ifdef HI_TECH_C
+    HC51_Init();
+#endif
+    
 
     if((op& 0x03) == 0x00){
         _SelectIrc24m();
