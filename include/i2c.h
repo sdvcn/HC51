@@ -56,7 +56,7 @@ enum{
 
 #define IIC_sfr_AckI()          (ExtSfrGet8(&I2CMSST) & MSACKI)                  //  收到的ACK状态
 #define IIC_sfr_Stop()          IIC_sfr_Command(MSCMD_STOP)
-#define IIC_sfr_InitM(_v)       IIC_sfr_Config(IIC_ENI2C|IIC_MSSL|(_v & 0x0F),0x00)
+#define IIC_sfr_InitM(_v)       IIC_sfr_Config(IIC_ENI2C|IIC_MSSL|(_v & 0x3F),0x00)
 #define IIC_sfr_InitS(_v,_s)    IIC_sfr_Config(IIC_ENI2C|(_v & 0x0F),_s)
 #define IIC_sfr_Disable()       IIC_sfr_Config(0x00,0x00)
 
