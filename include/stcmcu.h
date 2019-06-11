@@ -20,6 +20,9 @@
  * 产生nop次数
 */
 extern reentrant void _delay(unsigned long);
+extern near void HC51_Init();
+
+
 #pragma inline(_delay)
 #define NOP()   _delay(1)
 #define DelayUs(_v) _delay(_v)
