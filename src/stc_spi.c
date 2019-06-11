@@ -4,35 +4,14 @@
 #include <ext_debug.h>
 #include <spi.h>
 
-
-static void InitSPI(void)
-{
-    
-}
-
-//写字节
-void SpiWrite(unsigned char v)
-{
-    InitSPI();
-}
-
-///写组
-void SpiWrites(char* buf,unsigned short len)
-{
-
-}
-///读字节
-void SpiRead()
-{
-
-}
-///读组
-void SpiReads(char* buf,unsigned short len)
-{
-
-}
-
 ///模拟方式实现spi
+void SPI_sfr_Config(unsigned char c)
+{
+    SPCTL = c;
+    SPSTAT = 0xc0;
+}
+
+
 
 
 void CreateSPI4Sfr(void *mio,unsigned char op)
