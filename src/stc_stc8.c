@@ -53,11 +53,6 @@ void free(void * p)
 #define SelectIrc24M    0x00;
 #define SelectIrc32K    0x03;
 
-near void HC51_Init() @ 0xff
-{
-    asm("NOP");
-}
-
 
 void _SelectIrc24m()
 {
