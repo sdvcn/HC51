@@ -3,7 +3,7 @@
  * Apds-9960 操作封装
  * 采用I2c方案
 */
-
+#include <stcmcu.h>
 #include <i2c.h>
 #include <ext_debug.h>
 #include "apds9660.h"
@@ -214,9 +214,9 @@ void Apds9960_Init(sI2c* h)
 */
 void Apds_irsSW(sI2c* h)
 {
-    DLOGINT(GetSTATUS,APDS9960_GetSTATUS(h));
-
-    if(APDS9960_GetCPSAT(h))
+    unsigned char status = APDS9960_GetSTATUS(h);
+    DLOGINT(GetSTATUS,status);
+    if(CheckBIT(status,7))
     {
         assert(0);
         APDS9960_ClearCI(h);
@@ -224,9 +224,10 @@ void Apds_irsSW(sI2c* h)
         Apds_Dump(h);
     }
 
+
     if(APDS9960_GetPINT(h)){
         assert(0);
-        APDS9960_ClearPI(&h);
+        APDS9960_ClearPI(h);
         DLOGINT(GetSTATUS,APDS9960_GetCONFIG2(h));
         DLOGINT(GetSTATUS,APDS9960_GetSTATUS(h));
     }
@@ -275,13 +276,6 @@ void Apds_InitALS(sI2c *h)
     APDS9960_SetENABLE(h,BIT_AIEN|BIT_WEN|BIT_AEN|BIT_PON);
 }
 
-void Apds_ReadD(sI2c *h)
-{
-    R9960Data rd;
-    IIC_ReadMem(h,0x92,&rd,sizeof(R9960Data));
-
-    Console_DumpHex(sizeof(R9960Data),&rd);
-}
 //-----------------------------------------------------------------------------
 /**
  * 距离传感器
