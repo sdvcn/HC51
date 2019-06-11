@@ -420,7 +420,8 @@ unsigned long GetSystemClock();
 */
 #define Select32K() SetSystemClock(0x03,0x00)
 
-
+#define LASTISRADDR     0xCB                // 支持的最后一个中断向量地址
+#define PROSTARTADDR    (LASTISRADDR+8)     // 程序起始地址
 
 
 

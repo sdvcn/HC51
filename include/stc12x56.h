@@ -108,4 +108,7 @@ static volatile unsigned long STCCLKR	@ 0xFC;
 ///初始化等待电压
 #define InitLvdf()	do{PCON &= ~LVDF_Bit;NOP();NOP();}while(PCON & LVDF_Bit)
 
+#define LASTISRADDR     0x4b                    // 支持的最后一个中断向量地址
+#define PROSTARTADDR    (LASTISRADDR+8)         // 程序起始地址
+
 #endif
