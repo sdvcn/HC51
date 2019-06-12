@@ -2,7 +2,10 @@
 setlocal
 
 set OUTDIR=.\bulid
-set CHIP=STC8A8K60S4A12
+rem set CHIP=STC8A8K60S4A12
+
+set CHIP=STC8A8K64S4A12
+
 set OBJ=.\bulid
 set INC=.\include
 set OUTFILE=8051.hex

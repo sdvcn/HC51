@@ -75,7 +75,7 @@ void SetSystemClock(unsigned char op,unsigned char cdiv)
 {
     unsigned char cksel = 0x00;
 #ifdef HI_TECH_C
-    HC51_Init();
+    //HC51_Init();
 #endif
     
 

@@ -106,6 +106,11 @@ static volatile unsigned char	P5M0	_at_	0xCA;
 static volatile unsigned char	P6M1	_at_	0xCB;
 static volatile unsigned char	P6M0	_at_	0xCC;
 
+static volatile unsigned char	SPCTL	_at_	0xCE;           // SPI状态寄存器
+static volatile unsigned char	SPSTAT	_at_	0xCD;           // SPI控制寄存器
+static volatile unsigned char	SPDAT	_at_	0xCF;           // SPI数据寄存器
+
+
 //ISP 命名兼容
 static volatile unsigned char	ISP_DATA	_at_	0xC2;
 static volatile unsigned short	ISP_ADDR	_at_	0xC3;		//fix
