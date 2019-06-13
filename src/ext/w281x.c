@@ -40,7 +40,7 @@ void w281xClear(unsigned char len)
 /**
  * 工作时全局关闭中断
 */
-void  w281xWrites(const char* src,unsigned char len)
+void  w281xWrites(const char* src,unsigned len)
 {
     asm("PUSH   _IE");
     EA = 0;
