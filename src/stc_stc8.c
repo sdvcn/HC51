@@ -62,7 +62,7 @@ void _SelectIrc24m()
     asm("orl _P_SW2,#80h");
     
     EA = 0;
-    IRC24MCR |= ENIRC
+    IRC24MCR |= ENIRC;
     while(!(IRC24MCR & IRCMST));
     
     asm("POP    _P_SW2");
@@ -77,7 +77,7 @@ void _SelectIrc32k()
     asm("orl _P_SW2,#80h");
     
     EA = 0;
-    IRC32KCR |= ENIRC
+    IRC32KCR |= ENIRC;
     while(!(IRC32KCR & IRCMST));
     
     asm("POP    _P_SW2");
