@@ -72,7 +72,7 @@ void _SelectIrc24m()
 void _SelectIrc32k()
 {
     asm("push   _IE");
-    IRCRC = IRC32K;
+    //IRCRC = IRC32K;
     asm("push _P_SW2");
     asm("orl _P_SW2,#80h");
     
