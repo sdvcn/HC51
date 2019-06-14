@@ -56,15 +56,32 @@ void free(void * p)
 
 void _SelectIrc24m()
 {
-    IRCRC = ExtSfrGet8(&IRC24M);
-    ExtSfrSet8(&IRC24MCR,ENIRC);
-    while(!(ExtSfrGet8(&IRC24MCR) & IRCMST));
+    asm("push   _IE");
+    IRCRC = IRC24M;
+    asm("push _P_SW2");
+    asm("orl _P_SW2,#80h");
+    
+    EA = 0;
+    IRC24MCR |= ENIRC
+    while(!(IRC24MCR & IRCMST));
+    
+    asm("POP    _P_SW2");
+    asm("POP    _IE");
 }
 
 void _SelectIrc32k()
 {
-    ExtSfrSet8(&IRC32KCR,ENIRC);
-    while(!(ExtSfrGet8(&IRC32KCR) & IRCMST));
+    asm("push   _IE");
+    IRCRC = IRC32K;
+    asm("push _P_SW2");
+    asm("orl _P_SW2,#80h");
+    
+    EA = 0;
+    IRC32KCR |= ENIRC
+    while(!(IRC32KCR & IRCMST));
+    
+    asm("POP    _P_SW2");
+    asm("POP    _IE");
 }
 
 /**
