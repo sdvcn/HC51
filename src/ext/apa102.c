@@ -1,8 +1,10 @@
 #include <stcmcu.h>
 #include <i2c.h>
 #include "apa102.h"
+#include "../../config.h"
 
 
+#ifndef NCOMPILE_EXT_APA102
 
 void _iicWrite(unsigned char c)
 {
@@ -23,8 +25,7 @@ void apa102Gen(papa102 src,unsigned len)
     }
 }
 
-#define APA102IOCI    P32
-#define APA102IODI    P33
+
 
 void _EmuWrite(volatile char c)
 {
@@ -89,3 +90,5 @@ void apa102Write4iic(const papa102 src,unsigned len)
     IIC_sfr_Command(MSCMD_STOP);
     IIC_sfr_Disable();
 }
+
+#endif

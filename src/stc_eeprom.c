@@ -5,6 +5,8 @@
     
 */
 #include <stcmcu.h>
+#include "../config.h"
+#ifndef NCOMPILE_STC_EPROM
 
 #define CMD_Idle    0b0000
 #define CMD_Read    0b0001
@@ -131,3 +133,4 @@ void IspErase(unsigned short addr)
 }
 
 
+#endif //NCOMPILE_STC_EPROM

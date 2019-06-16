@@ -4,6 +4,8 @@
 #ifndef _APDS9960_H_
 #define _APDS9960_H_
 
+#ifndef NCOMPILE_EXT_APDS9960
+
 /**
  * Apds-9960总线地址
 */
@@ -376,5 +378,5 @@ void Apds_InitALS(sI2c *h);
 //void Apds_ReadD(sI2c *h);
 void Apds_Dump(sI2c* h);
 
-
+#endif // NCOMPILE_EXT_APDS9960
 #endif

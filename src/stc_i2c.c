@@ -10,6 +10,9 @@
 #define NDEBUG
 #include <ext_debug.h>
 
+#include "../config.h"
+#ifndef NCOMPILE_STC_IIC
+
 
 /**
  * 时许严谨,禁止占用
@@ -435,3 +438,5 @@ void IIC_WriteShort(sI2c* h,unsigned char reg,unsigned short v)
     IIC_WriteMem(h,reg,&buf,2);
 
 }
+
+#endif //NCOMPILE_STC_IIC

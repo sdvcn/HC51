@@ -1,6 +1,9 @@
 #include <stcmcu.h>
 
 
+#ifndef NCOMPILE_EXT_W281X
+
+
 #define	___mkstr1(x)	#x
 #define	___mkstr(x)	___mkstr1(x)
 
@@ -72,3 +75,5 @@ void  w281xWrites(const char* src,unsigned len)
     }while(--len);
     asm("POP    _IE");
 }
+
+#endif 

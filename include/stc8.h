@@ -9,8 +9,8 @@
 #define STCY	6
 #define DELAY_BASE (1+)
 
-#define DEFCLK 24000000ul
-#define STCCLKR (DEFCLK )
+// #define DEFCLK 24000000ul
+// #define STCCLKR (DEFCLK )
 /**
  * 取消自带全局EA定义
  * 重新定义
@@ -30,7 +30,16 @@
 static volatile unsigned char	S4CON	_at_	0x84;               // 串口4控制寄存器
 static volatile unsigned char	S4BUF	_at_	0x85;               // 串口4缓冲寄存器
 
-volatile unsigned AUXR _at_ 0x8e;
+static volatile unsigned char	AUXR	_at_	0x8E;
+#define T0x12       (1ul << 7)
+#define T1x12       (1ul << 6)
+#define UART_M0x6   (1ul << 5)
+#define T2R         (1ul << 4)
+#define T2_CT       (1ul << 3)
+#define T2x12       (1ul << 2)
+#define EXTRAM      (1ul << 1)
+#define S1ST2       (1ul << 0)
+
 /// P1端口配置寄存器
 static volatile unsigned char	P1M1	_at_	0x91;
 static volatile unsigned char	P1M0	_at_	0x92;
@@ -62,6 +71,14 @@ static volatile unsigned char	S3CON	_at_	0xAC;
 static volatile unsigned char	S3BUF	_at_	0xAD;
 static volatile unsigned char	TA		_at_	0xAE;
 static volatile unsigned char	IE2		_at_	0xAF;
+#define ECAN        0x80
+#define ET4         0x40
+#define ET3         0x20
+#define ES4         0x10
+#define ES3         0x08
+#define ET2         0x04
+#define ESPI        0x02
+#define ES2         0x01
 
 
 /// P3端口配置寄存器
@@ -120,8 +137,21 @@ static volatile unsigned char	ISP_CMD	_at_	0xC5;
 static volatile unsigned char	ISP_TRIG	_at_	0xC6;
 static volatile unsigned char	ISP_CONTR	_at_	0xC7;
 
-
-
+/// T4
+static volatile unsigned char	T4T3M	_at_	0xD1;
+#define T4R         (1ul << 7)
+#define T4_CT       (1ul << 6)
+#define T4x12       (1ul << 5)
+#define T4CLKO      (1ul << 4)
+#define T3R         (1ul << 3)
+#define T3_CT       (1ul << 2)
+#define T3x12       (1ul << 1)
+#define T3CLKO      (1ul << 0)
+static volatile unsigned char	T4H		_at_	0xD2;
+static volatile unsigned char	T4L		_at_	0xD3;
+/// T3
+static volatile unsigned char	T3H		_at_	0xD4;
+static volatile unsigned char	T3L		_at_	0xD5;
 /// T2定时器
 static volatile unsigned char	T2H		_at_	0xD6;
 static volatile unsigned char	T2L		_at_	0xD7;
@@ -401,7 +431,17 @@ void _ExtSfrSet16(far volatile unsigned short* reg,unsigned short nv);
 #define ExtSfrClear8(_a,_b)     ExtSfrSet8(_a,(ExtSfrGet8(_a) & ~(_b)))
 #define ExtSfrClear16(_a,_b)    ExtSfrSet16(_a,(ExtSfrGet16(_a) & ~(_b)))
 
+#define STC_ISR_INT0            0x03
+#define STC_ISR_TIMER0          0x0b
+#define STC_ISR_INT1            0x13
 
+#define STC_ISR_TIMER1          0x1b
+
+#define STC_ISR_TIMER2          0x63
+
+#define STC_ISR_TIMER3          0x9b
+
+#define STC_ISR_TIMER4          0xA3
 /**
  * 系统时钟函数
  * @1=设定系统时钟源,对外输出,对外输出分频
@@ -409,10 +449,6 @@ void _ExtSfrSet16(far volatile unsigned short* reg,unsigned short nv);
 */
 void SetSystemClock(unsigned char,unsigned char);
 
-/**
- * 获取当前时钟频率设定
-*/
-unsigned long GetSystemClock();
 
 /**
  * 重置微调参数

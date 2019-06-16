@@ -7,7 +7,9 @@
 #include <i2c.h>
 #include <ext_debug.h>
 #include "apds9660.h"
+#include "../../config.h"
 
+#ifndef NCOMPILE_EXT_APDS9960
 
 /**
  * 内置宏
@@ -644,3 +646,4 @@ unsigned char APDS9960_ReadGesture()
 
 
 #endif 
+#endif //NCOMPILE_EXT_APDS9960

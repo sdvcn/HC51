@@ -5,6 +5,11 @@
 
 #include <ext_debug.h>
 
+#include "../config.h"
+
+#ifndef NCOMPILE_STC8_GPIO
+
+
 typedef struct _IOMODE
 {
     unsigned char M0;
@@ -212,3 +217,4 @@ unsigned char GPIO_NCS(size_t io,unsigned char mask)
 }
 
 
+#endif //NCOMPILE_STC_GPIO

@@ -1,8 +1,10 @@
 
 #include <stcmcu.h>
+#include "../config.h"
+
+#ifndef NCOMPILE_STC_PWM
 
 
-#ifdef STC8
 void PWM_Init()
 {
 
@@ -56,4 +58,4 @@ void PWN_ClrN(unsigned char mio)
 }
 
 */
-#endif
+#endif //NCOMPILE_STC_PWM

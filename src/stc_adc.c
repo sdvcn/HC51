@@ -7,8 +7,9 @@
 */
 
 #include <stcmcu.h>
+#include "../config.h"
 
-#define ADCCH	8
+#ifndef NCOMPILE_STC_ADC
 
 
 #define ADC_POWER       (0x80)
@@ -107,3 +108,4 @@ unsigned short GetResultIsr(unsigned char ch)
 }
 
 */
+#endif //NCOMPILE_STC_ADC

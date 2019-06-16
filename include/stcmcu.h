@@ -16,6 +16,8 @@
 #define SetBIT(_v,_bit) (_v |= BIT(_bit))					// 设置位
 #define PtrAddr(_v) 	((size_t)((void*)(_v)))				// 获取内存地址
 
+#define __str(x) x
+
 /**
  * 产生nop次数
 */
@@ -65,9 +67,10 @@ typedef enum IOStatus{
 		#ifdef _STC8A8K64S4A12
 			#define SUPPORT_IAP	1
 		#endif
+		#define STCY	6
 		#define SUPPORT_AD	1
 		#define SUPPORT_EEPROM	1
-		#define STC8 1
+		//#define STC8 1
 		#include <stc8.h>
 		//#include <stc_suppor.h>
 	#else

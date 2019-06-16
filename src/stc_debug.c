@@ -1,6 +1,9 @@
 #include <string.h>
 #include "ext_debug.h"
 
+#include "../config.h"
+
+#ifndef NCOMPILE_STC_EXT_DEBUG
 
 /**
  * Dump Bin to Hex
@@ -41,3 +44,5 @@ void Console_DumpHex(size_t len,char* src)
         printf(" |\n");
     }
 }
+
+#endif

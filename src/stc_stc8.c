@@ -6,6 +6,9 @@
 /// 不再开启调试
 #define NDEBUG
 #include <ext_debug.h>
+#include "../config.h"
+
+#if STCY == 6
 
 /**
  * stc8a8k 8k/ram
@@ -122,26 +125,12 @@ void SetSystemClock(unsigned char op,unsigned char cdiv)
 }
 
 
-unsigned long GetSystemClock()
-{
-    unsigned char cksel = ExtSfrGet8(&CKSEL);
-    unsigned char clkdiv = ExtSfrGet8(&CLKDIV);
-    unsigned long r;
-    if((cksel & 0x03) == 0x00 ) r = DEFCLK;
-    if((cksel & 0x03) == 0x01 ) return 0ul;
-    if((cksel & 0x03) == 0x02 ) return 0ul;
-    if((cksel & 0x03) == 0x03 ) r = 32000ul;
-
-    if (clkdiv) r /= clkdiv;                            // 系统分频
-
-    return r;
-}
 
 
 
 
 
-#ifdef STC8
+
 /**
  * 地址直读
 */

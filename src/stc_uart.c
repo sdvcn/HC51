@@ -43,10 +43,6 @@
 
 ///波特率计算 
 /// todo:未完成
-unsigned char SetRate(unsigned short v)
-{
-    return (256 - STCCLKR / 32 / v);
-}
 
 /**
  * 串口1
