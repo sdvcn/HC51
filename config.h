@@ -85,7 +85,7 @@
 
 #define COMPILE_STC_CONSOLE
 #ifdef  COMPILE_STC_CONSOLE
-
+    #include <stc_console.h>
 #endif
 #define COMPILE_STC_ISR
 #ifdef  COMPILE_STC_ISR
