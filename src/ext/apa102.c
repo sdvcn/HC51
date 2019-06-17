@@ -4,7 +4,7 @@
 #include "../../config.h"
 
 
-#ifndef NCOMPILE_EXT_APA102
+#ifdef COMPILE_EXT_APA102
 
 void _iicWrite(unsigned char c)
 {
@@ -91,4 +91,4 @@ void apa102Write4iic(const papa102 src,unsigned len)
     IIC_sfr_Disable();
 }
 
-#endif
+#endif //COMPILE_EXT_APA102

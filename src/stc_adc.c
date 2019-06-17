@@ -9,7 +9,7 @@
 #include <stcmcu.h>
 #include "../config.h"
 
-#ifndef NCOMPILE_STC_ADC
+#ifdef COMPILE_STC_ADC
 
 
 #define ADC_POWER       (0x80)
@@ -108,4 +108,4 @@ unsigned short GetResultIsr(unsigned char ch)
 }
 
 */
-#endif //NCOMPILE_STC_ADC
+#endif //COMPILE_STC_ADC

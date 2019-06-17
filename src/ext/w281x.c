@@ -1,7 +1,7 @@
 #include <stcmcu.h>
 
 
-#ifndef NCOMPILE_EXT_W281X
+#ifdef COMPILE_EXT_W281X
 
 
 #define	___mkstr1(x)	#x
@@ -76,4 +76,4 @@ void  w281xWrites(const char* src,unsigned len)
     asm("POP    _IE");
 }
 
-#endif 
+#endif //COMPILE_EXT_W281X

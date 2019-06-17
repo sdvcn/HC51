@@ -11,7 +11,7 @@
 #include <ext_debug.h>
 
 #include "../config.h"
-#ifndef NCOMPILE_STC_IIC
+#ifdef COMPILE_STC_IIC
 
 
 /**
@@ -439,4 +439,4 @@ void IIC_WriteShort(sI2c* h,unsigned char reg,unsigned short v)
 
 }
 
-#endif //NCOMPILE_STC_IIC
+#endif //COMPILE_STC_IIC

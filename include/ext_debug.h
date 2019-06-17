@@ -5,7 +5,7 @@
 #ifndef __EXT_DEBUG_H__
 #define __EXT_DEBUG_H__
 
-#ifndef NCOMPILE_STC_EXT_DEBUG
+#ifdef COMPILE_STC_EXT_DEBUG
 
 #include <stdio.h>
 //#include <assert.h>       //不能调用
@@ -41,5 +41,5 @@ const char* Txt_I2Hex="[%s:%d]\tTracert:%s[%s:0x%2.2X]\n";
 
 extern void Console_DumpHex(size_t len,char* src);
 
-#endif // NCOMPILE_STC_EXT_DEBUG
+#endif // COMPILE_STC_EXT_DEBUG
 #endif

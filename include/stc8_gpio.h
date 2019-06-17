@@ -1,7 +1,7 @@
 #ifndef __STC8_GPIO_H__
 #define __STC8_GPIO_H__
 
-#ifndef NCOMPILE_STC8_GPIO
+#ifdef COMPILE_STC8_GPIO
 
 /*
 typedef union _IOMODE
@@ -63,5 +63,6 @@ unsigned char GPIO_NCS(size_t io,unsigned char mask);           // 斯密特触�
 */
 #define GPIO_SetNCS(_p,_b,_v)       GPIO_NCS(PtrAddr(_p),((GPIO_GetNCS(PtrAddr(_p)) & ~BIT(_b)) | (CheckBIT(_v,0) << (_b)))) 
 
-#endif // NCOMPILE_STC8_GPIO
+
+#endif // COMPILE_STC8_GPIO
 #endif

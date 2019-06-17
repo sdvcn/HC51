@@ -9,7 +9,7 @@
 #include "apds9660.h"
 #include "../../config.h"
 
-#ifndef NCOMPILE_EXT_APDS9960
+#ifdef COMPILE_EXT_APDS9960
 
 /**
  * 内置宏
@@ -646,4 +646,4 @@ unsigned char APDS9960_ReadGesture()
 
 
 #endif 
-#endif //NCOMPILE_EXT_APDS9960
+#endif //COMPILE_EXT_APDS9960

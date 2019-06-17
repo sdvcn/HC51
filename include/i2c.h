@@ -1,7 +1,7 @@
 #ifndef __I2C_H__
 #define __I2C_H__
 
-#ifndef NCOMPILE_STC_IIC
+#ifdef COMPILE_STC_IIC
 
 /**
  * 通用
@@ -179,5 +179,5 @@ void IIC_WriteMem8(sI2c* h,unsigned char reg,unsigned char v);
 unsigned short IIC_ReadShort(sI2c* h,unsigned char reg);
 void IIC_WriteShort(sI2c* h,unsigned char reg,unsigned short v);
 
-#endif //NCOMPILE_STC_IIC
+#endif //COMPILE_STC_IIC
 #endif 

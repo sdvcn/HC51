@@ -6,7 +6,8 @@
 */
 #include <stcmcu.h>
 #include "../config.h"
-#ifndef NCOMPILE_STC_EPROM
+#include <stc_timer.h>
+#ifdef COMPILE_STC_EPROM
 
 #define CMD_Idle    0b0000
 #define CMD_Read    0b0001
@@ -21,31 +22,31 @@
 #define WT1         (1u << 1)
 #define WT0         (1u << 0)
 
-#define WT1M        1000000u
-#define WT2M        2000000u
-#define WT3M        3000000u
-#define WT6M        6000000u
-#define WT12M       12000000u
-#define WT20M       20000000u
-#define WT24M       24000000u
-#define WT30M       30000000u
+#define WT1M        1000000ul
+#define WT2M        2000000ul
+#define WT3M        3000000ul
+#define WT6M        6000000ul
+#define WT12M       12000000ul
+#define WT20M       20000000ul
+#define WT24M       24000000ul
+#define WT30M       30000000ul
 
 
 #define Trig()      do{ISP_TRIG = 0x46;NOP();ISP_TRIG=0xb9;NOP();}while(0)
 /*
     ISP or IAP 等待时间
 */
-
 static unsigned char IspWT()
 {
+    unsigned char r;
 
-    if (STCCLKR < WT1M) return 0b0111;
-    if (STCCLKR < WT2M) return 0b0110;
-    if (STCCLKR < WT3M) return 0b0101;
-    if (STCCLKR < WT6M) return 0b0100;
-    if (STCCLKR < WT12M) return 0b0011;
-    if (STCCLKR < WT20M) return 0b0010;
-    if (STCCLKR < WT24M) return 0b0001;
+    if (GetFrequency() < WT1M) return 0b0111;
+    if (GetFrequency() < WT2M) return 0b0110;
+    if (GetFrequency() < WT3M) return 0b0101;
+    if (GetFrequency() < WT6M) return 0b0100;
+    if (GetFrequency() < WT12M) return 0b0011;
+    if (GetFrequency() < WT20M) return 0b0010;
+    if (GetFrequency() < WT24M) return 0b0001;
 
     return 0b000; 
 }
@@ -133,4 +134,4 @@ void IspErase(unsigned short addr)
 }
 
 
-#endif //NCOMPILE_STC_EPROM
+#endif //COMPILE_STC_EPROM

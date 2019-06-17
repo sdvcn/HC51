@@ -8,8 +8,9 @@
 #include <ext_debug.h>
 #include "../config.h"
 
-#if STCY == 6
 
+
+#ifdef NULL1
 /**
  * stc8a8k 8k/ram
 */
@@ -41,9 +42,6 @@ void * malloc(size_t nw)
 
     if(nw == 0) return NULL;
     pMem = &membuff[0];
-    
-
-
     return NULL;
 }
 
@@ -51,11 +49,12 @@ void free(void * p)
 {
 
 }
+#endif
+
 #define IRCMST      0x01
 #define ENIRC       0x80
 #define SelectIrc24M    0x00;
 #define SelectIrc32K    0x03;
-
 
 void _SelectIrc24m()
 {
@@ -124,22 +123,6 @@ void SetSystemClock(unsigned char op,unsigned char cdiv)
     }
 }
 
-
-
-
-
-
-
-
-/**
- * 地址直读
-*/
-
-/// 8位
-//#define GetVal8(_addr) (*(xdata volatile unsigned char *)_addr)
-/// 16位
-//#define GetVal16(_addr) (*(xdata volatile unsigned short *)_addr)
-
 /**
  * STC8 扩展寄存器调用
  * 禁止从中断处调用
@@ -148,6 +131,9 @@ unsigned char _ExtSfrGet8(far volatile unsigned char* reg){
 	unsigned char r = 0x00;
     DLOGINT(ExtSfrGet8,reg);
     assert((size_t)reg > 0xfdff);
+    if(P_SW2 & EAXFR){
+        return (*(volatile unsigned char xdata *)reg);
+    }
     asm("push _P_SW2");
     asm("orl _P_SW2,#80h");
     asm("nop");
@@ -162,6 +148,10 @@ void _ExtSfrSet8(far volatile unsigned char* addr,unsigned char v)
     DLOGINT(ExtSfrSet8,addr);
     DLOGINT(ExtSfrSet8,v);
     assert((size_t)addr > 0xfdff);
+    if(P_SW2 & EAXFR){
+        (*(volatile unsigned char xdata *)addr) = v;
+        return;
+    }
     asm("push _P_SW2");
     asm("orl _P_SW2,#80h");
     asm("nop");
@@ -176,6 +166,9 @@ unsigned short _ExtSfrGet16(far volatile unsigned short * addr){
 	unsigned short r = 0x00;
     DLOGINT(ExtSfrGet8,addr);
     assert((size_t)addr > 0xfdff);
+    if(P_SW2 & EAXFR){
+        return (*(volatile unsigned short xdata *)addr);
+    }
     asm("push _P_SW2");
     asm("orl _P_SW2,#80h");
     asm("nop");
@@ -189,6 +182,10 @@ void _ExtSfrSet16(far volatile unsigned short * addr,unsigned short v){
     DLOGINT(ExtSfrSet16,addr);
     DLOGINT(ExtSfrSet16,v);
     assert((size_t)addr > 0xfdff);
+    if(P_SW2 & EAXFR){
+        (*(volatile unsigned short xdata *)addr) = v;
+        return;        
+    }
     asm("push _P_SW2");
     asm("orl _P_SW2,#80h");
     asm("nop");
@@ -222,9 +219,3 @@ void SetDPS(unsigned char v)
 
 }
 
-void sw123(const char *src,char *dst,unsigned len )
-{
-    
-
-}
-#endif

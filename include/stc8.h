@@ -28,6 +28,14 @@
 
 
 static volatile unsigned char	S4CON	_at_	0x84;               // 串口4控制寄存器
+#define S4SM0       (1ul << 7)
+#define S4ST4       (1ul << 6)
+#define S4SM2       (1ul << 5)
+#define S4REN       (1ul << 4)
+#define S4TB8       (1ul << 3)
+#define S4RB8       (1ul << 2)
+#define S4TI        (1ul << 1)
+#define S4RI        (1ul << 0)
 static volatile unsigned char	S4BUF	_at_	0x85;               // 串口4缓冲寄存器
 
 static volatile unsigned char	AUXR	_at_	0x8E;
@@ -431,11 +439,19 @@ void _ExtSfrSet16(far volatile unsigned short* reg,unsigned short nv);
 #define ExtSfrClear8(_a,_b)     ExtSfrSet8(_a,(ExtSfrGet8(_a) & ~(_b)))
 #define ExtSfrClear16(_a,_b)    ExtSfrSet16(_a,(ExtSfrGet16(_a) & ~(_b)))
 
+/**
+ * 中断向量
+ */
 #define STC_ISR_INT0            0x03
 #define STC_ISR_TIMER0          0x0b
 #define STC_ISR_INT1            0x13
 
 #define STC_ISR_TIMER1          0x1b
+
+#define STC_ISR_UART1           0x23
+#define STC_ISR_UART2           0x43
+#define STC_ISR_UART3           0x8b
+#define STC_ISR_UART4           0x93
 
 #define STC_ISR_TIMER2          0x63
 
@@ -463,7 +479,49 @@ void SetSystemClock(unsigned char,unsigned char);
 
 #define LASTISRADDR     0xCB                // 支持的最后一个中断向量地址
 #define PROSTARTADDR    (LASTISRADDR+8)     // 程序起始地址
+/**
+ * 默认开启的模块
+ */
 
+
+#define COMPILE_STC_IIC
+#define COMPILE_STC_ADC
+
+#define COMPILE_STC_EXT_DEBUG
+#ifdef  COMPILE_STC_EXT_DEBUG
+    #include <ext_debug.h>
+#endif
+
+#define COMPILE_STC_EPROM
+
+#define COMPILE_STC_PWM
+#ifdef  COMPILE_STC_PWM
+    
+#endif
+
+#define COMPILE_STC8_GPIO
+#ifdef  COMPILE_STC8_GPIO
+    #include <stc8_gpio.h>
+#endif
+
+#define COMPILE_STC_GPIO
+#ifdef  COMPILE_STC_GPIO
+    #include <stc_gpio.h>
+#endif
+
+#define COMPILE_STC_TIMER
+#ifdef COMPILE_STC_TIMER
+    #include <stc_timer.h>
+#endif
+
+#define COMPILE_STC_CONSOLE
+#ifdef  COMPILE_STC_CONSOLE
+
+#endif
+#define COMPILE_STC_ISR
+#ifdef  COMPILE_STC_ISR
+
+#endif
 
 
 #endif

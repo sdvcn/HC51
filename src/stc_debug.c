@@ -3,7 +3,7 @@
 
 #include "../config.h"
 
-#ifndef NCOMPILE_STC_EXT_DEBUG
+#ifdef COMPILE_STC_EXT_DEBUG
 
 /**
  * Dump Bin to Hex
