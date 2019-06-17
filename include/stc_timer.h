@@ -10,6 +10,9 @@ typedef void (*pCallBackISR)();
  */
 extern unsigned GetSystemTick();
 
+/**
+ * 获取当前RC
+ */
 extern unsigned long GetFrequency();
 
 /**
@@ -55,8 +58,6 @@ extern void InitTimer(unsigned char flag,unsigned us);
  * 初始化系统Tick
  */
 #define InitSystemTick(_u) ((CheckT12(_u))?InitTimer(TIMER_EN|(SYSTEM_TIMER&0x07),(unsigned)(_u/12)):InitTimer(TIMER_EN|TIMER_T12|(SYSTEM_TIMER&0x07),(unsigned)(_u)))
-
-
 
 
 #endif  // COMPILE_STC_TIMER
