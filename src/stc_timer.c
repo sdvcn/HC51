@@ -131,7 +131,9 @@ unsigned long GetFrequency()
 {
 #if STCY == 6
 	static unsigned long r=0x00;
+	//unsigned long r = 0;
 	if(r) return r;
+	//if(_SystemFreq) return &_SystemFreq;
     unsigned char cksel = ExtSfrGet8(&CKSEL);
     unsigned char clkdiv = ExtSfrGet8(&CLKDIV);
     
@@ -168,19 +170,6 @@ void InitTimer(unsigned char flag,unsigned us)
 {
 	unsigned char opflag = 0x00;
 	unsigned bu = 0x00;
-	//bit T12 = 0;
-
-	/*
-	if(!CheckBIT(flag,TIMER_ENIN)){
-		if(us > 0xffff){
-			T12 = 1;
-			bu = us/12;
-		}else{
-			T12 = 0;
-			bu = us;
-		}
-	}
-	*/
 
 	switch (flag & 0x07)
 	{
