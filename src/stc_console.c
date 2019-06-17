@@ -16,6 +16,7 @@ static volatile unsigned char _Status = 0xff;
 
 #if CONSOLE_USE_UART == 1
 #define CONSOLE_ISRADDR     STC_ISR_UART1
+#define CONSOLE_EN()    (REN)
 #define CONSOLE_ES_EN() (ES = 1)
 #define CONSOLE_ES_DI() (ES = 0)
 
@@ -24,8 +25,10 @@ static volatile unsigned char _Status = 0xff;
 
 #define CONSOLE_TI()    (TI)
 #define CONSOLE_RI()    (RI)
+#define CONSOLE_BUF		SBUF
 #elif CONSOLE_USE_UART == 2
 #define CONSOLE_ISRADDR     STC_ISR_UART2
+#define CONSOLE_EN()    (S2CON & S2REN)
 #define CONSOLE_ES_EN() (IE2 |= ES2)
 #define CONSOLE_ES_DI() (IE2 &= ~ES2)
 
@@ -34,8 +37,10 @@ static volatile unsigned char _Status = 0xff;
 
 #define CONSOLE_TI()    (S2CON & S2TI)
 #define CONSOLE_RI()    (S2CON & S2RI)
+#define CONSOLE_BUF		S2BUF
 #elif CONSOLE_USE_UART == 3
 #define CONSOLE_ISRADDR     STC_ISR_UART3
+#define CONSOLE_EN()    (S3CON & S3REN)
 #define CONSOLE_ES_EN() (IE2 |= ES3)
 #define CONSOLE_ES_DI() (IE2 &= ~ES3)
 
@@ -44,9 +49,10 @@ static volatile unsigned char _Status = 0xff;
 
 #define CONSOLE_TI()    (S3CON & S3TI)
 #define CONSOLE_RI()    (S3CON & S3RI)
-
+#define CONSOLE_BUF		S3BUF
 #elif CONSOLE_USE_UART == 4
 #define CONSOLE_ISRADDR     STC_ISR_UART4
+#define CONSOLE_EN()    (S4CON & S4REN)
 #define CONSOLE_ES_EN() (IE2 |= ES4)
 #define CONSOLE_ES_DI() (IE2 &= ~ES4)
 
@@ -56,20 +62,42 @@ static volatile unsigned char _Status = 0xff;
 #define CONSOLE_RI_DI() (S4CON &= ~S4RI)
 #define CONSOLE_TI()    (S4CON & S4TI)
 #define CONSOLE_RI()    (S4CON & S4RI)
+#define CONSOLE_BUF		S4BUF
 
 #else
 #error NO CONSOLE_USE_UART
 #endif
 
-static void InitConsole()
+void InitConsole()
 {
-    unsigned long bu = CalcBaud(CONSOLE_BAUD_RATE);
-    CheckT12(bu)?InitTimer(TIMER_EN|TIMER_T12|CONSOLE_TIMER,(unsigned)(bu/12)):InitTimer(TIMER_EN|CONSOLE_TIMER,(unsigned)bu);
+    unsigned bu = CalcBaud(CONSOLE_BAUD_RATE);
+	InitTimer(TIMER_EN|CONSOLE_TIMER,(unsigned)bu);
+    //CheckT12(bu)?InitTimer(TIMER_EN|TIMER_T12|CONSOLE_TIMER,(unsigned)(bu/12)):InitTimer(TIMER_EN|CONSOLE_TIMER,(unsigned)bu);
 }
 
 interrupt void Console_isr(void) using 1 _at_ CONSOLE_ISRADDR
 {
-
+	CONSOLE_ES_DI();
+	NOP();
+	//RI
+	if(CONSOLE_RI()){
+		CONSOLE_RI_DI();
+		_RxBuffer[_RxSeek++] = CONSOLE_BUF;
+		//_RxIsEmpty = 0;
+		ClearBIT(_Status,RxStatBit);
+	}
+	//TI
+	if(CONSOLE_TI()){
+		//CONSOLE_CON &= ~0x02;
+		CONSOLE_TI_DI();
+		if(_TxCursor == _TxSeek){
+			//_TxIsEmpty = 1;	
+			SetBIT(_Status,TxStatBit);
+		}else{
+			CONSOLE_BUF = _TxBuffer[_TxCursor++];
+		}
+	}
+	CONSOLE_ES_EN();
 } 
 
 void Console_Tx(unsigned char c)
@@ -104,13 +132,12 @@ unsigned char Console_Rx()
 char _Consolehandler(unsigned char c, unsigned char func)
 {
 	//P1 = 0x0f;
-	//if(!CONSOLE_EN) Uart2Init();
-    InitConsole();
-	
+	if(!CONSOLE_EN()) return 0xff;
+
 	switch (func){
 		
 		case 0:{
-			
+			//InitConsole();			
 			return 0x00;
 		}
 		case 1:{
