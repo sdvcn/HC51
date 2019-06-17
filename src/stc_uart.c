@@ -5,7 +5,7 @@
  * 编译时宏定制
 */
 #include <stcmcu.h>
-
+#ifdef NULL1
 //#define FOSC        11059200L
 //#define FOSC        STCCLKR
 //#define BAUD        (256 - FOSC / 32 / 115200)
@@ -239,3 +239,4 @@ near unsigned char _conio_(unsigned char c, unsigned char f) @ 0x10
 	asm("global	__Consolehandler");
 	asm("ljmp	__Consolehandler");
 }
+#endif
