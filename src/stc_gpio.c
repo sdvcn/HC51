@@ -5,7 +5,7 @@
 
 #define GPIO_STATUS_BLOCK   (1ul << 7)              // 阻塞方式
 
-#define GPIO_STATUS_LEVEL   (1ul << 0)              // 电平变化
+
 
 
 
@@ -14,6 +14,9 @@
  */
 unsigned GPIO_GetStatus(pGPIO_Status st,unsigned char io)
 {
+    if(st->mHigh){
+
+    }
     if(st->mLastIO <> io){
         st->mTick = GetSystemTick();
         return ~0x00;
@@ -22,4 +25,10 @@ unsigned GPIO_GetStatus(pGPIO_Status st,unsigned char io)
 }
 
 //#define GetIOStatus_Block(_st,_io) while(GPIO_GetStatus(_st,_io))
+
+void GPIO_RestartStatus(pGPIO_Status st)
+{
+    st->mHit = 0;
+    st->mTick = 0x00;
+}
 #endif //COMPILE_STC_GPIO
