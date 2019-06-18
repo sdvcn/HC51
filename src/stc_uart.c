@@ -5,7 +5,42 @@
  * 编译时宏定制
 */
 #include <stcmcu.h>
-#ifdef NULL1
+#include "../config.h"
+
+#ifdef COMPILE_STC_UART
+#include "stc_uart.h"
+
+/**
+ * 串口初始化
+ * flag:0	RI
+ * flag:1	TI
+ * flag:2	RB8
+ * flag:3	TB8
+ * flag:4	Ren
+ * flag:5	SM2
+ * flag:6	ST4
+ * flag:7	SM0
+ * 
+ * mask:0-1	Port
+ * 只初始化对应定时器
+ * 
+ */
+void InitUart(unsigned char mask,unsigned char flag,unsigned baud)
+{
+	switch (mask & 0x03)
+	{
+	case 0x01:{
+		
+	}break;
+	
+	default:
+		break;
+	}
+}
+#endif //COMPILE_STC_UART
+
+#ifdef AAA
+
 //#define FOSC        11059200L
 //#define FOSC        STCCLKR
 //#define BAUD        (256 - FOSC / 32 / 115200)
@@ -22,21 +57,21 @@
 #define CONSOLE_TX(_v)    S2Put(_v)
 #endif
 */
-#ifndef CONSOLE_EN 
+//#ifndef CONSOLE_EN 
 #define CONSOLE_EN()    (S2CON & S2REN)
-#endif
+//#endif
 
-#ifndef CONSOLE_RI()
+//#ifndef CONSOLE_RI()
 #define CONSOLE_RI()    (S2CON & S2RI)
-#endif
+//#endif
 
-#ifndef CONSOLE_CON
+//#ifndef CONSOLE_CON
 #define CONSOLE_CON    S2CON
-#endif
+//#endif
 
-#ifndef CONSOLE_BUF
+//#ifndef CONSOLE_BUF
 #define CONSOLE_BUF    S2BUF
-#endif
+//#endif
 
 #define CONSOLE_ES_EN() (IE2 |= 0x01)
 #define CONSOLE_ES_DI() (IE2 &= ~0x01)
@@ -121,7 +156,7 @@ volatile unsigned char _Status = 0xff;
 /**
  * 默认值初始化
 */
-static void _Init()
+ void _Init()
 {
 	RxSeek = 0x00;
 	TxSeek = 0x00;
@@ -167,6 +202,7 @@ interrupt void Console_intr(void) using 1 _at_ CONSOLE_UARTIR
 */
 void Console_Tx(unsigned char c)
 {
+	P1 = 0xf0;
 	while(((TxSeek + 1)>TxCursor)&&!(TxSeek == TxCursor)){NOP();};
 	//while(TxSeek != TxCursor){};
 	TxBuf[TxSeek++] = c;
@@ -239,4 +275,5 @@ near unsigned char _conio_(unsigned char c, unsigned char f) @ 0x10
 	asm("global	__Consolehandler");
 	asm("ljmp	__Consolehandler");
 }
+
 #endif

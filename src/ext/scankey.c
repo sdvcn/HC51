@@ -4,7 +4,7 @@
 #include <stc_timer.h>
 
 #define DEFCOUNT    100
-
+/*
 typedef struct _ScanIO{
     unsigned mTick;        // 
     unsigned mTickOut;     // 延时
@@ -46,3 +46,5 @@ unsigned char _ScanKey(pScanIO ios,unsigned char io)
 
 
 #define ScanKey(_ios,_io,_exec) while(_ScanKey(_ios,_io)){_exec;}
+
+*/

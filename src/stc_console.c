@@ -33,7 +33,9 @@ static volatile unsigned char _Status = 0xff;
 #define CONSOLE_ES_DI() (IE2 &= ~ES2)
 
 #define CONSOLE_TI_EN() (S2CON |= S2TI)
+#define CONSOLE_TI_DI() (S4CON &= ~S4TI)
 #define CONSOLE_RI_EN() (S2CON |= S2RI)
+#define CONSOLE_RI_DI() (S2CON &= ~S2RI)
 
 #define CONSOLE_TI()    (S2CON & S2TI)
 #define CONSOLE_RI()    (S2CON & S2RI)
@@ -70,8 +72,8 @@ static volatile unsigned char _Status = 0xff;
 
 void InitConsole()
 {
-    unsigned bu = CalcBaud(CONSOLE_BAUD_RATE);
-	InitTimer(TIMER_EN|CONSOLE_TIMER,(unsigned)bu);
+    //unsigned bu = CalcBaud(CONSOLE_BAUD_RATE);
+//	InitTimer(TIMER_EN|CONSOLE_TIMER,(unsigned)bu);
     //CheckT12(bu)?InitTimer(TIMER_EN|TIMER_T12|CONSOLE_TIMER,(unsigned)(bu/12)):InitTimer(TIMER_EN|CONSOLE_TIMER,(unsigned)bu);
 }
 
@@ -131,7 +133,6 @@ unsigned char Console_Rx()
 */
 char _Consolehandler(unsigned char c, unsigned char func)
 {
-	//P1 = 0x0f;
 	if(!CONSOLE_EN()) return 0xff;
 
 	switch (func){

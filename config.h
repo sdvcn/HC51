@@ -45,11 +45,15 @@
 
 #define CONSOLE_USE_UART    4                       // Consol 使用端口
 #define CONSOLE_BAUD_RATE   115200                  // 通讯波特率
-#define CONSOLE_TIMER       4
+//#define CONSOLE_TIMER       4
 #define CONSOLE_RXBUFFER_SIZE   0xff
 #define CONSOLE_TXBUFFER_SIZE   0xff
 
+#define UART_STACK 1
+#define GPIO_COUNT  50
 
+
+//-------------------
 #ifndef HI_TECH_C
 
 #define STCY    6
@@ -81,6 +85,11 @@
 #define COMPILE_STC_TIMER
 #ifdef  COMPILE_STC_TIMER
     #include <stc_timer.h>
+#endif
+
+//#define COMPILE_STC_UART
+#ifdef  COMPILE_STC_UART
+    #include <stc_uart.h>
 #endif
 
 #define COMPILE_STC_CONSOLE

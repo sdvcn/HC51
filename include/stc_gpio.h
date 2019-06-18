@@ -5,11 +5,7 @@
 
 typedef struct _GPIO_Status{
     unsigned mTick;        // 
-    //unsigned mTickOut;     // 延时
     unsigned char mLastIO;
-    //unsigned mCount;            // 除颤
-    
-    //void (*pExec)(struct _ScanIO*);
 }GPIO_Status,*pGPIO_Status;
 
 

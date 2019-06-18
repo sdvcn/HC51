@@ -93,10 +93,6 @@ void _SelectIrc32k()
 void SetSystemClock(unsigned char op,unsigned char cdiv)
 {
     unsigned char cksel = 0x00;
-#ifdef HI_TECH_C
-    //HC51_Init();
-#endif
-    
 
     if((op& 0x03) == 0x00){
         _SelectIrc24m();
@@ -129,8 +125,8 @@ void SetSystemClock(unsigned char op,unsigned char cdiv)
 */
 unsigned char _ExtSfrGet8(far volatile unsigned char* reg){
 	unsigned char r = 0x00;
-    DLOGINT(ExtSfrGet8,reg);
-    assert((size_t)reg > 0xfdff);
+    //DLOGINT(ExtSfrGet8,reg);
+    //assert((size_t)reg > 0xfdff);
     if(P_SW2 & EAXFR){
         return (*(volatile unsigned char xdata *)reg);
     }
@@ -139,15 +135,15 @@ unsigned char _ExtSfrGet8(far volatile unsigned char* reg){
     asm("nop");
     r = (*(volatile unsigned char xdata *)reg);
     asm("pop _P_SW2");
-    DLOGINT(ExtSfrSet8,r);
+    //DLOGINT(ExtSfrSet8,r);
     return r;
 }
 
 void _ExtSfrSet8(far volatile unsigned char* addr,unsigned char v)
 {
-    DLOGINT(ExtSfrSet8,addr);
-    DLOGINT(ExtSfrSet8,v);
-    assert((size_t)addr > 0xfdff);
+    //DLOGINT(ExtSfrSet8,addr);
+    //DLOGINT(ExtSfrSet8,v);
+    //assert((size_t)addr > 0xfdff);
     if(P_SW2 & EAXFR){
         (*(volatile unsigned char xdata *)addr) = v;
         return;
@@ -158,14 +154,14 @@ void _ExtSfrSet8(far volatile unsigned char* addr,unsigned char v)
     (*(volatile unsigned char xdata *)addr) = v;
     asm("pop _P_SW2");
     #ifndef NDEBUG
-        ExtSfrGet8(addr);
+        //ExtSfrGet8(addr);
     #endif
 }
 
 unsigned short _ExtSfrGet16(far volatile unsigned short * addr){
 	unsigned short r = 0x00;
-    DLOGINT(ExtSfrGet8,addr);
-    assert((size_t)addr > 0xfdff);
+    //DLOGINT(ExtSfrGet8,addr);
+    //assert((size_t)addr > 0xfdff);
     if(P_SW2 & EAXFR){
         return (*(volatile unsigned short xdata *)addr);
     }
@@ -174,14 +170,14 @@ unsigned short _ExtSfrGet16(far volatile unsigned short * addr){
     asm("nop");
     r = (*(volatile unsigned short xdata *)addr);
     asm("pop _P_SW2");
-    DLOGINT(ExtSfrSet8,r);
+    //DLOGINT(ExtSfrSet8,r);
     return r;
 }
 
 void _ExtSfrSet16(far volatile unsigned short * addr,unsigned short v){
-    DLOGINT(ExtSfrSet16,addr);
-    DLOGINT(ExtSfrSet16,v);
-    assert((size_t)addr > 0xfdff);
+    //DLOGINT(ExtSfrSet16,addr);
+    //DLOGINT(ExtSfrSet16,v);
+    //assert((size_t)addr > 0xfdff);
     if(P_SW2 & EAXFR){
         (*(volatile unsigned short xdata *)addr) = v;
         return;        
@@ -193,7 +189,7 @@ void _ExtSfrSet16(far volatile unsigned short * addr,unsigned short v){
     (*(volatile unsigned short xdata *)addr) = v;
     asm("pop _P_SW2");
     #ifndef NDEBUG
-        ExtSfrGet16(addr);
+        //ExtSfrGet16(addr);
     #endif
 }
 

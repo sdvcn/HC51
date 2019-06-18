@@ -484,22 +484,22 @@ void SetSystemClock(unsigned char,unsigned char);
  */
 
 
-#define COMPILE_STC_IIC
-#define COMPILE_STC_ADC
+//#define COMPILE_STC_IIC
+//#define COMPILE_STC_ADC
 
 #define COMPILE_STC_EXT_DEBUG
 #ifdef  COMPILE_STC_EXT_DEBUG
     #include <ext_debug.h>
 #endif
 
-#define COMPILE_STC_EPROM
+//#define COMPILE_STC_EPROM
 
-#define COMPILE_STC_PWM
+//#define COMPILE_STC_PWM
 #ifdef  COMPILE_STC_PWM
     
 #endif
 
-#define COMPILE_STC8_GPIO
+//#define COMPILE_STC8_GPIO
 #ifdef  COMPILE_STC8_GPIO
     #include <stc8_gpio.h>
 #endif
@@ -510,8 +510,13 @@ void SetSystemClock(unsigned char,unsigned char);
 #endif
 
 #define COMPILE_STC_TIMER
-#ifdef COMPILE_STC_TIMER
+#ifdef  COMPILE_STC_TIMER
     #include <stc_timer.h>
+#endif
+
+#define COMPILE_STC_UART
+#ifdef  COMPILE_STC_UART
+    #include <stc_uart.h>
 #endif
 
 #define COMPILE_STC_CONSOLE
@@ -519,7 +524,7 @@ void SetSystemClock(unsigned char,unsigned char);
     #include <stc_console.h>
 #endif
 
-#define COMPILE_STC_ISR
+//#define COMPILE_STC_ISR
 #ifdef  COMPILE_STC_ISR
 
 #endif
