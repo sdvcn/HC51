@@ -4,11 +4,9 @@
 */
 #include <stcmcu.h>
 
-#include <ext_debug.h>
-
 /// HTC 对应开始地址 针对编译器
-
-near void HC51_Init() @ PROSTARTADDR
+//interrupt void Console_intr(void) using 1 _at_ CONSOLE_UARTIR 
+interrupt void HC51_Init(void) using 1 @ PROSTARTADDR
 {
     asm("NOP");
 }
