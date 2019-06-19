@@ -4,7 +4,8 @@
 #ifdef COMPILE_STC_TIMER
 #include "stc_timer.h"
 
-static volatile unsigned _SystemTick;
+static unsigned short long _SystemTick = 0x00;
+static unsigned long _SystemFrequency = 0x00;
 
 #if SYSTEM_TIMER == 0
 #define ISRADDR STC_ISR_TIMER0
@@ -21,30 +22,30 @@ static volatile unsigned _SystemTick;
 #endif
 interrupt void _Timer0_isr(void) using 1 _at_ ISRADDR
 {
-	_SystemTick++;
+	++_SystemTick;
 }
 
-unsigned GetSystemTick()
+unsigned short long GetSystemTick()
 {
 	return _SystemTick;
 }
 
-unsigned long GetFrequency()
+unsigned long * GetFrequency()
 {
 #if STCY == 6
-	static unsigned long r=0x00;
+	//static unsigned long r=0x00;
 	//unsigned long r = 0;
-	if(r) return r;
+	if(_SystemFrequency) return &_SystemFrequency;
 	//if(_SystemFreq) return &_SystemFreq;
     unsigned char cksel = ExtSfrGet8(&CKSEL);
     unsigned char clkdiv = ExtSfrGet8(&CLKDIV);
     
-    if((cksel & 0x03) == 0x00 ) r = CONFIG_FOSC;
+    if((cksel & 0x03) == 0x00 ) _SystemFrequency = CONFIG_FOSC;
     if((cksel & 0x03) == 0x01 ) return 0ul;
     if((cksel & 0x03) == 0x02 ) return 0ul;
-    if((cksel & 0x03) == 0x03 ) r = 32000ul;
-    if (clkdiv) r /= clkdiv;                            // 系统分频
-    return r;
+    if((cksel & 0x03) == 0x03 ) _SystemFrequency = 32000ul;
+    if (clkdiv) _SystemFrequency /= clkdiv;                            // 系统分频
+    return &_SystemFrequency;
 #else
 	return CONFIG_FOSC;
 #endif
@@ -161,10 +162,10 @@ void InitTimer(unsigned char flag,unsigned us)
 	}
 }
 
-unsigned DiffTick(unsigned t0)
+unsigned short long DiffTick(unsigned short long t0)
 {
-    unsigned r = _SystemTick - t0;
-    if(r & 0x8000) r = ~r;
+    unsigned short long r = _SystemTick - t0;
+    if(r & 0x800000) r = ~r;
     return r;
 }
 

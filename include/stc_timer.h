@@ -7,19 +7,19 @@
  * 输出当前时间戳
  * 时间戳无单独存在意义
  */
-extern unsigned GetSystemTick();
+extern unsigned short long GetSystemTick();
 
 /**
  * 获取当前RC
  */
-extern unsigned long GetFrequency();
+extern unsigned long * GetFrequency();
 
 
 /**
  * 时间戳比较
  * 输出当前时间与输入时间差值
  */
-extern unsigned DiffTick(unsigned t0);
+extern unsigned short long DiffTick(unsigned short long t0);
 
 
 #define TIMER_EN	    (1ul << 7)
@@ -29,8 +29,8 @@ extern unsigned DiffTick(unsigned t0);
 #define TIMER_CLEAR	  (1ul << 3)
 
 #define CalcFreq(_us)    (1000000/(_us))
-#define CalcTimer(_v)   (GetFrequency()/CalcFreq(_v))
-#define CalcBaud(_v)    (GetFrequency()/(_v)/4)
+#define CalcTimer(_v)   ((*GetFrequency())/CalcFreq(_v))
+#define CalcBaud(_v)    ((*GetFrequency())/(_v)/4)
 #define CheckT12(_v)     (((_v)>0xffff)?1ul:0ul)
 
 /**
