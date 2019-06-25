@@ -499,7 +499,7 @@ void SetSystemClock(unsigned char,unsigned char);
     
 #endif
 
-//#define COMPILE_STC8_GPIO
+#define COMPILE_STC8_GPIO
 #ifdef  COMPILE_STC8_GPIO
     #include <stc8_gpio.h>
 #endif
