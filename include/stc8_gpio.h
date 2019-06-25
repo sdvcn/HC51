@@ -3,6 +3,105 @@
 
 #ifdef COMPILE_STC8_GPIO
 
+#define _mkfun(x)   x
+/**
+ * IO设置准双向
+ */
+#define IO_ClrMod(_io,_pin) do{\
+asm("PUSH   _P_SW2;ORL  _P_SW2,#80h;NOP");\
+_mkfun(_io)M0 &= ~(1ul << _pin);\
+_mkfun(_io)M1 &= ~(1ul << _pin);\
+asm("POP _P_SW2");\
+}while(0)
+
+/**
+ * IO设置推挽模式
+ */
+#define IO_SetPP(_io,_pin) do{\
+asm("PUSH   _P_SW2;ORL  _P_SW2,#80h;NOP");\
+_mkfun(_io)M0 |= (1ul << _pin);\
+_mkfun(_io)M1 &= ~(1ul << _pin);\
+asm("POP _P_SW2");\
+}while(0)
+
+/**
+ * IO设置高阻
+ */
+#define IO_SetHR(_io,_pin) do{\
+asm("PUSH   _P_SW2;ORL  _P_SW2,#80h;NOP");\
+_mkfun(_io)M0 &= (1ul << _pin);\
+_mkfun(_io)M1 |= ~(1ul << _pin);\
+asm("POP _P_SW2");\
+}while(0)
+/**
+ * IO设置开漏
+ */
+#define IO_SetOP(_io,_pin) do{\
+asm("PUSH   _P_SW2;ORL  _P_SW2,#80h;NOP");\
+_mkfun(_io)M0 |= (1ul << _pin);\
+_mkfun(_io)M1 |= (1ul << _pin);\
+asm("POP _P_SW2");\
+}while(0)
+/**
+ * IO模式同时设置
+ */
+#define IO_Mode_Set(_io,_m0,_m1) do{\
+asm("PUSH   _P_SW2;ORL  _P_SW2,#80h;NOP");\
+_mkfun(_io)M0 = (_m0);\
+_mkfun(_io)M1 = (_m1);\
+asm("POP _P_SW2");\
+}while(0)
+/**
+ * IO上拉电阻设置
+ */
+#define IO_SetPU(_io,_pin) do{\
+asm("PUSH   _P_SW2;ORL  _P_SW2,#80h;NOP");\
+_mkfun(_io)PU |= (1ul << _pin);\
+asm("POP _P_SW2");\
+}while(0)
+/**
+ * IO上拉电阻清除
+ */
+#define IO_ClrPU(_io,_pin) do{\
+asm("PUSH   _P_SW2;ORL  _P_SW2,#80h;NOP");\
+_mkfun(_io)PU &= ~(1ul << _pin);\
+asm("POP _P_SW2");\
+}while(0)
+/**
+ * 上拉电阻同时设置
+ */
+#define IO_PU_Set(_io,_mask) do{\
+asm("PUSH   _P_SW2;ORL  _P_SW2,#80h;NOP");\
+_mkfun(_io)PU |= (_mask);\
+asm("POP _P_SW2");\
+}while(0)
+/**
+ * IO施密特触发器设置
+ */
+#define IO_SetNCS(_io,_pin) do{\
+asm("PUSH   _P_SW2;ORL  _P_SW2,#80h;NOP");\
+_mkfun(_io)NCS |= (1ul << _pin);\
+asm("POP _P_SW2");\
+}while(0)
+/**
+ * IO施密特触发器清除
+ */
+#define IO_ClrNCS(_io,_pin) do{\
+asm("PUSH   _P_SW2;ORL  _P_SW2,#80h;NOP");\
+_mkfun(_io)NCS &= ~(1ul << _pin);\
+asm("POP _P_SW2");\
+}while(0)
+/**
+ * IO施密特触发器同时设置
+ */
+#define IO_NCS_Set(_io,_mask) do{\
+asm("PUSH   _P_SW2;ORL  _P_SW2,#80h;NOP");\
+_mkfun(_io)NCS |= (_mask);\
+asm("POP _P_SW2");\
+}while(0)
+#endif
+#ifdef COMPILE_STC8_GPIO_old
+
 /*
 typedef union _IOMODE
 {

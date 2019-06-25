@@ -8,6 +8,9 @@
 #include "../config.h"
 
 #ifdef COMPILE_STC8_GPIO
+#endif
+
+#ifdef COMPILE_STC8_GPIO_old
 
 
 typedef struct _IOMODE
