@@ -8,6 +8,7 @@
 #define	___mkstr(x)	___mkstr1(x)
 
 // 端口定义
+// IO端口直驱需要设置开漏
 #define W281xIO         P76
 #define W281xIOC(_v)    W281xIO=_v
 
@@ -17,15 +18,11 @@
 void  w281xWrites(const char* src,unsigned len)
 {
     volatile unsigned char c;
-    volatile unsigned char l;
-    
     W281xIOC(0);
     asm("push ie");
     di();  
     _delay(W281x_Reset);
-
     c = *src++;
-
     //asm("WLOOP:");
     while(len--)
     {
@@ -92,21 +89,9 @@ void  w281xWrites(const char* src,unsigned len)
         asm("nop");
         W281xIOC(0);
         c = *src++;
-        /*
-        
-        if(CY){
-            c = *src++;
-            asm("NOP");asm("NOP");asm("NOP");asm("NOP");
-            W281xIOC(0);
-        }else{
-            W281xIOC(0);
-            c = *src++;
-        }
-        */
-        //asm("djnz r1,W1LOOP");
-        //c = *src++;
+
     }
-    //asm("djnz r4,WLOOP");
+
     W281xIOC(1);
     asm("POP    _IE");  
 }
@@ -118,6 +103,8 @@ void w281xSet(PW281x dst,sW281x v,unsigned len)
     }
 
 }
+
+
 
 
 #endif //COMPILE_EXT_W281X
