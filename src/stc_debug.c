@@ -1,9 +1,11 @@
+#include <stcmcu.h>
 #include <string.h>
+
 #include "ext_debug.h"
 
-#include "../config.h"
+//#include "../config.h"
 
-#ifdef COMPILE_STC_EXT_DEBUG
+//#ifdef COMPILE_STC_EXT_DEBUG
 
 /**
  * Dump Bin to Hex
@@ -45,4 +47,4 @@ void Console_DumpHex(size_t len,char* src)
     }
 }
 
-#endif
+//#endif

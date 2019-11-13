@@ -1,7 +1,7 @@
 #include <stcmcu.h>
 #include <i2c.h>
 #include "apa102.h"
-#include "../../config.h"
+//#include "../../config.h"
 
 
 #ifdef COMPILE_EXT_APA102

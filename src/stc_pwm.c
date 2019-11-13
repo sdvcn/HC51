@@ -1,6 +1,6 @@
 
 #include <stcmcu.h>
-#include "../config.h"
+//#include "../config.h"
 
 #ifdef COMPILE_STC_PWM
 

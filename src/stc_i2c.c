@@ -10,7 +10,7 @@
 #define NDEBUG
 #include <ext_debug.h>
 
-#include "../config.h"
+//#include "../config.h"
 #ifdef COMPILE_STC_IIC
 
 

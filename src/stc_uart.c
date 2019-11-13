@@ -5,7 +5,7 @@
  * 编译时宏定制
 */
 #include <stcmcu.h>
-#include "../config.h"
+//#include "../config.h"
 
 #ifdef COMPILE_STC_UART
 #include "stc_uart.h"

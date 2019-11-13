@@ -5,7 +5,7 @@
     
 */
 #include <stcmcu.h>
-#include "../config.h"
+//#include "../config.h"
 #include <stc_timer.h>
 #ifdef COMPILE_STC_EPROM
 

@@ -6,7 +6,7 @@
 /// 不再开启调试
 #define NDEBUG
 #include <ext_debug.h>
-#include "../config.h"
+//#include "../config.h"
 
 
 

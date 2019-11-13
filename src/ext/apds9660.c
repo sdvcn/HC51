@@ -7,7 +7,7 @@
 #include <i2c.h>
 #include <ext_debug.h>
 #include "apds9660.h"
-#include "../../config.h"
+//#include "../../config.h"
 
 #ifdef COMPILE_EXT_APDS9960
 
