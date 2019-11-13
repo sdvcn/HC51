@@ -39,7 +39,7 @@ const char* Txt_I2Hex="[%s:%d]\tTracert:%s[%s:0x%2.2X]\n";
 
 #endif
 
-extern void Console_DumpHex(size_t len,char* src);
+void Console_DumpHex(size_t len,char* src);
 
 #endif // COMPILE_STC_EXT_DEBUG
 #endif
