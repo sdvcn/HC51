@@ -1,9 +1,9 @@
 #include <stcmcu.h>
-#include "../config.h"
+//#include "../config.h"
 #ifdef  COMPILE_STC_CONSOLE
 
-static unsigned char _RxBuffer[CONSOLE_RXBUFFER_SIZE]={0x00};
-static unsigned char _TxBuffer[CONSOLE_TXBUFFER_SIZE]={0x00};
+static xdata unsigned char _RxBuffer[CONSOLE_RXBUFFER_SIZE]={0x00};
+static xdata unsigned char _TxBuffer[CONSOLE_TXBUFFER_SIZE]={0x00};
 static volatile unsigned char _RxSeek = 0x00;
 static volatile unsigned char _TxSeek = 0x00;
 static volatile unsigned char _RxCursor = 0x00;
@@ -19,39 +19,36 @@ static volatile unsigned char _Status = 0xff;
 #define CONSOLE_EN()    (REN)
 #define CONSOLE_ES_EN() (ES = 1)
 #define CONSOLE_ES_DI() (ES = 0)
-
 #define CONSOLE_TI_EN() (TI = 1)
 #define CONSOLE_RI_EN() (RI = 1)
-
 #define CONSOLE_TI()    (TI)
 #define CONSOLE_RI()    (RI)
 #define CONSOLE_BUF		SBUF
+
 #elif CONSOLE_USE_UART == 2
 #define CONSOLE_ISRADDR     STC_ISR_UART2
 #define CONSOLE_EN()    (S2CON & S2REN)
 #define CONSOLE_ES_EN() (IE2 |= ES2)
 #define CONSOLE_ES_DI() (IE2 &= ~ES2)
-
 #define CONSOLE_TI_EN() (S2CON |= S2TI)
 #define CONSOLE_TI_DI() (S4CON &= ~S4TI)
 #define CONSOLE_RI_EN() (S2CON |= S2RI)
 #define CONSOLE_RI_DI() (S2CON &= ~S2RI)
-
 #define CONSOLE_TI()    (S2CON & S2TI)
 #define CONSOLE_RI()    (S2CON & S2RI)
 #define CONSOLE_BUF		S2BUF
+
 #elif CONSOLE_USE_UART == 3
 #define CONSOLE_ISRADDR     STC_ISR_UART3
 #define CONSOLE_EN()    (S3CON & S3REN)
 #define CONSOLE_ES_EN() (IE2 |= ES3)
 #define CONSOLE_ES_DI() (IE2 &= ~ES3)
-
 #define CONSOLE_TI_EN() (S3CON |= S3TI)
 #define CONSOLE_RI_EN() (S3CON |= S3RI)
-
 #define CONSOLE_TI()    (S3CON & S3TI)
 #define CONSOLE_RI()    (S3CON & S3RI)
 #define CONSOLE_BUF		S3BUF
+
 #elif CONSOLE_USE_UART == 4
 #define CONSOLE_ISRADDR     STC_ISR_UART4
 #define CONSOLE_EN()    (S4CON & S4REN)
@@ -69,6 +66,8 @@ static volatile unsigned char _Status = 0xff;
 #else
 #error NO CONSOLE_USE_UART
 #endif
+
+
 
 void InitConsole()
 {
