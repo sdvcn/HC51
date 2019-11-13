@@ -72,6 +72,17 @@ static volatile unsigned char	S2BUF	_at_	0x9B;
 
 static volatile unsigned char	IRCRC	_at_	0x9F;           // IRC频率调整寄存器
 
+
+//ext 
+//static		bit	EX0	@ 0xA8;
+//static		bit	ET0	@ 0xA9;
+//static		bit	EX1	@ 0xAA;
+//static		bit	ET1	@ 0xAB;
+//static 		bit	ES	@ 0xAC;
+static 		bit	EADC	_at_ 0xAD;
+static 		bit	ELVD	_at_ 0xAE;
+//static 		bit	EA	@ 0xAF;
+
 static volatile unsigned char	SADDR	_at_	0xA9;
 static volatile unsigned char	WKTCL	_at_	0xAA;
 static volatile unsigned char	WKTCH	_at_	0xAB;
@@ -101,20 +112,53 @@ static volatile unsigned char	IP2		_at_	0xB5;
 static volatile unsigned char	IP2H	_at_	0xB6;
 static volatile unsigned char	IPH		_at_	0xB7;
 
+#define PPCAH       0x80
+#define PLVDH       0x40
+#define PADCH       0x20
+#define PSH         0x10
+#define PT1H        0x08
+#define PX1H        0x04
+#define PT0H        0x02
+#define PX0H        0x01
+
+/*
+static 		bit	PX0	@ 0xB8;
+static 		bit	PT0	@ 0xB9;
+static 		bit	PX1	@ 0xBA;
+static 		bit	PT1	@ 0xBB;
+static 		bit	PS	@ 0xBC;
+static 		bit	PT2	@ 0xBD;
+*/
+static volatile bit	PADC	_at_ 0xB8 ^ 5;
+static volatile bit	PLVD	_at_ 0xB8 ^ 6;
+static volatile bit	PPCA	_at_ 0xB8 ^ 7;
+
+
+
+
+
+
 static volatile unsigned char	P_SW2	_at_	0xBA;
 #define EAXFR 8
 #define en_EAXFR() do{SetBIT(P_SW2,EAXFR);}while(0)
 #define di_EAXFR() do{ClearBIT(P_SW2,EAXFR);}while(0)
 
 static volatile unsigned char	ADC_CONTR	_at_	0xBC;
+#define ADC_POWER   (1u << 7)
+#define ADC_START   (1u << 6)
+#define ADC_FLAG    (1u << 5)
+#define ADC_CH(_v)  (_v & 0x0f)
+#define ADC_REFV()  (ADCCH(0x0f))
 
-///FIX 16Bit
-//static volatile unsigned short	ADC_RES	_at_	0xBD;
+///FIX ADC 16Bit
+//static volatile unsigned short	ADC_RES     _at_	0xBD;
 
+static volatile unsigned char	ADC_RESH	_at_	0xBD;
 static volatile unsigned char	ADC_RESL	_at_	0xBE;
-static volatile unsigned char	ADC_RESH	_at_	0xBF;
-//
-#define Adc_Result ((ADC_RESH << 8) | ADC_RESL)
+
+#define Adc_Result() ((ADC_RESH << 8) | ADC_RESL)
+
+
 
 //
 static volatile unsigned char	IAP_DATA	_at_	0xC2;
@@ -164,6 +208,16 @@ static volatile unsigned char	T3L		_at_	0xD5;
 static volatile unsigned char	T2H		_at_	0xD6;
 static volatile unsigned char	T2L		_at_	0xD7;
 
+static volatile unsigned char	ADC_CFG	_at_	0xDE;
+#define ADC_RESFMT  (1u << 5)
+#define ADC_SPEED0  (0b0000)
+#define ADC_SPEED1  (0b0001)
+#define ADC_SPEED2  (0b0010)
+#define ADC_SPEED3  (0b0011)
+#define ADC_SPEED4  (0b0100)
+#define ADC_SPEED5  (0b0101)
+#define ADC_SPEED6  (0b0110)
+#define ADC_SPEED7  (0b0111)
 /// P7端口配置寄存器
 static volatile unsigned char	P7M1	_at_	0xE1;
 static volatile unsigned char	P7M0	_at_	0xE2;
@@ -220,6 +274,17 @@ static volatile bit	P74	_at_ 0xF8 ^ 4;
 static volatile bit	P75	_at_ 0xF8 ^ 5;
 static volatile bit	P76	_at_ 0xF8 ^ 6;
 static volatile bit	P77	_at_ 0xF8 ^ 7;
+
+// 
+static volatile unsigned char   AUXINTIF  _at_ 0xef;
+#define INT4IF      (1ul << 6)
+#define INT3IF      (1ul << 5)
+#define INT2IF      (1ul << 4)
+
+#define T4IF        (1ul << 2)
+#define T3IF        (1ul << 1)
+#define T2IF        (1ul << 0)
+
 
 //如下特殊功能寄存器位于扩展RAM区域
 //访问这些寄存器,需先将P_SW2的BIT7设置为1,才可正常读写
@@ -484,8 +549,14 @@ void SetSystemClock(unsigned char,unsigned char);
  */
 
 
+
+
 //#define COMPILE_STC_IIC
-//#define COMPILE_STC_ADC
+
+#define COMPILE_STC_ADC
+#ifdef COMPILE_STC_ADC
+    #include <stc_adc.h>
+#endif
 
 #define COMPILE_STC_EXT_DEBUG
 #ifdef  COMPILE_STC_EXT_DEBUG
@@ -511,6 +582,10 @@ void SetSystemClock(unsigned char,unsigned char);
 
 #define COMPILE_STC_TIMER
 #ifdef  COMPILE_STC_TIMER
+    #define CONFIG_FOSC    24000000ul
+    #ifndef SYSTEM_TIMER
+//        #define SYSTEM_TIMER    0
+    #endif
     #include <stc_timer.h>
 #endif
 
@@ -521,6 +596,14 @@ void SetSystemClock(unsigned char,unsigned char);
 
 #define COMPILE_STC_CONSOLE
 #ifdef  COMPILE_STC_CONSOLE
+    #ifndef CONSOLE_USE_UART
+        #define CONSOLE_USE_UART 4
+    #endif
+
+    #define CONSOLE_BAUD_RATE   115200                  // 通讯波特率
+    #define CONSOLE_RXBUFFER_SIZE   0xff
+    #define CONSOLE_TXBUFFER_SIZE   0xff
+
     #include <stc_console.h>
 #endif
 
